@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CTE-Enigma xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Enigma-Ex3.xsd">
+	<CTE-Machine rotors-count="3">
+		<ABC>ABCDEFGHIJKLMNOPQRSTUVWXYZ !?'</ABC>
+		<CTE-Rotors>
+			<CTE-Rotor id="1" notch="17">
+				<CTE-Positioning left="A" right="V"/>
+				<CTE-Positioning left="B" right="Y"/>
+				<CTE-Positioning left="C" right="'"/>
+				<CTE-Positioning left="D" right=" "/>
+				<CTE-Positioning left="E" right="M"/>
+				<CTE-Positioning left="F" right="C"/>
+				<CTE-Positioning left="G" right="A"/>
+				<CTE-Positioning left="H" right="!"/>
+				<CTE-Positioning left="I" right="W"/>
+				<CTE-Positioning left="J" right="Z"/>
+				<CTE-Positioning left="K" right="U"/>
+				<CTE-Positioning left="L" right="G"/>
+				<CTE-Positioning left="M" right="O"/>
+				<CTE-Positioning left="N" right="H"/>
+				<CTE-Positioning left="O" right="T"/>
+				<CTE-Positioning left="P" right="J"/>
+				<CTE-Positioning left="Q" right="E"/>
+				<CTE-Positioning left="R" right="I"/>
+				<CTE-Positioning left="S" right="X"/>
+				<CTE-Positioning left="T" right="K"/>
+				<CTE-Positioning left="U" right="S"/>
+				<CTE-Positioning left="V" right="N"/>
+				<CTE-Positioning left="W" right="R"/>
+				<CTE-Positioning left="X" right="D"/>
+				<CTE-Positioning left="Y" right="P"/>
+				<CTE-Positioning left="Z" right="Q"/>
+				<CTE-Positioning left=" " right="?"/>
+				<CTE-Positioning left="!" right="B"/>
+				<CTE-Positioning left="?" right="F"/>
+				<CTE-Positioning left="'" right="L"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="4" notch="28">
+				<CTE-Positioning left="A" right="X"/>
+				<CTE-Positioning left="B" right="Q"/>
+				<CTE-Positioning left="C" right="G"/>
+				<CTE-Positioning left="D" right="F"/>
+				<CTE-Positioning left="E" right="T"/>
+				<CTE-Positioning left="F" right="C"/>
+				<CTE-Positioning left="G" right="I"/>
+				<CTE-Positioning left="H" right="O"/>
+				<CTE-Positioning left="I" right="P"/>
+				<CTE-Positioning left="J" right="M"/>
+				<CTE-Positioning left="K" right="L"/>
+				<CTE-Positioning left="L" right="H"/>
+				<CTE-Positioning left="M" right="K"/>
+				<CTE-Positioning left="N" right="E"/>
+				<CTE-Positioning left="O" right="N"/>
+				<CTE-Positioning left="P" right="V"/>
+				<CTE-Positioning left="Q" right="R"/>
+				<CTE-Positioning left="R" right="B"/>
+				<CTE-Positioning left="S" right="Z"/>
+				<CTE-Positioning left="T" right="'"/>
+				<CTE-Positioning left="U" right="A"/>
+				<CTE-Positioning left="V" right="U"/>
+				<CTE-Positioning left="W" right="Y"/>
+				<CTE-Positioning left="X" right="W"/>
+				<CTE-Positioning left="Y" right="!"/>
+				<CTE-Positioning left="Z" right="D"/>
+				<CTE-Positioning left=" " right="J"/>
+				<CTE-Positioning left="!" right="?"/>
+				<CTE-Positioning left="?" right="S"/>
+				<CTE-Positioning left="'" right=" "/>
+			</CTE-Rotor>			
+			<CTE-Rotor id="2" notch="5">
+				<CTE-Positioning left="A" right="Z"/>
+				<CTE-Positioning left="B" right="O"/>
+				<CTE-Positioning left="C" right="P"/>
+				<CTE-Positioning left="D" right=" "/>
+				<CTE-Positioning left="E" right="Q"/>
+				<CTE-Positioning left="F" right="I"/>
+				<CTE-Positioning left="G" right="!"/>
+				<CTE-Positioning left="H" right="E"/>
+				<CTE-Positioning left="I" right="?"/>
+				<CTE-Positioning left="J" right="N"/>
+				<CTE-Positioning left="K" right="U"/>
+				<CTE-Positioning left="L" right="M"/>
+				<CTE-Positioning left="M" right="F"/>
+				<CTE-Positioning left="N" right="V"/>
+				<CTE-Positioning left="O" right="'"/>
+				<CTE-Positioning left="P" right="B"/>
+				<CTE-Positioning left="Q" right="R"/>
+				<CTE-Positioning left="R" right="A"/>
+				<CTE-Positioning left="S" right="T"/>
+				<CTE-Positioning left="T" right="L"/>
+				<CTE-Positioning left="U" right="G"/>
+				<CTE-Positioning left="V" right="D"/>
+				<CTE-Positioning left="W" right="X"/>
+				<CTE-Positioning left="X" right="J"/>
+				<CTE-Positioning left="Y" right="C"/>
+				<CTE-Positioning left="Z" right="S"/>
+				<CTE-Positioning left=" " right="K"/>
+				<CTE-Positioning left="!" right="W"/>
+				<CTE-Positioning left="?" right="Y"/>
+				<CTE-Positioning left="'" right="H"/>
+			</CTE-Rotor>			
+			<CTE-Rotor id="5" notch="15">
+				<CTE-Positioning left="A" right="O"/>
+				<CTE-Positioning left="B" right="U"/>
+				<CTE-Positioning left="C" right="F"/>
+				<CTE-Positioning left="D" right="I"/>
+				<CTE-Positioning left="E" right="Z"/>
+				<CTE-Positioning left="F" right="E"/>
+				<CTE-Positioning left="G" right="G"/>
+				<CTE-Positioning left="H" right="K"/>
+				<CTE-Positioning left="I" right="W"/>
+				<CTE-Positioning left="J" right="D"/>
+				<CTE-Positioning left="K" right="R"/>
+				<CTE-Positioning left="L" right="Y"/>
+				<CTE-Positioning left="M" right=" "/>
+				<CTE-Positioning left="N" right="S"/>
+				<CTE-Positioning left="O" right="J"/>
+				<CTE-Positioning left="P" right="'"/>
+				<CTE-Positioning left="Q" right="P"/>
+				<CTE-Positioning left="R" right="Q"/>
+				<CTE-Positioning left="S" right="N"/>
+				<CTE-Positioning left="T" right="T"/>
+				<CTE-Positioning left="U" right="L"/>
+				<CTE-Positioning left="V" right="V"/>
+				<CTE-Positioning left="W" right="!"/>
+				<CTE-Positioning left="X" right="?"/>
+				<CTE-Positioning left="Y" right="M"/>
+				<CTE-Positioning left="Z" right="C"/>
+				<CTE-Positioning left=" " right="H"/>
+				<CTE-Positioning left="!" right="X"/>
+				<CTE-Positioning left="?" right="B"/>
+				<CTE-Positioning left="'" right="A"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="3" notch="22">
+				<CTE-Positioning left="A" right="D"/>
+				<CTE-Positioning left="B" right="M"/>
+				<CTE-Positioning left="C" right="Y"/>
+				<CTE-Positioning left="D" right="T"/>
+				<CTE-Positioning left="E" right="G"/>
+				<CTE-Positioning left="F" right="Z"/>
+				<CTE-Positioning left="G" right="'"/>
+				<CTE-Positioning left="H" right="H"/>
+				<CTE-Positioning left="I" right="U"/>
+				<CTE-Positioning left="J" right="N"/>
+				<CTE-Positioning left="K" right="B"/>
+				<CTE-Positioning left="L" right="K"/>
+				<CTE-Positioning left="M" right="J"/>
+				<CTE-Positioning left="N" right="F"/>
+				<CTE-Positioning left="O" right="L"/>
+				<CTE-Positioning left="P" right="Q"/>
+				<CTE-Positioning left="Q" right="I"/>
+				<CTE-Positioning left="R" right="X"/>
+				<CTE-Positioning left="S" right="!"/>
+				<CTE-Positioning left="T" right="O"/>
+				<CTE-Positioning left="U" right="W"/>
+				<CTE-Positioning left="V" right="C"/>
+				<CTE-Positioning left="W" right="S"/>
+				<CTE-Positioning left="X" right="?"/>
+				<CTE-Positioning left="Y" right="E"/>
+				<CTE-Positioning left="Z" right="R"/>
+				<CTE-Positioning left=" " right="A"/>
+				<CTE-Positioning left="!" right=" "/>
+				<CTE-Positioning left="?" right="V"/>
+				<CTE-Positioning left="'" right="P"/>
+			</CTE-Rotor>			
+		</CTE-Rotors>
+		<CTE-Reflectors>
+			<CTE-Reflector id="I">
+				<CTE-Reflect input="23" output="29"/>
+				<CTE-Reflect input="2" output="10"/>
+				<CTE-Reflect input="18" output="13"/>
+				<CTE-Reflect input="26" output="12"/>
+				<CTE-Reflect input="9" output="17"/>
+				<CTE-Reflect input="25" output="14"/>
+				<CTE-Reflect input="15" output="28"/>
+				<CTE-Reflect input="8" output="24"/>
+				<CTE-Reflect input="4" output="19"/>
+				<CTE-Reflect input="22" output="11"/>
+				<CTE-Reflect input="1" output="21"/>
+				<CTE-Reflect input="5" output="30"/>
+				<CTE-Reflect input="27" output="16"/>
+				<CTE-Reflect input="6" output="3"/>
+				<CTE-Reflect input="20" output="7"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="II">
+				<CTE-Reflect input="6" output="24"/>
+				<CTE-Reflect input="25" output="10"/>
+				<CTE-Reflect input="5" output="3"/>
+				<CTE-Reflect input="27" output="8"/>
+				<CTE-Reflect input="26" output="30"/>
+				<CTE-Reflect input="16" output="9"/>
+				<CTE-Reflect input="28" output="21"/>
+				<CTE-Reflect input="17" output="4"/>
+				<CTE-Reflect input="13" output="20"/>
+				<CTE-Reflect input="2" output="12"/>
+				<CTE-Reflect input="29" output="15"/>
+				<CTE-Reflect input="19" output="7"/>
+				<CTE-Reflect input="11" output="14"/>
+				<CTE-Reflect input="23" output="18"/>
+				<CTE-Reflect input="22" output="1"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="III">
+				<CTE-Reflect input="18" output="20"/>
+				<CTE-Reflect input="1" output="25"/>
+				<CTE-Reflect input="12" output="14"/>
+				<CTE-Reflect input="5" output="7"/>
+				<CTE-Reflect input="9" output="4"/>
+				<CTE-Reflect input="26" output="24"/>
+				<CTE-Reflect input="16" output="13"/>
+				<CTE-Reflect input="3" output="10"/>
+				<CTE-Reflect input="30" output="23"/>
+				<CTE-Reflect input="6" output="27"/>
+				<CTE-Reflect input="28" output="2"/>
+				<CTE-Reflect input="15" output="21"/>
+				<CTE-Reflect input="11" output="17"/>
+				<CTE-Reflect input="8" output="22"/>
+				<CTE-Reflect input="29" output="19"/>
+			</CTE-Reflector>
+		</CTE-Reflectors>
+	</CTE-Machine>
+	<CTE-Decipher>
+		<CTE-Dictionary exclude-chars="!'#?">
+		<Words>		
+			encapsulation german poland kombat waffele whom? leg character terms else camel rabbit fire text if they element sky item robot! past dune dolphine then it am quality eye moon system folder light letter number# notch allies dog word hash why? gun pink what? yellow sea see noon file top does ear can't table foot hand a strike black i electricity pistol kill boat democracy off battle single fly component blue watch reflector future machine progress atom under inferno voice rotor tonight mouce door won't data use doom sign screen do bomb red later whale white hello? than which england morning! dirt tree thrown water trash ranch she sand squad desk present where? magenta game code enigma plural death vegtable fruit for their privacy back house fox not hair napkin and street cat now of iteration class trike fight mortal live how? on patrol keyboard midnight or green umbrella wheel saw orange airplane window front he
+		</Words>
+		</CTE-Dictionary>
+	</CTE-Decipher>	
+	<CTE-Battlefield battle-name="pearl harbour" allies="2" level="Easy"/>
+</CTE-Enigma>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<HBox fx:id="switchPlug" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="145.0" styleClass="switch-plug" stylesheets="@../settings/setting.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ChoiceBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="40.0" HBox.hgrow="NEVER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <HBox.margin>
+            <Insets left="6.0" right="6.0" />
+         </HBox.margin>
+      </ChoiceBox>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#abd6dd" height="40.0" stroke="#01000b" strokeType="INSIDE" strokeWidth="3.0" width="30.0" HBox.hgrow="NEVER">
+         <HBox.margin>
+            <Insets left="3.0" right="3.0" />
+         </HBox.margin>
+      </Rectangle>
+      <ChoiceBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="40.0" HBox.hgrow="NEVER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <HBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </HBox.margin>
+      </ChoiceBox>
+   </children>
+</HBox>

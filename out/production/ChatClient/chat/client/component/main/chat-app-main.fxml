@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="447.0" prefWidth="454.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.client.component.main.ChatAppMainController">
+  <items>
+    <AnchorPane minHeight="300.0" minWidth="500.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <GridPane hgap="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@chat-app-main.css" vgap="3.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+                <RowConstraints vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Label id="greeting-label" fx:id="userGreetingLabel" text="Hello Mosh" />
+                  <Label id="chat-app-client-header" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Chat App Client" GridPane.columnSpan="2" />
+                  <AnchorPane fx:id="mainPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </AnchorPane>
+    <AnchorPane minHeight="200.0" minWidth="500.0" prefHeight="257.0" prefWidth="586.0">
+         <children>
+            <fx:include fx:id="httpStatusComponent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="../status/status.fxml" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+         </children>
+      </AnchorPane>
+  </items>
+</SplitPane>

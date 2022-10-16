@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Online Chat</title>
+	<script src="../../common/jquery-2.0.3.min.js"></script>
+	<script src="../../common/context-path-helper.js"></script>
+	<script src="chatroom.js"></script>
+	<link rel="stylesheet" href="../../common/bootstrap.min.css">
+	<link rel="stylesheet" href="chatroom.css">
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-1">
+			<div class="sidebar">
+				<h4>Online</h4>
+				<div class="clearfix">
+					<div class="input">
+
+						<!-- place holder to show the users list -->
+						<ul id="userslist">
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<div class="content">
+				<div id="chatwindow">
+					<h4>Chat</h4>
+
+					<!-- place holder to hold all the chat lines -->
+					<div id="chatarea" class="span6"></div>
+
+					<!-- The actual form through which you send data back to the user -->
+					<form id="chatform" method="POST" action="sendChat">
+						<input type="text" id="userstring" name="userstring"/>
+						<input type="submit" value="Send"/>
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-1">
+			<div class="button">
+				<!--
+				Here we could give chat/logout, and the executed request was relative to this page url (=== <context path>/pages/chatroom/),
+				in this option it would have come out eventually with '<context path>/pages/chatroom/chat/logout'
+				(note that this option is the one used with the form above for the action of 'sendChat'...)
+
+				Another option, just to prove that the browser takes everything relative to the current page (<context path>/pages/chatroom/),
+				is to use relative path here.
+				So '../../chat/logout' steps backward 2 levels from current page (putting it in the root web app, right after the context path: '/<context path>/')
+				and from there assembles the rest, so we end up with <context path>/chat/logout.
+				(when this request will arrive to tomcat it will strip down the context path and will expect to find a registered servlet with the mapping of /chat/logout)
+				-->
+				<a href="../../chat/logout">Logout</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+.text {
+    -fx-font-family: "Windows Command Prompt Regular";
+}
+.button{
+    -fx-font-size:17;
+}
+.button:hover{
+    -fx-border-width:2px;
+    -fx-border-color:#696969;
+}
+#main-app-header{
+    -fx-border-color:black;
+}
+#main-title{
+    -fx-font-size: 22px;
+    -fx-text-fill: linear-gradient(black, #2f2f2f);
+}
+.header-butt{
+    -fx-background-color:#0874bc;
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-font-weight: bold;
+    -fx-font-size: 17px;
+    -fx-padding: 10 20 10 20;
+    -fx-font-family: "Windows Command Prompt Regular";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-border-radius:30;
+    -fx-border-width:3px;
+}
+#load-button{
+    -fx-background-color: #23b574;
+    -fx-text-fill: #f7f7f7;
+    -fx-background-radius: 0%;
+    -fx-border-radius:0%;
+    -fx-border-color:#1a1a1a ;
+    -fx-border-width:1px;
+
+}
+#load-button:hover{
+
+    -fx-border-width:3px;
+
+}
+#path{
+    -fx-background-radius: 0%;
+    -fx-text-fill: #1a1a1a;
+    -fx-border-color:#1a1a1a ;
+    -fx-border-width:1px;
+}
+/*General Bodies   */
+.text-labels{
+    -fx-text-fill:black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.title-label{
+    -fx-font-size: 20px;
+    -fx-font-weight:bold;
+    -fx-font-family: "Windows Command Prompt Regular";
+}
+#code-box-setting{
+    -fx-font-size: 20px;
+}
+#code-label-text
+{
+    -fx-font-weight:bold;
+    -fx-text-fill:black;
+    -fx-font-size: 18px;
+}
+#top-title{
+    -fx-border-radius:0;
+    -fx-background-radius: 0;
+    -fx-border-width:1px;
+    -fx-font-size: 12px;
+}
+
+.keyboard{
+    -fx-background-color:
+            #090a0c,
+            linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+            linear-gradient(#20262b, #191d22),
+            radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 50%;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Windows Command Prompt Regular";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 5 10 5 10;
+
+    -fx-border-color:white;
+    -fx-border-radius:50%;
+    -fx-border-width:2px;
+
+
+}
+
+-code-box{
+    -fx-border-color : black;
+}
+
+
+
+
+#pressed-key{
+    -fx-border-color:yellow;
+    -fx-text-fill: yellow;
+}
+
+#error-tool-tip{
+    -fx-background-color:#d9534f ;
+
+}
+
+#error-text-field{
+    -fx-border-color:#d9534f ;
+    -fx-border-width:2px;
+}
+
+
+
+
+
+
+
+
+.button:hover{
+    -fx-border-width:2px;
+    -fx-border-color:#696969;
+}
+
+
+#candidate-text{
+    -fx-text-fill:#88dfea;
+    -fx-background-color:white;
+    -fx-font-family: "Windows Command Prompt Regular";
+}
+.candidate{
+    -fx-background-color: #88dfea;
+    -fx-border-color:black;
+    -fx-border-width:2px;
+    -fx-font-weight: bold;
+    -fx-border-color:black;
+    -fx-border-width:2px;
+    -fx-font-family: "Windows Command Prompt Regular";
+}
+#candidate-top{
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+
+}
+#candidate-bottom{
+    -fx-border-radius: 0 0 10 10;
+    -fx-background-radius: 0 0 10 10;
+}

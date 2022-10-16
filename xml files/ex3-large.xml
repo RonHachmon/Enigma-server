@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by mazuki (darksiderg) -->
+<CTE-Enigma xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Enigma-Ex3.xsd">
+	<CTE-Machine rotors-count="5">
+		<ABC>ABCDEFGHIJKLMNOPQRSTUVWXYZ !?'</ABC>
+		<CTE-Rotors>
+			<CTE-Rotor id="8" notch="30">
+				<CTE-Positioning left="A" right="G"/>
+				<CTE-Positioning left="B" right="A"/>
+				<CTE-Positioning left="C" right="U"/>
+				<CTE-Positioning left="D" right="N"/>
+				<CTE-Positioning left="E" right="E"/>
+				<CTE-Positioning left="F" right="H"/>
+				<CTE-Positioning left="G" right="D"/>
+				<CTE-Positioning left="H" right="L"/>
+				<CTE-Positioning left="I" right="M"/>
+				<CTE-Positioning left="J" right="F"/>
+				<CTE-Positioning left="K" right="V"/>
+				<CTE-Positioning left="L" right="R"/>
+				<CTE-Positioning left="M" right="W"/>
+				<CTE-Positioning left="N" right="Q"/>
+				<CTE-Positioning left="O" right="Y"/>
+				<CTE-Positioning left="P" right="I"/>
+				<CTE-Positioning left="Q" right="O"/>
+				<CTE-Positioning left="R" right="S"/>
+				<CTE-Positioning left="S" right="C"/>
+				<CTE-Positioning left="T" right="'"/>
+				<CTE-Positioning left="U" right="K"/>
+				<CTE-Positioning left="V" right=" "/>
+				<CTE-Positioning left="W" right="!"/>
+				<CTE-Positioning left="X" right="P"/>
+				<CTE-Positioning left="Y" right="T"/>
+				<CTE-Positioning left="Z" right="B"/>
+				<CTE-Positioning left=" " right="?"/>
+				<CTE-Positioning left="!" right="Z"/>
+				<CTE-Positioning left="?" right="X"/>
+				<CTE-Positioning left="'" right="J"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="1" notch="17">
+				<CTE-Positioning left="A" right="V"/>
+				<CTE-Positioning left="B" right="Y"/>
+				<CTE-Positioning left="C" right="'"/>
+				<CTE-Positioning left="D" right=" "/>
+				<CTE-Positioning left="E" right="M"/>
+				<CTE-Positioning left="F" right="C"/>
+				<CTE-Positioning left="G" right="A"/>
+				<CTE-Positioning left="H" right="!"/>
+				<CTE-Positioning left="I" right="W"/>
+				<CTE-Positioning left="J" right="Z"/>
+				<CTE-Positioning left="K" right="U"/>
+				<CTE-Positioning left="L" right="G"/>
+				<CTE-Positioning left="M" right="O"/>
+				<CTE-Positioning left="N" right="H"/>
+				<CTE-Positioning left="O" right="T"/>
+				<CTE-Positioning left="P" right="J"/>
+				<CTE-Positioning left="Q" right="E"/>
+				<CTE-Positioning left="R" right="I"/>
+				<CTE-Positioning left="S" right="X"/>
+				<CTE-Positioning left="T" right="K"/>
+				<CTE-Positioning left="U" right="S"/>
+				<CTE-Positioning left="V" right="N"/>
+				<CTE-Positioning left="W" right="R"/>
+				<CTE-Positioning left="X" right="D"/>
+				<CTE-Positioning left="Y" right="P"/>
+				<CTE-Positioning left="Z" right="Q"/>
+				<CTE-Positioning left=" " right="?"/>
+				<CTE-Positioning left="!" right="B"/>
+				<CTE-Positioning left="?" right="F"/>
+				<CTE-Positioning left="'" right="L"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="9" notch="10">
+				<CTE-Positioning left="A" right="G"/>
+				<CTE-Positioning left="B" right="N"/>
+				<CTE-Positioning left="C" right="S"/>
+				<CTE-Positioning left="D" right="?"/>
+				<CTE-Positioning left="E" right="V"/>
+				<CTE-Positioning left="F" right="K"/>
+				<CTE-Positioning left="G" right="W"/>
+				<CTE-Positioning left="H" right="O"/>
+				<CTE-Positioning left="I" right=" "/>
+				<CTE-Positioning left="J" right="U"/>
+				<CTE-Positioning left="K" right="X"/>
+				<CTE-Positioning left="L" right="R"/>
+				<CTE-Positioning left="M" right="I"/>
+				<CTE-Positioning left="N" right="P"/>
+				<CTE-Positioning left="O" right="T"/>
+				<CTE-Positioning left="P" right="A"/>
+				<CTE-Positioning left="Q" right="Z"/>
+				<CTE-Positioning left="R" right="C"/>
+				<CTE-Positioning left="S" right="!"/>
+				<CTE-Positioning left="T" right="Y"/>
+				<CTE-Positioning left="U" right="E"/>
+				<CTE-Positioning left="V" right="B"/>
+				<CTE-Positioning left="W" right="F"/>
+				<CTE-Positioning left="X" right="M"/>
+				<CTE-Positioning left="Y" right="H"/>
+				<CTE-Positioning left="Z" right="'"/>
+				<CTE-Positioning left=" " right="D"/>
+				<CTE-Positioning left="!" right="J"/>
+				<CTE-Positioning left="?" right="L"/>
+				<CTE-Positioning left="'" right="Q"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="4" notch="28">
+				<CTE-Positioning left="A" right="X"/>
+				<CTE-Positioning left="B" right="Q"/>
+				<CTE-Positioning left="C" right="G"/>
+				<CTE-Positioning left="D" right="F"/>
+				<CTE-Positioning left="E" right="T"/>
+				<CTE-Positioning left="F" right="C"/>
+				<CTE-Positioning left="G" right="I"/>
+				<CTE-Positioning left="H" right="O"/>
+				<CTE-Positioning left="I" right="P"/>
+				<CTE-Positioning left="J" right="M"/>
+				<CTE-Positioning left="K" right="L"/>
+				<CTE-Positioning left="L" right="H"/>
+				<CTE-Positioning left="M" right="K"/>
+				<CTE-Positioning left="N" right="E"/>
+				<CTE-Positioning left="O" right="N"/>
+				<CTE-Positioning left="P" right="V"/>
+				<CTE-Positioning left="Q" right="R"/>
+				<CTE-Positioning left="R" right="B"/>
+				<CTE-Positioning left="S" right="Z"/>
+				<CTE-Positioning left="T" right="'"/>
+				<CTE-Positioning left="U" right="A"/>
+				<CTE-Positioning left="V" right="U"/>
+				<CTE-Positioning left="W" right="Y"/>
+				<CTE-Positioning left="X" right="W"/>
+				<CTE-Positioning left="Y" right="!"/>
+				<CTE-Positioning left="Z" right="D"/>
+				<CTE-Positioning left=" " right="J"/>
+				<CTE-Positioning left="!" right="?"/>
+				<CTE-Positioning left="?" right="S"/>
+				<CTE-Positioning left="'" right=" "/>
+			</CTE-Rotor>
+			<CTE-Rotor id="6" notch="15">
+				<CTE-Positioning left="A" right="K"/>
+				<CTE-Positioning left="B" right="A"/>
+				<CTE-Positioning left="C" right="L"/>
+				<CTE-Positioning left="D" right="V"/>
+				<CTE-Positioning left="E" right="O"/>
+				<CTE-Positioning left="F" right="P"/>
+				<CTE-Positioning left="G" right="Y"/>
+				<CTE-Positioning left="H" right="C"/>
+				<CTE-Positioning left="I" right="?"/>
+				<CTE-Positioning left="J" right="G"/>
+				<CTE-Positioning left="K" right="Z"/>
+				<CTE-Positioning left="L" right="J"/>
+				<CTE-Positioning left="M" right="R"/>
+				<CTE-Positioning left="N" right="X"/>
+				<CTE-Positioning left="O" right="Q"/>
+				<CTE-Positioning left="P" right="!"/>
+				<CTE-Positioning left="Q" right="B"/>
+				<CTE-Positioning left="R" right="U"/>
+				<CTE-Positioning left="S" right="D"/>
+				<CTE-Positioning left="T" right="I"/>
+				<CTE-Positioning left="U" right="F"/>
+				<CTE-Positioning left="V" right="T"/>
+				<CTE-Positioning left="W" right="M"/>
+				<CTE-Positioning left="X" right="W"/>
+				<CTE-Positioning left="Y" right="E"/>
+				<CTE-Positioning left="Z" right=" "/>
+				<CTE-Positioning left=" " right="'"/>
+				<CTE-Positioning left="!" right="S"/>
+				<CTE-Positioning left="?" right="N"/>
+				<CTE-Positioning left="'" right="H"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="2" notch="5">
+				<CTE-Positioning left="A" right="Z"/>
+				<CTE-Positioning left="B" right="O"/>
+				<CTE-Positioning left="C" right="P"/>
+				<CTE-Positioning left="D" right=" "/>
+				<CTE-Positioning left="E" right="Q"/>
+				<CTE-Positioning left="F" right="I"/>
+				<CTE-Positioning left="G" right="!"/>
+				<CTE-Positioning left="H" right="E"/>
+				<CTE-Positioning left="I" right="?"/>
+				<CTE-Positioning left="J" right="N"/>
+				<CTE-Positioning left="K" right="U"/>
+				<CTE-Positioning left="L" right="M"/>
+				<CTE-Positioning left="M" right="F"/>
+				<CTE-Positioning left="N" right="V"/>
+				<CTE-Positioning left="O" right="'"/>
+				<CTE-Positioning left="P" right="B"/>
+				<CTE-Positioning left="Q" right="R"/>
+				<CTE-Positioning left="R" right="A"/>
+				<CTE-Positioning left="S" right="T"/>
+				<CTE-Positioning left="T" right="L"/>
+				<CTE-Positioning left="U" right="G"/>
+				<CTE-Positioning left="V" right="D"/>
+				<CTE-Positioning left="W" right="X"/>
+				<CTE-Positioning left="X" right="J"/>
+				<CTE-Positioning left="Y" right="C"/>
+				<CTE-Positioning left="Z" right="S"/>
+				<CTE-Positioning left=" " right="K"/>
+				<CTE-Positioning left="!" right="W"/>
+				<CTE-Positioning left="?" right="Y"/>
+				<CTE-Positioning left="'" right="H"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="7" notch="1">
+				<CTE-Positioning left="A" right="H"/>
+				<CTE-Positioning left="B" right="K"/>
+				<CTE-Positioning left="C" right="L"/>
+				<CTE-Positioning left="D" right="F"/>
+				<CTE-Positioning left="E" right="O"/>
+				<CTE-Positioning left="F" right="S"/>
+				<CTE-Positioning left="G" right="J"/>
+				<CTE-Positioning left="H" right="N"/>
+				<CTE-Positioning left="I" right=" "/>
+				<CTE-Positioning left="J" right="V"/>
+				<CTE-Positioning left="K" right="R"/>
+				<CTE-Positioning left="L" right="B"/>
+				<CTE-Positioning left="M" right="D"/>
+				<CTE-Positioning left="N" right="C"/>
+				<CTE-Positioning left="O" right="A"/>
+				<CTE-Positioning left="P" right="Q"/>
+				<CTE-Positioning left="Q" right="P"/>
+				<CTE-Positioning left="R" right="Y"/>
+				<CTE-Positioning left="S" right="Z"/>
+				<CTE-Positioning left="T" right="?"/>
+				<CTE-Positioning left="U" right="I"/>
+				<CTE-Positioning left="V" right="W"/>
+				<CTE-Positioning left="W" right="E"/>
+				<CTE-Positioning left="X" right="M"/>
+				<CTE-Positioning left="Y" right="T"/>
+				<CTE-Positioning left="Z" right="G"/>
+				<CTE-Positioning left=" " right="!"/>
+				<CTE-Positioning left="!" right="'"/>
+				<CTE-Positioning left="?" right="U"/>
+				<CTE-Positioning left="'" right="X"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="5" notch="2">
+				<CTE-Positioning left="A" right="O"/>
+				<CTE-Positioning left="B" right="U"/>
+				<CTE-Positioning left="C" right="F"/>
+				<CTE-Positioning left="D" right="I"/>
+				<CTE-Positioning left="E" right="Z"/>
+				<CTE-Positioning left="F" right="E"/>
+				<CTE-Positioning left="G" right="G"/>
+				<CTE-Positioning left="H" right="K"/>
+				<CTE-Positioning left="I" right="W"/>
+				<CTE-Positioning left="J" right="D"/>
+				<CTE-Positioning left="K" right="R"/>
+				<CTE-Positioning left="L" right="Y"/>
+				<CTE-Positioning left="M" right=" "/>
+				<CTE-Positioning left="N" right="S"/>
+				<CTE-Positioning left="O" right="J"/>
+				<CTE-Positioning left="P" right="'"/>
+				<CTE-Positioning left="Q" right="P"/>
+				<CTE-Positioning left="R" right="Q"/>
+				<CTE-Positioning left="S" right="N"/>
+				<CTE-Positioning left="T" right="T"/>
+				<CTE-Positioning left="U" right="L"/>
+				<CTE-Positioning left="V" right="V"/>
+				<CTE-Positioning left="W" right="!"/>
+				<CTE-Positioning left="X" right="?"/>
+				<CTE-Positioning left="Y" right="M"/>
+				<CTE-Positioning left="Z" right="C"/>
+				<CTE-Positioning left=" " right="H"/>
+				<CTE-Positioning left="!" right="X"/>
+				<CTE-Positioning left="?" right="B"/>
+				<CTE-Positioning left="'" right="A"/>
+			</CTE-Rotor>
+			<CTE-Rotor id="3" notch="22">
+				<CTE-Positioning left="A" right="D"/>
+				<CTE-Positioning left="B" right="M"/>
+				<CTE-Positioning left="C" right="Y"/>
+				<CTE-Positioning left="D" right="T"/>
+				<CTE-Positioning left="E" right="G"/>
+				<CTE-Positioning left="F" right="Z"/>
+				<CTE-Positioning left="G" right="'"/>
+				<CTE-Positioning left="H" right="H"/>
+				<CTE-Positioning left="I" right="U"/>
+				<CTE-Positioning left="J" right="N"/>
+				<CTE-Positioning left="K" right="B"/>
+				<CTE-Positioning left="L" right="K"/>
+				<CTE-Positioning left="M" right="J"/>
+				<CTE-Positioning left="N" right="F"/>
+				<CTE-Positioning left="O" right="L"/>
+				<CTE-Positioning left="P" right="Q"/>
+				<CTE-Positioning left="Q" right="I"/>
+				<CTE-Positioning left="R" right="X"/>
+				<CTE-Positioning left="S" right="!"/>
+				<CTE-Positioning left="T" right="O"/>
+				<CTE-Positioning left="U" right="W"/>
+				<CTE-Positioning left="V" right="C"/>
+				<CTE-Positioning left="W" right="S"/>
+				<CTE-Positioning left="X" right="?"/>
+				<CTE-Positioning left="Y" right="E"/>
+				<CTE-Positioning left="Z" right="R"/>
+				<CTE-Positioning left=" " right="A"/>
+				<CTE-Positioning left="!" right=" "/>
+				<CTE-Positioning left="?" right="V"/>
+				<CTE-Positioning left="'" right="P"/>
+			</CTE-Rotor>
+		</CTE-Rotors>
+		<CTE-Reflectors>
+			<CTE-Reflector id="I">
+				<CTE-Reflect input="23" output="29"/>
+				<CTE-Reflect input="2" output="10"/>
+				<CTE-Reflect input="18" output="13"/>
+				<CTE-Reflect input="26" output="12"/>
+				<CTE-Reflect input="9" output="17"/>
+				<CTE-Reflect input="25" output="14"/>
+				<CTE-Reflect input="15" output="28"/>
+				<CTE-Reflect input="8" output="24"/>
+				<CTE-Reflect input="4" output="19"/>
+				<CTE-Reflect input="22" output="11"/>
+				<CTE-Reflect input="1" output="21"/>
+				<CTE-Reflect input="5" output="30"/>
+				<CTE-Reflect input="27" output="16"/>
+				<CTE-Reflect input="6" output="3"/>
+				<CTE-Reflect input="20" output="7"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="III">
+				<CTE-Reflect input="18" output="20"/>
+				<CTE-Reflect input="1" output="25"/>
+				<CTE-Reflect input="12" output="14"/>
+				<CTE-Reflect input="5" output="7"/>
+				<CTE-Reflect input="9" output="4"/>
+				<CTE-Reflect input="26" output="24"/>
+				<CTE-Reflect input="16" output="13"/>
+				<CTE-Reflect input="3" output="10"/>
+				<CTE-Reflect input="30" output="23"/>
+				<CTE-Reflect input="6" output="27"/>
+				<CTE-Reflect input="28" output="2"/>
+				<CTE-Reflect input="15" output="21"/>
+				<CTE-Reflect input="11" output="17"/>
+				<CTE-Reflect input="8" output="22"/>
+				<CTE-Reflect input="29" output="19"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="V">
+				<CTE-Reflect input="22" output="16"/>
+				<CTE-Reflect input="29" output="20"/>
+				<CTE-Reflect input="24" output="6"/>
+				<CTE-Reflect input="30" output="4"/>
+				<CTE-Reflect input="27" output="8"/>
+				<CTE-Reflect input="18" output="5"/>
+				<CTE-Reflect input="15" output="28"/>
+				<CTE-Reflect input="23" output="21"/>
+				<CTE-Reflect input="1" output="25"/>
+				<CTE-Reflect input="11" output="10"/>
+				<CTE-Reflect input="17" output="13"/>
+				<CTE-Reflect input="12" output="14"/>
+				<CTE-Reflect input="7" output="9"/>
+				<CTE-Reflect input="3" output="2"/>
+				<CTE-Reflect input="19" output="26"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="II">
+				<CTE-Reflect input="6" output="24"/>
+				<CTE-Reflect input="25" output="10"/>
+				<CTE-Reflect input="5" output="3"/>
+				<CTE-Reflect input="27" output="8"/>
+				<CTE-Reflect input="26" output="30"/>
+				<CTE-Reflect input="16" output="9"/>
+				<CTE-Reflect input="28" output="21"/>
+				<CTE-Reflect input="17" output="4"/>
+				<CTE-Reflect input="13" output="20"/>
+				<CTE-Reflect input="2" output="12"/>
+				<CTE-Reflect input="29" output="15"/>
+				<CTE-Reflect input="19" output="7"/>
+				<CTE-Reflect input="11" output="14"/>
+				<CTE-Reflect input="23" output="18"/>
+				<CTE-Reflect input="22" output="1"/>
+			</CTE-Reflector>
+			<CTE-Reflector id="IV">
+				<CTE-Reflect input="1" output="16"/>
+				<CTE-Reflect input="4" output="22"/>
+				<CTE-Reflect input="24" output="15"/>
+				<CTE-Reflect input="26" output="10"/>
+				<CTE-Reflect input="3" output="14"/>
+				<CTE-Reflect input="6" output="19"/>
+				<CTE-Reflect input="23" output="8"/>
+				<CTE-Reflect input="21" output="17"/>
+				<CTE-Reflect input="13" output="25"/>
+				<CTE-Reflect input="7" output="28"/>
+				<CTE-Reflect input="12" output="20"/>
+				<CTE-Reflect input="30" output="29"/>
+				<CTE-Reflect input="9" output="27"/>
+				<CTE-Reflect input="5" output="11"/>
+				<CTE-Reflect input="18" output="2"/>
+			</CTE-Reflector>
+		</CTE-Reflectors>
+	</CTE-Machine>
+	<CTE-Decipher>
+		<CTE-Dictionary exclude-chars="!'#?">
+			<Words>		
+			german year remote salary leg advance tea character rabbit fire stick they coffe sister element sure robot! edit nail past old dune dolphine scratch then am easy quality eye seat folder letter notch allies adult wing brother saturday strong yellow scam sea gold see does attack taken free foot hand mine a manager black i thursday pistol blood democracy battle single fly component blue watch progress purple under yours insurance mouce won't foam cannon lie project run do ruler bomb red mother view later white hello? missile huge wood finish which wendsday sink telephone check decrease ranch retreat she sand wire knife squad month desk loose child drop where? deep plural young father for privacy back rule house fox not street now lier missing ignore end hard class trike human mortal live patrol midnight green umbrella start bye bypass print fork money airplane pyramid iron window time gate he mark age tray encapsulation big poland happy slim kombat sanity convert waffele whom? tape terms else camel lost action text portal if sky calculator item pedal shape in metal it propellor explicit sunday moon system light tiny number# dog word partial hash why? gun implicit pink woman what? direct triangle local weak out slave computer noon file top freedom ear dark dwarf man stand can't table monday suprise could strike electricity kill great boat off help reflector future machine grid atom shuffle complete clip entity inferno voice rotor small tonight door domination shake data use doom sign screen feel employee second whale than function spoon england tap morning! dirt tree thrown water heart trash army square entry person coal rectangle present sugar soap magenta shame game code enigma week death vegtable fruit line snake their box racket can hair napkin paper hour and cat of snale design sad iteration friday steam said win make fight sheep how? on keyboard or will wheel saw smoke control increase master minute orange tuesday round bomer front walk account lame
+		</Words>
+		</CTE-Dictionary>
+	</CTE-Decipher>
+	<CTE-Battlefield battle-name="Hirushima" allies="3" level="Medium"/>
+</CTE-Enigma>
