@@ -35,7 +35,7 @@
                 <StackPane id="main-app-body" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                   <children>
                     <fx:include fx:id="configurationComponent" source="bodies/configurationComponent.fxml" BorderPane.alignment="CENTER" />
-                    <fx:include fx:id="encryptComponent" source="bodies/encryptComponent.fxml" BorderPane.alignment="CENTER" />
+                    <fx:include fx:id="contestComponent" source="bodies/contestComponent.fxml" BorderPane.alignment="CENTER" />
                   </children>
                 </StackPane>
               </center>

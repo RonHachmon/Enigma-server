@@ -1,17 +1,12 @@
 package app.mini_apps.uboat.header;
 
 
-import DTO.MachineInfo;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
-import app.util.Constants;
-import app.util.http.HttpClientUtil;
-import engine.enigma.machineutils.MachineInformation;
+
 import engine.enigma.machineutils.MachineManager;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import web.http.HttpClientUtil;
 
 
 import java.io.File;
@@ -27,7 +23,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static app.util.Constants.*;
+
+import static web.Constants.UPLOAD_FILE;
+import static web.Constants.JOIN_BATTLE;
 
 public class HeaderController extends MainAppScene implements Initializable   {
     public static final String COMMAND_PROMPT_TTF = "/resources/fonts/windows_command_prompt.ttf";
@@ -46,13 +44,20 @@ public class HeaderController extends MainAppScene implements Initializable   {
     @FXML
     private Label titleLabel;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        InputStream inputStream=HeaderController.class.getResourceAsStream(COMMAND_PROMPT_TTF);
+        Font font = Font.loadFont(inputStream, 26);
+        titleLabel.setFont(font);
+    }
+
 
 
     @FXML
-    void encryptClicked(ActionEvent event) {
+    void contestClicked(ActionEvent event) {
         encryptButton.setDisable(true);
         machineButton.setDisable(false);
-        uboatController.displayEncrypt();
+        uboatController.displayContest();
 
     }
 
@@ -67,14 +72,6 @@ public class HeaderController extends MainAppScene implements Initializable   {
 
     @FXML
     void loadXML(ActionEvent event) throws IOException {
-
-/*        machineManager.createMachineFromXML("/ex2-basic.xml");
-        this.currentPath.setText("test_files/ex2-basic.xml");
-
-        mainAppController.resetAll();
-        mainAppController.updateAllControllers();*/
-
-
         FileChooser fileChooser = configFileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile!=null) {
@@ -82,41 +79,21 @@ public class HeaderController extends MainAppScene implements Initializable   {
         }
         this.joinBattle();
 
-
-        String finalUrl = HttpUrl
-                .parse(Constants.SEND_CHAT_LINE)
-                .newBuilder()
-                .addQueryParameter("userstring", "Hey :D")
-                .build()
-                .toString();
-
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              /*  httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure...:(");*/
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    /*httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());*/
-                }
-            }
-        });
     }
 
     private  void joinBattle() throws IOException {
-        String battleName = this.machineManager.getBattleField().getBattleName().replace(' ', '-');
-        String url = jOIN_BATTLE+"?"+"battleship="+battleName+"&"+"entity="+"uboat";
 
+        String battleName = this.machineManager.getBattleField().getBattleName().replace(' ', '-');
         String finalUrl = HttpUrl
-                .parse(url)
+                .parse(JOIN_BATTLE)
                 .newBuilder()
                 .addQueryParameter("battleship", battleName)
                 .addQueryParameter("entity","uboat")
                 .build()
                 .toString();
 
+
+        //currently does nothing except sending the request, maybe we should add something in the future.
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -135,29 +112,26 @@ public class HeaderController extends MainAppScene implements Initializable   {
     private  void fileHttpRequest(File selectedFile) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        MediaType mediaType = MediaType.parse("text/plain");
+
+        //build body
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("enigmaFile", "/C:/Users/97254/IdeaProjects/Enigma-Machine/test_files/ex2-basic.xml",
+                .addFormDataPart("enigmaFile", selectedFile.getAbsolutePath(),
                         RequestBody.create(MediaType.parse("application/octet-stream"),
                                 selectedFile))
                 .build();
+        //build request
         Request request = new Request.Builder()
                 .url(UPLOAD_FILE)
                 .method("POST", body)
                 .addHeader("Accept-Language", "en")
                 .build();
+        //sends request
         Response response = client.newCall(request).execute();
+        //request send back the same file
         machineManager.createMachineFromXML(response.body().byteStream());
+
         updateGUI(selectedFile);
 
-
-
-/*        InputStream inputStream=GSON_INSTANCE.fromJson(response.body().string(), InputStream.class);
-        machineManager.createMachineFromXML(inputStream);
-        System.out.println(machineManager.getMachineInformation().getAmountOfRotorsRequired());*/
-/*        MachineInfo machineInfo =GSON_INSTANCE.fromJson(response.body().string(), MachineInfo.class);
-        MachineInformation machineInformationFromServer= new MachineInformation(machineInfo);
-        this.uboatController.updateMachineInformation(machineInformationFromServer);*/
     }
 
     private void updateGUI(File selectedFile) {
@@ -183,16 +157,11 @@ public class HeaderController extends MainAppScene implements Initializable   {
         this.machineManager = machineManager;
     }
 
-    public void enableEncrypt(boolean toEnable) {
+    public void enableContest(boolean toEnable) {
         encryptButton.setDisable(!toEnable);
     }
 
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        InputStream inputStream=HeaderController.class.getResourceAsStream(COMMAND_PROMPT_TTF);
-        Font font = Font.loadFont(inputStream, 26);
-        titleLabel.setFont(font);
-    }
+
 }

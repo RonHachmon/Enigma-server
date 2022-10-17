@@ -11,10 +11,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
+
 import java.util.List;
 
 
+//gets all allies per battle
+//query parameter:
+// battleship - name of the battleship that the allies connected to
 @WebServlet("/allies")
 public class AlliesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

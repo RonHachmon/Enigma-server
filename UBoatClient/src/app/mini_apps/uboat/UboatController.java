@@ -1,7 +1,7 @@
 package app.mini_apps.uboat;
 
 import app.mini_apps.uboat.bodies.ConfigurationController;
-import app.mini_apps.uboat.bodies.EncryptController;
+import app.mini_apps.uboat.bodies.ContestController;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
 import app.mini_apps.uboat.bodies.interfaces.CodeHolder;
 import app.mini_apps.uboat.header.HeaderController;
@@ -25,8 +25,8 @@ public class UboatController implements Initializable {
     @FXML private HeaderController headerComponentController;
     @FXML private GridPane configurationComponent;
     @FXML private ConfigurationController configurationComponentController;
-    @FXML private GridPane encryptComponent;
-    @FXML private EncryptController encryptComponentController;
+    @FXML private GridPane contestComponent;
+    @FXML private ContestController contestComponentController;
 
 
     public static final String ARMY_CSS = "/resources/css/army.css";
@@ -40,11 +40,7 @@ public class UboatController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         addControllerToArray();
 
-
-
-        encryptComponent.setVisible(false);
-
-
+        contestComponent.setVisible(false);
         headerComponentController.setMachineManager(machineManager);
         mainAppScenes.forEach(mainAppScene -> mainAppScene.setMainAppController(this));
 
@@ -52,30 +48,30 @@ public class UboatController implements Initializable {
     @FXML
     void enabledAnimation(ActionEvent event)
     {
-            encryptComponentController.enableAnimation(animationButton.isSelected());
+
     }
     @FXML
     void armyCss(ActionEvent event)
     {
-        encryptComponent.getScene().getStylesheets().clear();
-        encryptComponent.getScene().getStylesheets().add(String.valueOf(getClass().getResource(ARMY_CSS)));
+        contestComponent.getScene().getStylesheets().clear();
+        contestComponent.getScene().getStylesheets().add(String.valueOf(getClass().getResource(ARMY_CSS)));
 
     }
 
     @FXML
     void plainCss(ActionEvent event)
     {
-        encryptComponent.getScene().getStylesheets().clear();
-        encryptComponent.getScene().getStylesheets().add(String.valueOf(getClass().getResource(NORMAL_CSS)));
+        contestComponent.getScene().getStylesheets().clear();
+        contestComponent.getScene().getStylesheets().add(String.valueOf(getClass().getResource(NORMAL_CSS)));
     }
 
     private void addControllerToArray() {
         codeHolders.add(configurationComponentController);
-        codeHolders.add(encryptComponentController);
+        codeHolders.add(contestComponentController);
 
         mainAppScenes.add(headerComponentController);
         mainAppScenes.add(configurationComponentController);
-        mainAppScenes.add(encryptComponentController);
+        mainAppScenes.add(contestComponentController);
     }
 
     public void updateMachineInformation()
@@ -87,16 +83,16 @@ public class UboatController implements Initializable {
         setAllPagesVisibilityToFalse();
         this.configurationComponent.setVisible(true);
     }
-    public void displayEncrypt() {
+    public void displayContest() {
         setAllPagesVisibilityToFalse();
-        this.encryptComponent.setVisible(true);
+        this.contestComponent.setVisible(true);
     }
 
 
     private void setAllPagesVisibilityToFalse()
     {
         this.configurationComponent.setVisible(false);
-        this.encryptComponent.setVisible(false);
+        this.contestComponent.setVisible(false);
 
     }
 
@@ -106,7 +102,7 @@ public class UboatController implements Initializable {
             mainAppScene.setMachineInformation(machineManager.getMachineInformation());
         });
         this.updateMachineInformation();
-        this.encryptComponentController.updateInitialDictionaryTable();
+        this.contestComponentController.updateInitialDictionaryTable();
 
     }
 
@@ -116,14 +112,13 @@ public class UboatController implements Initializable {
         codeHolders.forEach(codeHolder -> codeHolder.updateCode(currentCodeSetting));
     }
     public void setInitialCode(String code) {
-        encryptComponentController.addCodeToComboBox(code);
         updateMachineCode(code);
     }
 
-    public void enableEncrypt()
+    public void enableContest()
     {
-        headerComponentController.enableEncrypt(true);
-        this.encryptComponentController.startListRefresher();
+        headerComponentController.enableContest(true);
+        this.contestComponentController.startListRefresher();
     }
 
 
@@ -132,7 +127,7 @@ public class UboatController implements Initializable {
         this.displayMachineConfigScene();
         this.clearEncryptText();
 
-        headerComponentController.enableEncrypt(false);
+        headerComponentController.enableContest(false);
 
         configurationComponentController.resetCode();
         configurationComponentController.resetInformation();
@@ -141,7 +136,7 @@ public class UboatController implements Initializable {
     }
     public void clearEncryptText()
     {
-        this.encryptComponentController.clearText();
+        this.contestComponentController.clearText();
     }
 
 
@@ -150,11 +145,4 @@ public class UboatController implements Initializable {
         this.configurationComponentController.updateTotalEncryptedWord(processedInputCounter);
     }
 
-    public void updateMachineInformation(MachineInformation machineInformationFromServer) {
-        configurationComponentController.updateMachineInformation(machineInformationFromServer);
-    }
-    public void startRefresh()
-    {
-
-    }
 }

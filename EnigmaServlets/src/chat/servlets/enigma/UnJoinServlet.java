@@ -10,8 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/join")
-public class joinBattleServlet extends HttpServlet {
+
+//un join battle
+//query parameter:
+// battleship - name of the battleship you wish to un-join
+//entity - as which entity un-joining the battle. (uboat,ally,agent)
+@WebServlet("/unjoin")
+public class UnJoinServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,11 +37,11 @@ public class joinBattleServlet extends HttpServlet {
         BattlesManager battlesManager=BattlesManager.getInstance();
         if(entity.equals("uboat"))
         {
-            battlesManager.joinBoatToBattle(battleShip,username);
+            battlesManager.removeBoat(battleShip,username);
         }
         if(entity.equals("ally"))
         {
-            battlesManager.joinAllyToBattle(battleShip,username);
+            battlesManager.removeAlly(battleShip,username);
         }
 
     }

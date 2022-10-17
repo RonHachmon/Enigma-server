@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static app.util.Constants.UPLOAD_FILE;
+
 
 public class HeaderController extends MainAppScene implements Initializable   {
     public static final String COMMAND_PROMPT_TTF = "/resources/fonts/windows_command_prompt.ttf";
@@ -63,9 +63,6 @@ public class HeaderController extends MainAppScene implements Initializable   {
         this.machineManager = machineManager;
     }
 
-    public void enableEncrypt(boolean toEnable) {
-        contestButton.setDisable(!toEnable);
-    }
 
 
 

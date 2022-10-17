@@ -1,8 +1,7 @@
 package app.components.logic.login;
 
 import app.AlliesAppMainController;
-import app.util.Constants;
-import app.util.http.HttpClientUtil;
+
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +16,8 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import web.Constants;
+import web.http.HttpClientUtil;
 
 import java.io.IOException;
 

@@ -56,7 +56,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="ChatLogicEngine" />
+    <orderEntry type="module" module-name="EnigmaLogicEngine" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -68,5 +68,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="DTO" />
     <orderEntry type="module" module-name="CommonUtils" />
+    <orderEntry type="module" module-name="WebUtils" />
   </component>
 </module>

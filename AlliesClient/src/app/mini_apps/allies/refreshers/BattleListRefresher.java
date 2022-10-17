@@ -1,14 +1,14 @@
 package app.mini_apps.allies.refreshers;
 
 import DTO.AllBattles;
-import app.util.Constants;
 
-import app.util.http.HttpClientUtil;
 import engine.enigma.battlefield.BattleFieldInfo;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import web.Constants;
+import web.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-import static app.util.Constants.GSON_INSTANCE;
+import static web.Constants.GSON_INSTANCE;
 
 
 public class BattleListRefresher extends TimerTask {

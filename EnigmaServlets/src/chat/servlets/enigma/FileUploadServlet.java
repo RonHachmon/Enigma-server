@@ -26,6 +26,9 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Scanner;
 
+
+
+//upload file , send it back at response for debugging
 @WebServlet("/upload-file")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
@@ -49,20 +52,7 @@ public class FileUploadServlet extends HttpServlet {
     }
 
 
-    private void printPart(Part part, PrintWriter out) {
-        StringBuilder sb = new StringBuilder();
-        sb
-            .append("Parameter Name: ").append(part.getName()).append("\n")
-            .append("Content Type (of the file): ").append(part.getContentType()).append("\n")
-            .append("Size (of the file): ").append(part.getSize()).append("\n")
-            .append("Part Headers:").append("\n");
 
-        for (String header : part.getHeaderNames()) {
-            sb.append(header).append(" : ").append(part.getHeader(header)).append("\n");
-        }
-
-        out.println(sb.toString());
-    }
 
     private String readFromInputStream(InputStream inputStream) {
         return new Scanner(inputStream).useDelimiter("\\Z").next();
