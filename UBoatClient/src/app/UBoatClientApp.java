@@ -1,20 +1,22 @@
 package app;
 
-import app.util.http.HttpClientUtil;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import web.http.HttpClientUtil;
 
 import java.io.IOException;
 import java.net.URL;
 
-import static app.util.Constants.MAIN_PAGE_FXML_RESOURCE_LOCATION;
+
+
 
 
 public class UBoatClientApp extends Application {
-
+    public final static String MAIN_PAGE_FXML_RESOURCE_LOCATION = "/app/uboat-app-main.fxml";
     private UBoatAppMainController UBoatAppMainController;
 
     @Override
@@ -22,7 +24,7 @@ public class UBoatClientApp extends Application {
 
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(600);
-        primaryStage.setTitle("Enigma client");
+        primaryStage.setTitle("Uboat client");
 
         URL loginPage = getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION);
         try {

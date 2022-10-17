@@ -33,16 +33,8 @@ public class ServletUtils {
 		}
 		return (UserManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
 	}
-	public static BattlesManager getBattleShipManager(ServletContext servletContext) {
 
-		synchronized (battleManagerLock) {
-			if (servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null) {
-			/*	servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new BattlesManager());*/
-			}
-		}
-		return (BattlesManager) servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
-	}
-
+	//not used yet
 	public static ChatManager getChatManager(ServletContext servletContext) {
 		synchronized (chatManagerLock) {
 			if (servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME) == null) {
@@ -52,6 +44,7 @@ public class ServletUtils {
 		return (ChatManager) servletContext.getAttribute(CHAT_MANAGER_ATTRIBUTE_NAME);
 	}
 
+	//not used yet
 	public static int getIntParameter(HttpServletRequest request, String name) {
 		String value = request.getParameter(name);
 		if (value != null) {

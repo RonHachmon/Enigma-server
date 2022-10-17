@@ -2,7 +2,7 @@ package app.mini_apps.allies.bodies;
 
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
 import app.mini_apps.allies.refreshers.BattleListRefresher;
-import app.util.http.HttpClientUtil;
+
 import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.bruteForce2.utils.DifficultyLevel;
 import javafx.application.Platform;
@@ -17,14 +17,14 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import web.http.HttpClientUtil;
 
-import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static app.util.Constants.*;
-import static app.util.Constants.JOIN_BATTLE;
+import static web.Constants.*;
 
 public class DashboardController extends MainAppScene implements Initializable {
 
@@ -131,7 +131,6 @@ public class DashboardController extends MainAppScene implements Initializable {
                 .build()
                 .toString();
 
-        String finalBattleName = battleName;
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -149,7 +148,6 @@ public class DashboardController extends MainAppScene implements Initializable {
 
     private void joinBattle(String battleName) {
         battleName = battleName.replace(' ', '-');
-        String url = JOIN_BATTLE +"?"+"battleship="+joinedBattle+"&"+"entity="+"ally";
 
         String finalUrl = HttpUrl
                 .parse(JOIN_BATTLE)

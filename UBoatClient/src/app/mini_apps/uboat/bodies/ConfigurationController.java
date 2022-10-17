@@ -76,7 +76,7 @@ public class ConfigurationController extends MainAppScene implements Initializab
                 this.setMachineCode();
                 this.initialCodeConfig.setText(machineManager.getInitialFullMachineCode());
                 this.uboatController.setInitialCode(machineManager.getInitialFullMachineCode());
-                this.uboatController.enableEncrypt();
+                this.uboatController.enableContest();
                 this.uboatController.clearEncryptText();
             }
 
@@ -128,7 +128,7 @@ public class ConfigurationController extends MainAppScene implements Initializab
 
                 this.initialCodeConfig.setText(machineManager.getInitialFullMachineCode());
                 this.uboatController.setInitialCode(machineManager.getInitialFullMachineCode());
-                this.uboatController.enableEncrypt();
+                this.uboatController.enableContest();
                 this.uboatController.clearEncryptText();
             });
 
@@ -169,9 +169,4 @@ public class ConfigurationController extends MainAppScene implements Initializab
         amountOfProcessedInput.setText(String.valueOf(amount));
     }
 
-
-    public void updateMachineInformation(MachineInformation machineInformationFromServer) {
-        this.machineInformation=machineInformationFromServer;
-        this.updateMachineInformation();
-    }
 }

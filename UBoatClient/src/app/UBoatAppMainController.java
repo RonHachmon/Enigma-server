@@ -17,11 +17,13 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 
-import static app.util.Constants.*;
+
+import static web.Constants.JHON_DOE;
+
 
 
 public class UBoatAppMainController implements Closeable {
-
+    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/app/components/logic/login/login.fxml";
     private GridPane loginComponent;
     private LoginController logicController;
 
@@ -94,8 +96,6 @@ public class UBoatAppMainController implements Closeable {
 
     public void switchToChatRoom() {
         setMainPanelTo(uboatComponent);
-        this.uboatController.startRefresh();
-
     }
 
 }

@@ -1,9 +1,10 @@
-package app.util.http;
+package web.http;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import org.jetbrains.annotations.NotNull;
+
 
 import java.util.*;
 import java.util.function.Consumer;

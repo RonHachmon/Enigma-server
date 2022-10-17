@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionAttributeListener;
 import jakarta.servlet.http.HttpSessionBindingEvent;
 
+
+//for debugging purpose only
+// listen to all session created in the serve
 public class MySessionAttributeListener implements HttpSessionAttributeListener {
 
     public MySessionAttributeListener() {
