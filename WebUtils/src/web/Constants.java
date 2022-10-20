@@ -27,9 +27,11 @@ public class Constants {
 
     public final static String GET_ALLIES = FULL_SERVER_PATH + "/allies";
 
-    public final static String GET_BATTLES = FULL_SERVER_PATH + "/battles";
+    public final static String GET_ENTITIES = FULL_SERVER_PATH + "/entities";
 
     public final static String UNJOIN_BATTLE = FULL_SERVER_PATH + "/unjoin";
+    public final static String ADD_AGENT = FULL_SERVER_PATH + "/agent";
+    public final static String GET_AGENTS = FULL_SERVER_PATH + "/agents";
 
 
 

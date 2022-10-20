@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -52,6 +53,7 @@ public class LoginController {
                         .parse(Constants.LOGIN_PAGE)
                         .newBuilder()
                         .addQueryParameter("username", userName)
+                        .addQueryParameter("entity", "ally")
                         .build()
                         .toString();
 
@@ -96,5 +98,8 @@ public class LoginController {
 
     public void setChatAppMainController(AlliesAppMainController alliesAppMainController) {
         this.alliesAppMainController = alliesAppMainController;
+    }
+
+    public void selectedAlly(MouseEvent mouseEvent) {
     }
 }

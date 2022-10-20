@@ -1,0 +1,21 @@
+
+.error-label {
+    -fx-text-fill: RED;
+    -fx-font-weight: BOLD;
+    -fx-font-size: 12px;
+}
+
+.main-action-button {
+    -fx-text-fill: GREEN;
+    -fx-font-size: 20px;
+    -fx-font-weight: BOLD;
+}
+
+#quit-button {
+    -fx-text-fill: RED;
+}
+
+#error-text-field{
+    -fx-border-color:#d9534f ;
+    -fx-border-width:2px;
+}

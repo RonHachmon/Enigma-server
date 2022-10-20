@@ -84,17 +84,18 @@ public class ContestController extends MainAppScene implements Initializable, Co
         alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
 
     }
+    public void startListRefresher() {
+        listRefresher = new AlliesListRefresher(this::updateAllies,this.machineManager.getBattleField().getBattleName());
+        timer = new Timer();
+        timer.schedule(listRefresher, 200, REFRESH_RATE);
+    }
     private void updateAllies(List<String> alliesDetails) {
         Platform.runLater(() -> {
             alliesTable.getItems().clear();
             alliesTable.setItems(FXCollections.observableList(alliesDetails));
         });
     }
-    public void startListRefresher() {
-        listRefresher = new AlliesListRefresher(this::updateAllies,this.machineManager.getBattleField().getBattleName());
-        timer = new Timer();
-        timer.schedule(listRefresher, 200, REFRESH_RATE);
-    }
+
 
     @FXML
     void selectedWord(MouseEvent event) {

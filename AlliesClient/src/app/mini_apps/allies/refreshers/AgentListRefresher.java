@@ -1,7 +1,7 @@
 package app.mini_apps.allies.refreshers;
 
+import DTO.AgentData;
 import DTO.AllBattles;
-
 import engine.enigma.battlefield.BattleFieldInfo;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,14 +20,14 @@ import java.util.function.Consumer;
 import static web.Constants.GSON_INSTANCE;
 
 
-public class BattleListRefresher extends TimerTask {
+public class AgentListRefresher extends TimerTask {
 
 
-    private final Consumer<List<BattleFieldInfo>> usersListConsumer;
-    private final String url=Constants.GET_ENTITIES+"?entity=battle";
+    private final Consumer<List<AgentData>> usersListConsumer;
+    private final String url=Constants.GET_AGENTS+"?entity=battle";
 
 
-    public BattleListRefresher(Consumer<List<BattleFieldInfo>> usersListConsumer) {
+    public AgentListRefresher(Consumer<List<AgentData>> usersListConsumer) {
         this.usersListConsumer = usersListConsumer;
     }
 
@@ -43,11 +43,10 @@ public class BattleListRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("HEYOOO??");
-                AllBattles allBattles =GSON_INSTANCE.fromJson(response.body().string(), AllBattles.class);
-                List<BattleFieldInfo> list =new ArrayList<>();
-                BattleFieldInfo[] battleFields = allBattles.getBattleFields();
-                Arrays.stream(allBattles.getBattleFields()).forEach(battleField -> list.add(battleField));
+                AgentData[] agentData =GSON_INSTANCE.fromJson(response.body().string(), AgentData[].class);
+                List<AgentData> list =new ArrayList<>();
+
+                Arrays.stream(agentData).forEach(agent -> list.add(agent));
                 usersListConsumer.accept(list);
             }
         });

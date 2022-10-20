@@ -1,5 +1,6 @@
 package chat.servlets.users;
 
+import engine.enigma.battlefield.BattlesManager;
 import engine.users.UserManager;
 
 import chat.constants.Constants;
@@ -25,6 +26,7 @@ public class LightweightLoginServlet extends HttpServlet {
         if (usernameFromSession == null) { //user is not logged in yet
 
             String usernameFromParameter = request.getParameter(USERNAME);
+            String entityParameter=request.getParameter("entity");
             if (usernameFromParameter == null || usernameFromParameter.isEmpty()) {
                 //no username in session and no username in parameter - not standard situation. it's a conflict
 
@@ -57,6 +59,10 @@ public class LightweightLoginServlet extends HttpServlet {
                     else {
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter);
+                        if(entityParameter.equals("ally"))
+                        {
+                            BattlesManager.getInstance().addAlly(usernameFromParameter);
+                        }
                         //set the username in a session so it will be available on each request
                         //the true parameter means that if a session object does not exists yet
                         //create a new one

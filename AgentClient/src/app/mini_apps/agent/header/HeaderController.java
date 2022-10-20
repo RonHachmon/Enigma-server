@@ -1,8 +1,7 @@
-package app.mini_apps.allies.header;
+package app.mini_apps.agent.header;
 
 
-
-import app.mini_apps.allies.bodies.absractScene.MainAppScene;
+import app.mini_apps.agent.bodies.absractScene.MainAppScene;
 import engine.enigma.machineutils.MachineManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,42 +20,13 @@ import java.util.ResourceBundle;
 public class HeaderController extends MainAppScene implements Initializable   {
     public static final String COMMAND_PROMPT_TTF = "/resources/fonts/windows_command_prompt.ttf";
 
-    @FXML
-    private Button dashboardButton;
-
-    @FXML
-    private Button contestButton;
-
-
-
-
 
     @FXML
     private Label titleLabel;
 
 
 
-    @FXML
-    void contestClicked(ActionEvent event) {
-        contestButton.setDisable(true);
-        dashboardButton.setDisable(false);
-        alliesController.displayEncrypt();
 
-    }
-
-    @FXML
-    void dashboardClicked(ActionEvent event) {
-        dashboardButton.setDisable(true);
-        contestButton.setDisable(false);
-        alliesController.displayMachineConfigScene();
-
-    }
-
-
-
-    public void setMachineManager(MachineManager machineManager) {
-        this.machineManager = machineManager;
-    }
 
 
 

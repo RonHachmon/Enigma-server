@@ -1,21 +1,20 @@
-package app.mini_apps.allies.bodies.absractScene;
+package app.mini_apps.agent.bodies.absractScene;
 
 
-
-import app.mini_apps.allies.AlliesController;
+import app.mini_apps.agent.AgentController;
 import engine.enigma.machineutils.MachineInformation;
 import engine.enigma.machineutils.MachineManager;
 
 public abstract class MainAppScene {
     protected MachineManager machineManager;
-    protected AlliesController alliesController;
+    protected AgentController agentController;
     protected MachineInformation machineInformation;
     public void setMachineManager(MachineManager machineManager) {
         this.machineManager = machineManager;
     }
 
-    public void setMainAppController(AlliesController alliesController) {
-        this.alliesController = alliesController;
+    public void setMainAppController(AgentController agentController) {
+        this.agentController = agentController;
     }
     public void setMachineInformation(MachineInformation machineInformation) {
         this.machineInformation = machineInformation;
