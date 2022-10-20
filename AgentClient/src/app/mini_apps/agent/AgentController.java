@@ -1,10 +1,10 @@
-package app.mini_apps.allies;
+package app.mini_apps.agent;
 
+import DTO.AgentData;
+import app.mini_apps.agent.bodies.absractScene.MainAppScene;
 
-import app.mini_apps.allies.bodies.ContestController;
-import app.mini_apps.allies.bodies.DashboardController;
-import app.mini_apps.allies.bodies.absractScene.MainAppScene;
-import app.mini_apps.allies.header.HeaderController;
+import app.mini_apps.agent.bodies.ContestController;
+import app.mini_apps.agent.header.HeaderController;
 import engine.enigma.battlefield.BattleFieldInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,14 +17,13 @@ import engine.enigma.machineutils.MachineManager;
 import java.net.URL;
 import java.util.*;
 
-public class AlliesController implements Initializable {
+public class AgentController implements Initializable {
 
     private MachineManager machineManager=new MachineManager();
     @FXML private VBox headerComponent;
-    @FXML private CheckMenuItem animationButton;
+
     @FXML private HeaderController headerComponentController;
-    @FXML private GridPane dashboardComponent;
-    @FXML private DashboardController dashboardComponentController;
+
     @FXML private GridPane contestComponent;
     @FXML private ContestController contestComponentController;
 
@@ -39,19 +38,8 @@ public class AlliesController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         addControllerToArray();
-
-
-
-        contestComponent.setVisible(false);
-
-
         headerComponentController.setMachineManager(machineManager);
         mainAppScenes.forEach(mainAppScene -> mainAppScene.setMainAppController(this));
-
-    }
-    @FXML
-    void enabledAnimation(ActionEvent event)
-    {
 
     }
     @FXML
@@ -70,40 +58,11 @@ public class AlliesController implements Initializable {
     }
 
     private void addControllerToArray() {
-
-
         mainAppScenes.add(headerComponentController);
-        mainAppScenes.add(dashboardComponentController);
         mainAppScenes.add(contestComponentController);
     }
 
-
-
-    public void displayMachineConfigScene() {
-        setAllPagesVisibilityToFalse();
-        this.dashboardComponent.setVisible(true);
-    }
-    public void displayEncrypt() {
-        setAllPagesVisibilityToFalse();
-        this.contestComponent.setVisible(true);
-    }
-
-
-    private void setAllPagesVisibilityToFalse()
-    {
-        this.contestComponent.setVisible(false);
-        this.dashboardComponent.setVisible(false);
-
-    }
-
-
-    public void startRefresh() {
-        this.dashboardComponentController.startListRefresher();
-    }
-
-    public void showContest(BattleFieldInfo joinedBattle) {
-        this.displayEncrypt();
-        this.contestComponentController.updateBattleInfo(joinedBattle);
-
+    public void setAgentData(AgentData agentData) {
+        this.contestComponentController.setAgentData(agentData);
     }
 }

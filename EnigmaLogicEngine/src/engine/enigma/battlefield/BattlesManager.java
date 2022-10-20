@@ -1,6 +1,8 @@
 package engine.enigma.battlefield;
 
+import DTO.AgentData;
 import DTO.AllBattles;
+import DTO.AlliesArray;
 import DTO.DecryptionCandidate;
 import engine.enigma.jaxb_classes.CTEBattlefield;
 
@@ -14,6 +16,7 @@ public class BattlesManager {
    private final LinkedList<BattleField> battleLinkedList=new LinkedList<>();
    private final Map<BattleField, List<DecryptionCandidate>> mapToDecryptionCandidates=new HashMap<>();
    private final Map<BattleField, List<InputStream>> mapToMachineFile=new HashMap<>();
+   private final Map<String, Ally> allAllies=new HashMap<>();
 
    private BattlesManager  ()
    {
@@ -71,13 +74,6 @@ public class BattlesManager {
       return null;
    }
 
-   public AllBattles convertToArray() {
-
-      return new AllBattles(battleLinkedList);
-
-   }
-
-
     public boolean joinBoatToBattle(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
          BattleField battleField = getBattleField(battleShip);
@@ -91,12 +87,27 @@ public class BattlesManager {
 
    public boolean joinAllyToBattle(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
-         BattleField battleField = getBattleField(battleShip);
-         if(battleField!=null)
-         {
-            battleField.addAlly(username);
-            return true;
+         Ally ally = allAllies.get(username);
+         if(ally!=null) {
+            BattleField battleField = getBattleField(battleShip);
+            if (battleField != null) {
+               battleField.addAlly(ally);
+               return true;
+            }
          }
+      }
+      return false;
+   }
+   public void joinAgentToBattle( AgentData agentData) {
+      Ally ally = allAllies.get(agentData.getAgentAlly());
+      ally.addAgent(agentData);
+   }
+
+   public synchronized boolean addAlly( String username) {
+      if(username!=null&&!username.isEmpty()) {
+         Ally ally =new Ally();
+         ally.setAllyName(username);
+         allAllies.computeIfAbsent(username,k->ally);
       }
       return false;
    }
@@ -104,13 +115,26 @@ public class BattlesManager {
       BattleField battleField = getBattleField(battleShip);
       if(battleField!=null)
       {
+
+         System.out.println("found battle");
          return battleField.getAllies();
       }
       return null;
 
    }
 
-    public void removeBoat(String battleShip, String username) {
+   public AgentData[] getAgents(String allyName)
+   {
+      Ally ally = allAllies.get(allyName);
+      List<BattleAgent> agentList = ally.getAgentList();
+      AgentData[] agentData=new AgentData[ally.getAgentList().size()];
+      for (int i = 0; i <agentData.length ; i++) {
+         agentData[i]=new AgentData (agentList.get(i),allyName);
+      }
+      return agentData;
+   }
+
+    public synchronized void removeBoat(String battleShip, String username) {
        if(username!=null&&!username.isEmpty()) {
           BattleField battleField = getBattleField(battleShip);
           if(battleField!=null)
@@ -119,10 +143,23 @@ public class BattlesManager {
           }
        }
     }
-   public void removeAlly(String battleShip, String username) {
+   public synchronized void removeAlly(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
          BattleField battleField = getBattleField(battleShip);
          battleField.removeAlly(username);
       }
    }
+
+   public AllBattles convertToArray() {
+
+      return new AllBattles(battleLinkedList);
+
+   }
+
+   public AlliesArray getAllAllies() {
+    return new AlliesArray(new ArrayList<>(allAllies.keySet()));
+   }
+
+
+
 }

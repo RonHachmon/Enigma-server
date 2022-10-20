@@ -43,6 +43,12 @@ public class joinBattleServlet extends HttpServlet {
         {
             battlesManager.joinAllyToBattle(battleShip,username);
         }
+        if(entity.equals("agent"))
+        {
+            String allyName = request.getParameter("ally");
+            allyName.replace('-', ' ');
+            allyName = cleanBattleName(allyName);
+        }
 
     }
 

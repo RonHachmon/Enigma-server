@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BattleField {
     private BattleFieldInfo battleFieldInfo;
-    private List<String> Allies=new ArrayList<>();
+    private List<Ally> allies =new ArrayList<>();
 
     public BattleFieldInfo getBattleFieldInfo() {
         return battleFieldInfo;
@@ -16,21 +16,35 @@ public class BattleField {
     }
 
     public List<String> getAllies() {
-        return Allies;
+        List<String> alliesName=new ArrayList<>();
+        System.out.println(allies.size());
+        allies.forEach(ally -> alliesName.add(ally.getAllyName()));
+        /*allies.stream().map(ally -> alliesName.add(ally.getAllyName()));*/
+        System.out.println("size of new arr"+alliesName.size());
+        return alliesName;
     }
 
-    public void setAllies(List<String> allies) {
-        Allies = allies;
+    public Ally getAlly(String allyName) {
+
+        for (Ally ally : allies) {
+            if (ally.getAllyName().equals(allyName)) {
+                return ally ;
+
+            }
+        }
+        return null;
     }
 
-    public void addAlly(String username) {
+
+
+    public void addAlly(Ally ally) {
+        allies.add(ally);
         battleFieldInfo.signAlly();
-        Allies.add(username);
 
     }
     public void removeAlly(String username) {
+        allies.remove(getAlly(username));
         battleFieldInfo.unSignAlly();
-        Allies.remove(username);
 
     }
 }

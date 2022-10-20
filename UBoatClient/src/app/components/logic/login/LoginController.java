@@ -52,6 +52,7 @@ public class LoginController {
                         .parse(Constants.LOGIN_PAGE)
                         .newBuilder()
                         .addQueryParameter("username", userName)
+                        .addQueryParameter("entity", "uboat")
                         .build()
                         .toString();
 

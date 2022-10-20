@@ -1,8 +1,12 @@
 package app.mini_apps.allies.bodies;
 
-import app.mini_apps.allies.bodies.absractScene.MainAppScene;
-import app.mini_apps.allies.refreshers.BattleListRefresher;
 
+
+
+import DTO.AgentData;
+import app.mini_apps.allies.bodies.absractScene.MainAppScene;
+import app.mini_apps.allies.refreshers.AgentListRefresher;
+import app.mini_apps.allies.refreshers.BattleListRefresher;
 import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.bruteForce2.utils.DifficultyLevel;
 import javafx.application.Platform;
@@ -29,16 +33,16 @@ import static web.Constants.*;
 public class DashboardController extends MainAppScene implements Initializable {
 
     @FXML
-    private TableView<?> agentsTable;
+    private TableView<AgentData> agentsTable;
 
     @FXML
-    private TableColumn<?, ?> agentColumn;
+    private TableColumn<AgentData, String> agentColumn;
 
     @FXML
-    private TableColumn<?, ?> threadsColumn;
+    private TableColumn<AgentData, Integer> threadsColumn;
 
     @FXML
-    private TableColumn<?, ?> taskColumn;
+    private TableColumn<AgentData, Integer> taskColumn;
 
 
 
@@ -66,7 +70,8 @@ public class DashboardController extends MainAppScene implements Initializable {
     private TableColumn<BattleFieldInfo, String> signedColumn;
 
     private Timer timer;
-    private TimerTask listRefresher;
+    private TimerTask battleListRefresher;
+    private TimerTask agentListRefresher;
     private BattleFieldInfo joinedBattle=null;
 
     @FXML
@@ -79,13 +84,17 @@ public class DashboardController extends MainAppScene implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setContestTable();
+        setAgentsTable();
         
     }
 
 
 
-
-
+    private void setAgentsTable() {
+        agentColumn.setCellValueFactory(new PropertyValueFactory<>("agentName"));
+        taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskSize"));
+        threadsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfThreads"));
+    }
     private void setContestTable() {
         battlefieldColumn.setCellValueFactory(new PropertyValueFactory<>("battleName"));
         uboatColumn.setCellValueFactory(new PropertyValueFactory<>("uboatName"));
@@ -189,11 +198,20 @@ public class DashboardController extends MainAppScene implements Initializable {
             contestTable.setItems(FXCollections.observableList(contestDetails));
         });
     }
+    private void updateAgentList(List<AgentData> agentData) {
+        Platform.runLater(() -> {
+            agentsTable.getItems().clear();
+            agentsTable.setItems(FXCollections.observableList(agentData));
+        });
+    }
 
     public void startListRefresher() {
-        listRefresher = new BattleListRefresher(this::updateContestList);
+        System.out.println("Nani??");
+        battleListRefresher = new BattleListRefresher(this::updateContestList);
+        agentListRefresher = new AgentListRefresher(this::updateAgentList);
         timer = new Timer();
-        timer.schedule(listRefresher, 200, REFRESH_RATE);
+        timer.schedule(battleListRefresher, 200, REFRESH_RATE);
+        timer.schedule(agentListRefresher, 200, REFRESH_RATE);
     }
 
 

@@ -1,9 +1,9 @@
 package app;
 
 
+import DTO.AgentData;
 import app.components.logic.login.LoginController;
-
-import app.mini_apps.allies.AlliesController;
+import app.mini_apps.agent.AgentController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,30 +13,32 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import web.http.HttpClientUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 
+import static web.Constants.*;
 
-import static web.Constants.JHON_DOE;
 
-
-public class AlliesAppMainController implements Closeable {
+public class AgentAppMainController implements Closeable {
     public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/app/components/logic/login/login.fxml";
 
     private GridPane loginComponent;
     private LoginController logicController;
 
     private Parent uboatComponent;
-    private AlliesController alliesController;
+    private AgentController agentController;
 
     @FXML private Label userGreetingLabel;
     @FXML private AnchorPane mainPanel;
 
     private final StringProperty currentUserName;
 
-    public AlliesAppMainController() {
+    public AgentAppMainController() {
         currentUserName = new SimpleStringProperty(JHON_DOE);
     }
 
@@ -79,15 +81,16 @@ public class AlliesAppMainController implements Closeable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logicController.startListRefresher();
     }
 
     private void loadUboatPage() {
-        URL url = getClass().getResource("/app/mini_apps/allies/alliesApp.fxml");
+        URL url = getClass().getResource("/app/mini_apps/agent/agentApp.fxml");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
             uboatComponent = fxmlLoader.load();
-            alliesController = fxmlLoader.getController();
+            agentController = fxmlLoader.getController();
            /* chatRoomComponentController.setChatAppMainController(this);*/
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,8 +100,30 @@ public class AlliesAppMainController implements Closeable {
 
     public void switchToChatRoom() {
         setMainPanelTo(uboatComponent);
-        alliesController.startRefresh();
+
 
     }
 
+    public void setAgentData(AgentData agentData) {
+        this.agentController.setAgentData(agentData);
+        this.addAgentHttpRequest( agentData);
+    }
+    private void addAgentHttpRequest(AgentData agentData)
+    {
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), GSON_INSTANCE.toJson(agentData));
+        HttpClientUtil.runAsyncWithBody(ADD_AGENT,new Callback(){
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+        },body);
+
+    }
 }
