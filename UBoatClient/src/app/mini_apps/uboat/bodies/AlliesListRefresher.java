@@ -2,6 +2,7 @@ package app.mini_apps.uboat.bodies;
 
 import DTO.AlliesArray;
 
+import DTO.AllyDTO;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -23,11 +24,11 @@ import static web.Constants.GSON_INSTANCE;
 public class AlliesListRefresher extends TimerTask {
 
 
-    private final Consumer<List<String>> usersListConsumer;
+    private final Consumer<List<AllyDTO>> usersListConsumer;
     private final String URL;
 
 
-    public AlliesListRefresher(Consumer<List<String>> usersListConsumer,String battleArea) {
+    public AlliesListRefresher(Consumer<List<AllyDTO>> usersListConsumer,String battleArea) {
         this.usersListConsumer = usersListConsumer;
         URL=GET_ALLIES+"?battleship="+battleArea;
     }
@@ -45,8 +46,9 @@ public class AlliesListRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 AlliesArray alliesArray =GSON_INSTANCE.fromJson(response.body().string(), AlliesArray.class);
-                List<String> list =new ArrayList<>();
-                String[] allies = alliesArray.getAllies();
+                List<AllyDTO> list =new ArrayList<>();
+                AllyDTO[] allies = alliesArray.getAllies();
+                System.out.println("uboat allies "+allies.length);
                 Arrays.stream(allies).forEach(battleField -> list.add(battleField));
                 usersListConsumer.accept(list);
             }

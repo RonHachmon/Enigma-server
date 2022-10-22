@@ -111,12 +111,10 @@ public class BattlesManager {
       }
       return false;
    }
-   public List<String> getAllies(String battleShip) {
+   public List<Ally> getAllies(String battleShip) {
       BattleField battleField = getBattleField(battleShip);
       if(battleField!=null)
       {
-
-         System.out.println("found battle");
          return battleField.getAllies();
       }
       return null;
@@ -157,9 +155,19 @@ public class BattlesManager {
    }
 
    public AlliesArray getAllAllies() {
-    return new AlliesArray(new ArrayList<>(allAllies.keySet()));
+
+      allAllies.size();
+
+    return new AlliesArray(new ArrayList<>(allAllies.values()));
    }
 
 
-
+   public void readyAlly(String username) {
+      Ally ally = this.allAllies.get(username);
+      if(ally!=null)
+      {
+         System.out.println("ready :D");
+         ally.setReady(true);
+      }
+   }
 }

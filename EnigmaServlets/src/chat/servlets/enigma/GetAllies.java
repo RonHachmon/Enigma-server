@@ -1,7 +1,9 @@
 package chat.servlets.enigma;
 
 import DTO.AlliesArray;
+import DTO.AllyDTO;
 import com.google.gson.Gson;
+import engine.enigma.battlefield.Ally;
 import engine.enigma.battlefield.BattlesManager;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,9 +27,10 @@ public class GetAllies extends HttpServlet {
         String battleShip = request.getParameter("battleship");
         System.out.println(battleShip);
         // validate input
-        List<String> allies = BattlesManager.getInstance().getAllies(battleShip);
-        System.out.println(allies.size());
+        List<Ally> allies = BattlesManager.getInstance().getAllies(battleShip);
         AlliesArray alliesArray=new AlliesArray(allies);
+        System.out.println(allies.size());
+        /*AlliesArray alliesArray=new AlliesArray(allies)*/;
 
 
         Gson gson = new Gson();

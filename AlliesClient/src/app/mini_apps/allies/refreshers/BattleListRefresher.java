@@ -43,7 +43,6 @@ public class BattleListRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("HEYOOO??");
                 AllBattles allBattles =GSON_INSTANCE.fromJson(response.body().string(), AllBattles.class);
                 List<BattleFieldInfo> list =new ArrayList<>();
                 BattleFieldInfo[] battleFields = allBattles.getBattleFields();
