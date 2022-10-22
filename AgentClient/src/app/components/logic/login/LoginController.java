@@ -125,29 +125,9 @@ public class LoginController {
                             errorMessageProperty.set("Something went wrong: " + responseBody)
                     );
                 } else {
-
-                    String json = "{\"id\":1,\"name\":\"John\"}";
-
-                    RequestBody body = RequestBody.create(
-                            MediaType.parse("application/json"), json);
-                    HttpClientUtil.runAsyncWithBody(ADD_AGENT,new Callback(){
-
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                        }
-                    },body);
-
-
                     Platform.runLater(() -> {
-                            agentAppMainController.updateUserName(userName);
-                            agentAppMainController.switchToChatRoom();
-
+                        agentAppMainController.updateUserName(userName);
+                        agentAppMainController.switchToChatRoom();
                         agentAppMainController.setAgentData(agentData);
                     });
                 }

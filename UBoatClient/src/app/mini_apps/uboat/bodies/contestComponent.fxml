@@ -233,6 +233,7 @@
                   <TableView fx:id="alliesTable" prefHeight="100000.0" prefWidth="111.0" style="-fx-border-color: black;">
                      <columns>
                         <TableColumn fx:id="alliesColumn" editable="false" prefWidth="75.0" text="allies" />
+                        <TableColumn fx:id="readyColumn" editable="false" prefWidth="75.0" text="ready" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

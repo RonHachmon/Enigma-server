@@ -32,6 +32,8 @@ public class Constants {
     public final static String UNJOIN_BATTLE = FULL_SERVER_PATH + "/unjoin";
     public final static String ADD_AGENT = FULL_SERVER_PATH + "/agent";
     public final static String GET_AGENTS = FULL_SERVER_PATH + "/agents";
+    public final static String READY = FULL_SERVER_PATH + "/ready";
+
 
 
 

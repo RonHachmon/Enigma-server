@@ -1,11 +1,13 @@
 package app.mini_apps.uboat.bodies;
 
+import DTO.AllyDTO;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
 import app.mini_apps.uboat.bodies.interfaces.CodeHolder;
 import engine.enigma.bruteForce2.utils.Dictionary;
 
 import javafx.application.Platform;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -56,10 +58,12 @@ public class ContestController extends MainAppScene implements Initializable, Co
     private FlowPane candidatesFlowPane;
 
     @FXML
-    private TableView<String> alliesTable;
+    private TableView<AllyDTO> alliesTable;
 
     @FXML
-    private TableColumn<String, String> alliesColumn;
+    private TableColumn<AllyDTO, String> alliesColumn;
+    @FXML
+    private TableColumn<AllyDTO, Boolean> readyColumn;
 
 
     private static String newline = System.getProperty("line.separator");
@@ -81,7 +85,8 @@ public class ContestController extends MainAppScene implements Initializable, Co
     }
 
     private void setAlliesTable() {
-        alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAllyName()));
+        readyColumn.setCellValueFactory(data -> new SimpleBooleanProperty(data.getValue().isReady()));
 
     }
     public void startListRefresher() {
@@ -89,7 +94,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
         timer = new Timer();
         timer.schedule(listRefresher, 200, REFRESH_RATE);
     }
-    private void updateAllies(List<String> alliesDetails) {
+    private void updateAllies(List<AllyDTO> alliesDetails) {
         Platform.runLater(() -> {
             alliesTable.getItems().clear();
             alliesTable.setItems(FXCollections.observableList(alliesDetails));

@@ -217,5 +217,36 @@ public class DashboardController extends MainAppScene implements Initializable {
 
     public void readyPressed(javafx.event.ActionEvent actionEvent) {
         this.alliesController.showContest(this.joinedBattle);
+        readyAllyInServer(HttpUrl
+                .parse(READY)
+                .newBuilder());
+    }
+
+    private  void readyAllyInServer(HttpUrl.Builder READY) {
+        String finalUrl = READY
+                .addQueryParameter("entity","ally")
+                .build()
+                .toString();
+
+
+        //currently does nothing except sending the request, maybe we should add something in the future.
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                /*  httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure...:(");*/
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    System.out.println(":(");
+                    /*httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());*/
+                }
+                else
+                {
+                    System.out.println(":D");
+                }
+            }
+        });
     }
 }

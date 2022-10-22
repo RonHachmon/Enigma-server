@@ -15,13 +15,14 @@ public class BattleField {
         this.battleFieldInfo = battleFieldInfo;
     }
 
-    public List<String> getAllies() {
-        List<String> alliesName=new ArrayList<>();
+    public List<Ally> getAllies() {
+        return allies;
+/*        List<String> alliesName=new ArrayList<>();
         System.out.println(allies.size());
         allies.forEach(ally -> alliesName.add(ally.getAllyName()));
-        /*allies.stream().map(ally -> alliesName.add(ally.getAllyName()));*/
+        *//*allies.stream().map(ally -> alliesName.add(ally.getAllyName()));*//*
         System.out.println("size of new arr"+alliesName.size());
-        return alliesName;
+        return alliesName;*/
     }
 
     public Ally getAlly(String allyName) {

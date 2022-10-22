@@ -43,7 +43,7 @@ public class AlliesListRefresher extends TimerTask {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 AlliesArray alliesArray =GSON_INSTANCE.fromJson(response.body().string(), AlliesArray.class);
                 List<String> list =new ArrayList<>();
-                String[] allies = alliesArray.getAllies();
+                String[] allies = alliesArray.getAlliesNames();
                 Arrays.stream(allies).forEach(battleField -> list.add(battleField));
                 usersListConsumer.accept(list);
             }
