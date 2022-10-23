@@ -106,6 +106,7 @@ public class AgentAppMainController implements Closeable {
 
     public void setAgentData(AgentData agentData) {
         this.agentController.setAgentData(agentData);
+        this.agentController.getBattleFile();
         this.addAgentHttpRequest( agentData);
     }
     private void addAgentHttpRequest(AgentData agentData)
@@ -124,6 +125,7 @@ public class AgentAppMainController implements Closeable {
 
             }
         },body);
+
 
     }
 }

@@ -4,6 +4,7 @@ package app.mini_apps.uboat.header;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
 
 import engine.enigma.machineutils.MachineManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 
 import static web.Constants.UPLOAD_FILE;
 import static web.Constants.JOIN_BATTLE;
+
 
 public class HeaderController extends MainAppScene implements Initializable   {
     public static final String COMMAND_PROMPT_TTF = "/resources/fonts/windows_command_prompt.ttf";
@@ -77,7 +79,7 @@ public class HeaderController extends MainAppScene implements Initializable   {
         if(selectedFile!=null) {
             this.fileHttpRequest(selectedFile);
         }
-        this.joinBattle();
+
 
     }
 
@@ -110,28 +112,40 @@ public class HeaderController extends MainAppScene implements Initializable   {
     }
 
     private  void fileHttpRequest(File selectedFile) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-
-        //build body
-        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("enigmaFile", selectedFile.getAbsolutePath(),
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("enigmaFile", selectedFile.getName(),
                         RequestBody.create(MediaType.parse("application/octet-stream"),
                                 selectedFile))
                 .build();
-        //build request
-        Request request = new Request.Builder()
-                .url(UPLOAD_FILE)
-                .method("POST", body)
-                .addHeader("Accept-Language", "en")
-                .build();
-        //sends request
-        Response response = client.newCall(request).execute();
-        //request send back the same file
-        machineManager.createMachineFromXML(response.body().byteStream());
 
-        updateGUI(selectedFile);
+        HttpClientUtil.runAsyncWithBody(UPLOAD_FILE, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if(response.isSuccessful())
+                {
+                    Platform.runLater(()->
+                    {
+                        machineManager.createMachineFromXML(response.body().byteStream());
+
+                        updateGUI(selectedFile);
+                        try {
+                            joinBattle();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    });
+                }
+
+            }
+        },requestBody);
     }
 
     private void updateGUI(File selectedFile) {

@@ -25,11 +25,11 @@ public class GetAllies extends HttpServlet {
 
         response.setContentType("application/json");
         String battleShip = request.getParameter("battleship");
-        System.out.println(battleShip);
+
         // validate input
         List<Ally> allies = BattlesManager.getInstance().getAllies(battleShip);
         AlliesArray alliesArray=new AlliesArray(allies);
-        System.out.println(allies.size());
+
         /*AlliesArray alliesArray=new AlliesArray(allies)*/;
 
 

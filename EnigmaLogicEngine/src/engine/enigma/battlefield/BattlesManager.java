@@ -15,7 +15,7 @@ public class BattlesManager {
    private static BattlesManager single_instance = null;
    private final LinkedList<BattleField> battleLinkedList=new LinkedList<>();
    private final Map<BattleField, List<DecryptionCandidate>> mapToDecryptionCandidates=new HashMap<>();
-   private final Map<BattleField, List<InputStream>> mapToMachineFile=new HashMap<>();
+   private final Map<BattleField, InputStream> mapToMachineFile=new HashMap<>();
    private final Map<String, Ally> allAllies=new HashMap<>();
 
    private BattlesManager  ()
@@ -63,7 +63,11 @@ public class BattlesManager {
 
 
    }
-   public BattleField getBattleField(String battleShip) {
+   public synchronized void addFile(InputStream file,String uboatName) {
+      BattleField battleField = this.getBattleFieldByBattleName(uboatName);
+      this.mapToMachineFile.put(battleField,file);
+   }
+   public BattleField getBattleFieldByBattleName(String battleShip) {
 
       for (BattleField battleField : battleLinkedList) {
          if (battleField.getBattleFieldInfo().getBattleName().equals(battleShip)) {
@@ -73,10 +77,20 @@ public class BattlesManager {
       }
       return null;
    }
+   public BattleField getBattleFieldByAllyName(String allyName) {
+
+      for (BattleField battleField : battleLinkedList) {
+         if(battleField.containsAlly(allyName))
+         {
+            return battleField;
+         }
+      }
+      return null;
+   }
 
     public boolean joinBoatToBattle(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
-         BattleField battleField = getBattleField(battleShip);
+         BattleField battleField = getBattleFieldByBattleName(battleShip);
          if(battleField!=null)
          {
             battleField.getBattleFieldInfo().setUboatName(username);
@@ -89,7 +103,7 @@ public class BattlesManager {
       if(username!=null&&!username.isEmpty()) {
          Ally ally = allAllies.get(username);
          if(ally!=null) {
-            BattleField battleField = getBattleField(battleShip);
+            BattleField battleField = getBattleFieldByBattleName(battleShip);
             if (battleField != null) {
                battleField.addAlly(ally);
                return true;
@@ -112,7 +126,7 @@ public class BattlesManager {
       return false;
    }
    public List<Ally> getAllies(String battleShip) {
-      BattleField battleField = getBattleField(battleShip);
+      BattleField battleField = getBattleFieldByBattleName(battleShip);
       if(battleField!=null)
       {
          return battleField.getAllies();
@@ -134,7 +148,7 @@ public class BattlesManager {
 
     public synchronized void removeBoat(String battleShip, String username) {
        if(username!=null&&!username.isEmpty()) {
-          BattleField battleField = getBattleField(battleShip);
+          BattleField battleField = getBattleFieldByBattleName(battleShip);
           if(battleField!=null)
           {
              this.battleLinkedList.removeFirstOccurrence(battleField);
@@ -143,7 +157,7 @@ public class BattlesManager {
     }
    public synchronized void removeAlly(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
-         BattleField battleField = getBattleField(battleShip);
+         BattleField battleField = getBattleFieldByBattleName(battleShip);
          battleField.removeAlly(username);
       }
    }
@@ -169,5 +183,10 @@ public class BattlesManager {
          System.out.println("ready :D");
          ally.setReady(true);
       }
+   }
+
+   public InputStream getFile(String allyName) {
+      BattleField battleFieldByAllyName = this.getBattleFieldByAllyName(allyName);
+      return mapToMachineFile.get(battleFieldByAllyName);
    }
 }

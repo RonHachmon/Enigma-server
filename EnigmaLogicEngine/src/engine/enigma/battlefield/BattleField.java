@@ -48,4 +48,14 @@ public class BattleField {
         battleFieldInfo.unSignAlly();
 
     }
+
+    public boolean containsAlly(String allyName) {
+        for (Ally ally:this.allies) {
+          if(ally.getAllyName().equals(allyName))
+          {
+              return true;
+          }
+        }
+        return false;
+    }
 }
