@@ -11,8 +11,6 @@ public class AlliesArray {
 
     public AlliesArray(List<Ally> dynamicAllies) {
         allies=new AllyDTO[dynamicAllies.size()];
-        System.out.println("debug?!?!");
-
         for (int i = 0; i <dynamicAllies.size() ; i++) {
             allies[i]=new AllyDTO(dynamicAllies.get(i));
         }
