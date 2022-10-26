@@ -4,6 +4,7 @@ package app.mini_apps.allies.bodies;
 
 
 import DTO.AgentData;
+import DTO.BattleFieldInfoDTO;
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
 import app.mini_apps.allies.refreshers.AgentListRefresher;
 import app.mini_apps.allies.refreshers.BattleListRefresher;
@@ -11,6 +12,7 @@ import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.bruteForce2.utils.DifficultyLevel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -52,27 +54,27 @@ public class DashboardController extends MainAppScene implements Initializable {
     //-------------------------------------------------
 
     @FXML
-    private TableView<BattleFieldInfo> contestTable;
+    private TableView<BattleFieldInfoDTO> contestTable;
 
     @FXML
-    private TableColumn<BattleFieldInfo, String> battlefieldColumn;
+    private TableColumn<BattleFieldInfoDTO, String> battlefieldColumn;
 
     @FXML
-    private TableColumn<BattleFieldInfo, String> uboatColumn;
+    private TableColumn<BattleFieldInfoDTO, String> uboatColumn;
 
     @FXML
-    private TableColumn<BattleFieldInfo, String> statusColumn;
+    private TableColumn<BattleFieldInfoDTO, String> statusColumn;
 
     @FXML
-    private TableColumn<BattleFieldInfo, DifficultyLevel> difficultyColumn;
+    private TableColumn<BattleFieldInfoDTO, DifficultyLevel> difficultyColumn;
 
     @FXML
-    private TableColumn<BattleFieldInfo, String> signedColumn;
+    private TableColumn<BattleFieldInfoDTO, String> signedColumn;
 
     private Timer timer;
     private TimerTask battleListRefresher;
     private TimerTask agentListRefresher;
-    private BattleFieldInfo joinedBattle=null;
+    private BattleFieldInfoDTO joinedBattle=null;
 
     @FXML
     private TextField battleTextField;
@@ -192,7 +194,7 @@ public class DashboardController extends MainAppScene implements Initializable {
     }
 
 
-    private void updateContestList(List<BattleFieldInfo> contestDetails) {
+    private void updateContestList(List<BattleFieldInfoDTO> contestDetails) {
         Platform.runLater(() -> {
             contestTable.getItems().clear();
             contestTable.setItems(FXCollections.observableList(contestDetails));
@@ -215,38 +217,10 @@ public class DashboardController extends MainAppScene implements Initializable {
     }
 
 
-    public void readyPressed(javafx.event.ActionEvent actionEvent) {
+    public void readyPressed(ActionEvent actionEvent) {
         this.alliesController.showContest(this.joinedBattle);
-        readyAllyInServer(HttpUrl
-                .parse(READY)
-                .newBuilder());
+
     }
 
-    private  void readyAllyInServer(HttpUrl.Builder READY) {
-        String finalUrl = READY
-                .addQueryParameter("entity","ally")
-                .build()
-                .toString();
 
-
-        //currently does nothing except sending the request, maybe we should add something in the future.
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                /*  httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure...:(");*/
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    System.out.println(":(");
-                    /*httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());*/
-                }
-                else
-                {
-                    System.out.println(":D");
-                }
-            }
-        });
-    }
 }

@@ -1,29 +1,36 @@
 package DTO;
 
-import engine.enigma.battlefield.Ally;
+import engine.enigma.battlefield.entities.Ally;
 
 public class AllyDTO {
     private String allyName;
     private boolean isReady;
+    private int numberOfAgents;
+    private Integer taskSize;
 
     public AllyDTO(Ally ally) {
         this.allyName = ally.getAllyName();
         this.isReady=ally.isReady();
+        this.numberOfAgents=ally.getAgentList().size();
+        this.taskSize=ally.getEnigmaTasks().getTaskSize();
     }
 
     public String getAllyName() {
         return allyName;
     }
 
-    public void setAllyName(String allyName) {
-        this.allyName = allyName;
-    }
 
     public boolean isReady() {
         return isReady;
     }
 
-    public void setReady(boolean ready) {
-        isReady = ready;
+
+
+    public int getNumberOfAgents() {
+        return numberOfAgents;
+    }
+
+    public Integer getTaskSize() {
+        return taskSize;
     }
 }

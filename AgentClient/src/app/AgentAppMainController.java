@@ -100,8 +100,6 @@ public class AgentAppMainController implements Closeable {
 
     public void switchToChatRoom() {
         setMainPanelTo(uboatComponent);
-
-
     }
 
     public void setAgentData(AgentData agentData) {
@@ -113,7 +111,7 @@ public class AgentAppMainController implements Closeable {
     {
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), GSON_INSTANCE.toJson(agentData));
-        HttpClientUtil.runAsyncWithBody(ADD_AGENT,new Callback(){
+        HttpClientUtil.runAsyncWithBody(AGENTS_DATA,new Callback(){
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {

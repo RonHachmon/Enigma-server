@@ -10,18 +10,18 @@ public class BattleFieldInfo {
     private String battleName;
 
     private int requiredAllies;
-    private String status="on hold";
+
 
     private String uboatName;
     private int signedAllies=0;
-    private String currentAndRequiredRatio="";
+
+    private boolean isStarted=false;
 
     public static BattleFieldInfo createFromXML(CTEBattlefield cteBattlefield) {
         BattleFieldInfo battleField=new BattleFieldInfo();
         battleField.setBattleName(cteBattlefield.getBattleName());
         battleField.setRequiredAllies(cteBattlefield.getAllies());
         battleField.setDifficultyByString(cteBattlefield.getLevel());
-        battleField.updateSignedRatio();
         return battleField;
 
     }
@@ -87,42 +87,30 @@ public class BattleFieldInfo {
     public int getSignedAllies() {
         return signedAllies;
     }
+    public boolean getIsStarted() {
+        return isStarted;
+    }
 
     public void setSignedAllies(int signedAllies) {
         this.signedAllies = signedAllies;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCurrentAndRequiredRatio() {
-        return currentAndRequiredRatio;
-    }
-
-    public void setCurrentAndRequiredRatio(String currentAndRequiredRatio) {
-        this.currentAndRequiredRatio = currentAndRequiredRatio;
-    }
     public void signAlly()
     {
         this.signedAllies=this.getSignedAllies()+1;
-        updateSignedRatio();
     }
     public void unSignAlly()
     {
         this.signedAllies=this.getSignedAllies()-1;
-        updateSignedRatio();
     }
 
-    private void updateSignedRatio() {
-        this.currentAndRequiredRatio=this.signedAllies+"/"+this.requiredAllies;
-    }
+
 
     public boolean isFull() {
         return this.signedAllies==this.requiredAllies;
+    }
+
+    public void startBattle( ) {
+        isStarted=true;
     }
 }

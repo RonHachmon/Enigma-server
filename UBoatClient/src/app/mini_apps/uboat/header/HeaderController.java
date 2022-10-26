@@ -37,6 +37,8 @@ public class HeaderController extends MainAppScene implements Initializable   {
 
     @FXML
     private Button encryptButton;
+    @FXML
+    private Button loadButton;
 
 
 
@@ -60,6 +62,7 @@ public class HeaderController extends MainAppScene implements Initializable   {
         encryptButton.setDisable(true);
         machineButton.setDisable(false);
         uboatController.displayContest();
+
 
     }
 
@@ -154,6 +157,7 @@ public class HeaderController extends MainAppScene implements Initializable   {
         uboatController.resetAll();
         uboatController.updateAllControllers();
         this.machineButton.setDisable(true);
+        this.loadButton.setDisable(true);
     }
 
 

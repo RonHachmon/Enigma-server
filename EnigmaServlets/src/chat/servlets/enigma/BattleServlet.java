@@ -1,9 +1,9 @@
 package chat.servlets.enigma;
 
-import DTO.AlliesArray;
-import DTO.AllyDTO;
+
+import DTO.BattleFieldInfoDTO;
 import com.google.gson.Gson;
-import engine.enigma.battlefield.Ally;
+import engine.enigma.battlefield.BattleField;
 import engine.enigma.battlefield.BattlesManager;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,28 +13,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import java.util.List;
+@WebServlet("/battles")
+public class BattleServlet extends HttpServlet {
 
-
-//gets all allies per battle
-//query parameter:
-// battleship - name of the battleship that the allies connected to
-@WebServlet("/allies")
-public class GetAllies extends HttpServlet {
+    //return battle data that the ally connect to
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/json");
-        String battleShip = request.getParameter("battleship");
-
         // validate input
-        List<Ally> allies = BattlesManager.getInstance().getAllies(battleShip);
-        AlliesArray alliesArray=new AlliesArray(allies);
-
-        /*AlliesArray alliesArray=new AlliesArray(allies)*/;
-
+        String allyName = request.getParameter("ally");
+        BattleField battleField = BattlesManager.getInstance().getBattleFieldByAllyName(allyName);
+        BattleFieldInfoDTO battleFieldInfoDTO=null;
+        if(battleField!=null) {
+             battleFieldInfoDTO = new BattleFieldInfoDTO(battleField.getBattleFieldInfo());
+        }
 
         Gson gson = new Gson();
-        String jsonResponse = gson.toJson(alliesArray);
+        String jsonResponse = gson.toJson(battleFieldInfoDTO);
 
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse);

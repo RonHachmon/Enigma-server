@@ -1,6 +1,6 @@
 package app.mini_apps.allies.refreshers;
 
-import DTO.AgentData;
+import DTO.BattleStatusDTO;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -9,24 +9,22 @@ import web.Constants;
 import web.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
 import static web.Constants.GSON_INSTANCE;
 
 
-public class AgentListRefresher extends TimerTask {
+public class BattleStatusRefresher extends TimerTask {
 
 
-    private final Consumer<List<AgentData>> usersListConsumer;
-    private final String url=Constants.AGENTS_DATA +"?entity=battle";
+    private final Consumer<BattleStatusDTO> battleStatusConsumer;
+    private final String url;
 
 
-    public AgentListRefresher(Consumer<List<AgentData>> usersListConsumer) {
-        this.usersListConsumer = usersListConsumer;
+    public BattleStatusRefresher(Consumer<BattleStatusDTO> battleStatusConsumer,String battleName) {
+        this.battleStatusConsumer = battleStatusConsumer;
+        url=Constants.BATTLE_STATUS+"?battleship="+battleName;
     }
 
     @Override
@@ -41,11 +39,9 @@ public class AgentListRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                AgentData[] agentData =GSON_INSTANCE.fromJson(response.body().string(), AgentData[].class);
-                List<AgentData> list =new ArrayList<>();
+                BattleStatusDTO battleStatusDTO =GSON_INSTANCE.fromJson(response.body().string(), BattleStatusDTO.class);
 
-                Arrays.stream(agentData).forEach(agent -> list.add(agent));
-                usersListConsumer.accept(list);
+                battleStatusConsumer.accept(battleStatusDTO);
             }
         });
     }

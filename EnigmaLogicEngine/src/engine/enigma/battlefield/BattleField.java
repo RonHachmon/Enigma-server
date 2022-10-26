@@ -1,11 +1,17 @@
 package engine.enigma.battlefield;
 
+import engine.enigma.battlefield.entities.Ally;
+import engine.enigma.battlefield.entities.BattleStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BattleField {
     private BattleFieldInfo battleFieldInfo;
     private List<Ally> allies =new ArrayList<>();
+
+    private String enctyptedMessage;
+    private BattleStatus battleStatus=BattleStatus.IDLE;
 
     public BattleFieldInfo getBattleFieldInfo() {
         return battleFieldInfo;
@@ -17,12 +23,7 @@ public class BattleField {
 
     public List<Ally> getAllies() {
         return allies;
-/*        List<String> alliesName=new ArrayList<>();
-        System.out.println(allies.size());
-        allies.forEach(ally -> alliesName.add(ally.getAllyName()));
-        *//*allies.stream().map(ally -> alliesName.add(ally.getAllyName()));*//*
-        System.out.println("size of new arr"+alliesName.size());
-        return alliesName;*/
+
     }
 
     public Ally getAlly(String allyName) {
@@ -57,5 +58,21 @@ public class BattleField {
           }
         }
         return false;
+    }
+
+    public String getEnctyptedMessage() {
+        return enctyptedMessage;
+    }
+
+    public void setEnctyptedMessage(String enctyptedMessage) {
+        this.enctyptedMessage = enctyptedMessage;
+    }
+
+    public void setStatus(BattleStatus inProgress) {
+        battleStatus=inProgress;
+    }
+
+    public BattleStatus getBattleStatus() {
+        return battleStatus;
     }
 }

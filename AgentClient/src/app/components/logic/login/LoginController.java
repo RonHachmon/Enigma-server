@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static web.Constants.ADD_AGENT;
+
 import static web.Constants.REFRESH_RATE;
 
 public class LoginController {

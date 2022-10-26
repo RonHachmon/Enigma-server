@@ -30,9 +30,15 @@ public class Constants {
     public final static String GET_ENTITIES = FULL_SERVER_PATH + "/entities";
 
     public final static String UNJOIN_BATTLE = FULL_SERVER_PATH + "/unjoin";
-    public final static String ADD_AGENT = FULL_SERVER_PATH + "/agent";
-    public final static String GET_AGENTS = FULL_SERVER_PATH + "/agents";
+    public final static String AGENTS_DATA = FULL_SERVER_PATH + "/agent";
+    public final static String BATTLE_DATA = FULL_SERVER_PATH + "/battles";
+
     public final static String READY = FULL_SERVER_PATH + "/ready";
+
+
+
+    public final static String UPDATE_TASK = FULL_SERVER_PATH + "/task";
+    public final static String BATTLE_STATUS = FULL_SERVER_PATH + "/update-status";
 
 
 

@@ -64,9 +64,12 @@ public class AgentController implements Initializable {
 
     public void setAgentData(AgentData agentData) {
         this.contestComponentController.setAgentData(agentData);
+        contestComponentController.startBattleInfoRefresher();
     }
 
     public void getBattleFile() {
         this.contestComponentController.getBattleFile();
     }
+
+
 }
