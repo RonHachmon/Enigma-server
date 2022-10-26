@@ -1,9 +1,9 @@
 package engine.enigma.battlefield;
 
-import DTO.AgentData;
-import DTO.AllBattles;
-import DTO.AlliesArray;
-import DTO.DecryptionCandidate;
+import DTO.*;
+import engine.enigma.battlefield.entities.Ally;
+import engine.enigma.battlefield.entities.BattleAgent;
+import engine.enigma.battlefield.entities.BattleStatus;
 import engine.enigma.jaxb_classes.CTEBattlefield;
 
 import java.io.InputStream;
@@ -188,5 +188,32 @@ public class BattlesManager {
    public InputStream getFile(String allyName) {
       BattleField battleFieldByAllyName = this.getBattleFieldByAllyName(allyName);
       return mapToMachineFile.get(battleFieldByAllyName);
+   }
+
+    public void updateTask(String allyName,Integer taskSize) {
+       Ally ally = this.allAllies.get(allyName);
+       ally.setEnigmaTasks(taskSize);
+    }
+
+   public void updateEncryptedWord(String battleShip, String encryptedMessage) {
+      BattleField battleField=getBattleFieldByBattleName(battleShip);
+      battleField.setEnctyptedMessage(encryptedMessage);
+   }
+
+
+
+   public void start(String battleShip, MachineInformationDTO machineInformationDTO) {
+      BattleField battleField=getBattleFieldByBattleName(battleShip);
+      battleField.setStatus(BattleStatus.INPROGRESS);
+      List<Ally> allies = battleField.getAllies();
+      for (Ally ally:allies)
+      {
+         ally.startProducer(machineInformationDTO);
+      }
+   }
+
+   public String getBattleStatus(String battleShip) {
+      BattleField battleField=getBattleFieldByBattleName(battleShip);
+      return battleField.getBattleStatus().toString();
    }
 }

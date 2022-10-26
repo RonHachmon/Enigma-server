@@ -1,8 +1,6 @@
 package DTO;
 
-import engine.enigma.battlefield.Ally;
-import engine.enigma.battlefield.BattleField;
-import engine.enigma.battlefield.BattleFieldInfo;
+import engine.enigma.battlefield.entities.Ally;
 
 import java.util.List;
 

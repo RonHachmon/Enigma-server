@@ -1,9 +1,14 @@
 package app.mini_apps.agent.bodies;
 
 import DTO.AgentData;
+import DTO.BattleFieldInfoDTO;
+import DTO.BattleStatusDTO;
 import app.mini_apps.agent.bodies.absractScene.MainAppScene;
+import app.mini_apps.agent.bodies.refreshers.BattleInfoRefresher;
+import app.mini_apps.agent.bodies.refreshers.BattleStatusRefresher;
 import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.machineutils.MachineManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,7 +21,10 @@ import org.jetbrains.annotations.NotNull;
 import web.http.HttpClientUtil;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static web.Constants.REFRESH_RATE;
 import static web.Constants.UPLOAD_FILE;
 
 public class ContestController extends MainAppScene {
@@ -52,13 +60,15 @@ public class ContestController extends MainAppScene {
     @FXML
     private Label totalTaskDone;
 
+    private Timer timer=new Timer();
+
+    private TimerTask battleStatusRefresher;
+    private TimerTask battleInfoRefresher;
+
 
     private MachineManager machineManager=new MachineManager();
 
-    public void updateBattleInfo(BattleFieldInfo joinedBattle) {
-        difficulty.setText(joinedBattle.getLevel().toString());
-        battleFieldName.setText(joinedBattle.getBattleName());
-    }
+
 
     public void setAgentData(AgentData agentData) {
         this.agentData=agentData;
@@ -83,5 +93,51 @@ public class ContestController extends MainAppScene {
 
             }
         });
+    }
+    public void startBattleInfoRefresher() {
+
+        battleInfoRefresher =new BattleInfoRefresher(this::updateBattleInfo,this.allyLabel.getText());
+        startTimer(battleInfoRefresher);
+    }
+    private void startBattleStatusRefresher() {
+
+        battleStatusRefresher =new BattleStatusRefresher(this::updateByStatus,this.battleFieldName.getText());
+        startTimer(battleStatusRefresher);
+    }
+    private void startTimer(TimerTask timerTask) {
+        timer.schedule(timerTask, 200, REFRESH_RATE);
+    }
+    private void updateByStatus(BattleStatusDTO battleStatusDTO) {
+
+
+        if(battleStatusDTO.getStatus().equals("In Progress"))
+        {
+            Platform.runLater(()->
+            {
+                System.out.println("ally app yay :D");
+                this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
+            });
+        }
+        if(battleStatusDTO.getStatus().equals("Finished"))
+        {
+
+        }
+        if(battleStatusDTO.getStatus().equals("Idle"))
+        {
+
+        }
+
+    }
+    private void updateBattleInfo(BattleFieldInfoDTO battleFieldInfoDTO) {
+        if(battleFieldInfoDTO!=null) {
+            Platform.runLater(() ->
+            {
+                this.battleFieldName.setText(battleFieldInfoDTO.getBattleName());
+                this.difficulty.setText(battleFieldInfoDTO.getLevel().toString());
+                startBattleStatusRefresher();
+            });
+        }
+
+
     }
 }

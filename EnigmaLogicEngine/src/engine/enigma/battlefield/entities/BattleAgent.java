@@ -1,4 +1,4 @@
-package engine.enigma.battlefield;
+package engine.enigma.battlefield.entities;
 
 import DTO.AgentData;
 

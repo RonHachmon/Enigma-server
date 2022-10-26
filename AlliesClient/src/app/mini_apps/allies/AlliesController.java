@@ -1,6 +1,7 @@
 package app.mini_apps.allies;
 
 
+import DTO.BattleFieldInfoDTO;
 import app.mini_apps.allies.bodies.ContestController;
 import app.mini_apps.allies.bodies.DashboardController;
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
@@ -101,9 +102,10 @@ public class AlliesController implements Initializable {
         this.dashboardComponentController.startListRefresher();
     }
 
-    public void showContest(BattleFieldInfo joinedBattle) {
+    public void showContest(BattleFieldInfoDTO joinedBattle) {
         this.displayEncrypt();
         this.contestComponentController.updateBattleInfo(joinedBattle);
+        this.contestComponentController.startListRefresher();
 
     }
 }

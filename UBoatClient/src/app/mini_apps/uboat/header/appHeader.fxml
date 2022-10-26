@@ -37,7 +37,7 @@
             <RowConstraints maxHeight="70.0" minHeight="50.0" prefHeight="51.0" vgrow="ALWAYS" />
          </rowConstraints>
          <children>
-            <Button id="load-button" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadXML" prefHeight="42.0" text="Load XML  " GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <Button id="load-button" fx:id="loadButton" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadXML" prefHeight="42.0" text="Load XML  " GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

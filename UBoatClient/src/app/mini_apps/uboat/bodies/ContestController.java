@@ -1,6 +1,7 @@
 package app.mini_apps.uboat.bodies;
 
 import DTO.AllyDTO;
+import DTO.MachineInformationDTO;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
 import app.mini_apps.uboat.bodies.interfaces.CodeHolder;
 import engine.enigma.bruteForce2.utils.Dictionary;
@@ -16,21 +17,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import web.http.HttpClientUtil;
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static web.Constants.REFRESH_RATE;
+import static web.Constants.*;
 
 
 public class ContestController extends MainAppScene implements Initializable, CodeHolder {
-
-
-
 
     @FXML
     private Label currentCode;
@@ -64,17 +66,32 @@ public class ContestController extends MainAppScene implements Initializable, Co
     private TableColumn<AllyDTO, String> alliesColumn;
     @FXML
     private TableColumn<AllyDTO, Boolean> readyColumn;
+    @FXML
+    private TableColumn<AllyDTO, Integer> agentColumn;
+
+    @FXML
+    private TableColumn<AllyDTO, Integer> taskColumn;
+
+    @FXML
+    private Button readyButton;
 
 
     private static String newline = System.getProperty("line.separator");
 
     boolean clearTextClicked=false;
-    private boolean toAnimate=false;
+    private boolean isReady=false;
     private Dictionary dictionary;
 
     private Timer timer;
     private TimerTask listRefresher;
+    private Boolean autoUpdateAllies;
+    private String battleName;
 
+
+    public ContestController() {
+
+        autoUpdateAllies = new Boolean(true);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setInitialDictionaryTable();
@@ -83,14 +100,33 @@ public class ContestController extends MainAppScene implements Initializable, Co
                 addListener((object, oldValue, newValue) -> filterDictionaryTable(newValue));
 
     }
+    @FXML
+    void runClicked(ActionEvent event) {
+        try {
+            String output = this.machineManager.encryptSentenceAndAddToStatistic(inputArea.getText().toUpperCase());
+            outputArea.setText(output);
+            uboatController.updateMachineCode(machineManager.getCurrentCodeSetting());
+            this.readyButton.setDisable(false);
+        }
+        catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText(e.getMessage());
+            a.setTitle("Invalid character");
+            a.show();
+        }
+
+    }
 
     private void setAlliesTable() {
         alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAllyName()));
         readyColumn.setCellValueFactory(data -> new SimpleBooleanProperty(data.getValue().isReady()));
+        agentColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfAgents"));
+        taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskSize"));
 
     }
     public void startListRefresher() {
-        listRefresher = new AlliesListRefresher(this::updateAllies,this.machineManager.getBattleField().getBattleName());
+        this.battleName = this.machineManager.getBattleField().getBattleName();
+        listRefresher = new AlliesListRefresher(autoUpdateAllies,this::updateAllies, battleName);
         timer = new Timer();
         timer.schedule(listRefresher, 200, REFRESH_RATE);
     }
@@ -99,9 +135,56 @@ public class ContestController extends MainAppScene implements Initializable, Co
             alliesTable.getItems().clear();
             alliesTable.setItems(FXCollections.observableList(alliesDetails));
         });
+        if(isReady)
+        {
+            if(this.isAllAlliesReady(alliesDetails))
+            {
+                autoUpdateAllies=false;
+                this.startBattleInServer();
+            }
+        }
     }
 
+    private void startBattleInServer() {
+        MachineInformationDTO machineInformationDTO=new MachineInformationDTO(this.machineManager,outputArea.getText());
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), GSON_INSTANCE.toJson(machineInformationDTO));
+        HttpClientUtil.runAsyncWithBody(BATTLE_STATUS+"?battleship="+this.battleName,new Callback(){
 
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+        },body);
+    }
+
+    private boolean isAllAlliesReady(List<AllyDTO> alliesDetails) {
+        for (AllyDTO allyDTO:alliesDetails) {
+            if (!allyDTO.isReady())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @FXML
+    void pressedReady(ActionEvent event) {
+        inputArea.setDisable(true);
+        outputArea.setDisable(true);
+        this.runButton.setDisable(true);
+        isReady=true;
+
+
+
+    }
+
+    //---------------------dictionary Related---------------------------------------
     @FXML
     void selectedWord(MouseEvent event) {
         if (event.getClickCount() == 2) {
@@ -135,6 +218,9 @@ public class ContestController extends MainAppScene implements Initializable, Co
         wordsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
     }
 
+    //---------------------End of Dictionary Related---------------------------------------
+    //---------------------encryptRelated---------------------------------------
+
     @FXML
     void clearTextClicked(ActionEvent event) {
         this.clearTextClicked=true;
@@ -154,37 +240,12 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
     }
 
-
-
-    @FXML
-    void runClicked(ActionEvent event) {
-        try {
-            String output = this.machineManager.encryptSentenceAndAddToStatistic(inputArea.getText().toUpperCase());
-            outputArea.setText(output);
-            updateStatistic();
-            uboatController.updateMachineCode(machineManager.getCurrentCodeSetting());
-        }
-        catch (Exception e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText(e.getMessage());
-            a.setTitle("Invalid character");
-            a.show();
-        }
-
-    }
-
-    private void updateStatistic() {
-        this.uboatController.updateTotalWordEncrypted( this.machineManager.getProcessedInputCounter());
-
-    }
-
-
-
     public void clearText() {
         inputArea.setText("");
         outputArea.setText("");
 
     }
+    //---------------------End of encryptRelated---------------------------------------
 
     @Override
     public void updateCode(String code) {

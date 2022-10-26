@@ -1,6 +1,6 @@
 package DTO;
 
-import engine.enigma.battlefield.BattleAgent;
+import engine.enigma.battlefield.entities.BattleAgent;
 
 public class AgentData {
     private String agentAlly;

@@ -21,8 +21,8 @@
 <GridPane styleClass="grid-panes" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mini_apps.uboat.bodies.ContestController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="10.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" prefWidth="600.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="265.0" prefWidth="265.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
    </columnConstraints>
    <rowConstraints>
@@ -31,15 +31,15 @@
       <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <BorderPane styleClass="pane" GridPane.columnIndex="1">
+      <BorderPane minWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1">
          <center>
             <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="349.0" prefWidth="600.0">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="150.0" prefWidth="155.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="150.0" prefWidth="150.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="48.0" prefWidth="140.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="48.0" prefWidth="140.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="40.0" prefWidth="40.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="150.0" prefWidth="150.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="150.0" prefWidth="150.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="48.0" prefWidth="140.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="48.0" prefWidth="140.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="ALWAYS" />
@@ -53,7 +53,7 @@
                         <TextArea fx:id="inputArea" prefWidth="120.0" promptText="input" styleClass="encrypt-text-area" />
                      </center>
                      <top>
-                        <Label id="message-title" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="INPUT" BorderPane.alignment="CENTER">
+                        <Label id="message-title" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="40.0" text="INPUT" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -75,7 +75,7 @@
                         </TextArea>
                      </center>
                      <top>
-                        <Label id="message-title" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="OUTPUT" BorderPane.alignment="CENTER">
+                        <Label id="message-title" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="40.0" text="OUTPUT" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -88,7 +88,7 @@
                   <HBox alignment="CENTER" GridPane.columnSpan="5" GridPane.rowIndex="1">
                      <children>
                         <FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" opacity="0.0" prefHeight="1.0" prefWidth="3.0" prefWrapLength="0.0" visible="false" />
-                        <Button minHeight="31.0" minWidth="113.0" mnemonicParsing="false" onAction="#clearTextClicked" prefHeight="31.0" prefWidth="113.0" text="CLEAR TEXT">
+                        <Button minHeight="31.0" minWidth="20.0" mnemonicParsing="false" onAction="#clearTextClicked" prefHeight="31.0" prefWidth="113.0" text="CLEAR TEXT">
                            <HBox.margin>
                               <Insets bottom="12.0" left="10.0" right="10.0" top="12.0" />
                            </HBox.margin>
@@ -96,7 +96,7 @@
                               <Font size="15.0" />
                            </font>
                         </Button>
-                        <Button minHeight="31.0" minWidth="113.0" mnemonicParsing="false" onAction="#resetCodeClicked" prefHeight="31.0" prefWidth="113.0" text="RESET CODE">
+                        <Button minHeight="31.0" minWidth="20.0" mnemonicParsing="false" onAction="#resetCodeClicked" prefHeight="31.0" prefWidth="113.0" text="RESET CODE">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -104,13 +104,18 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button minHeight="31.0" minWidth="110.0" mnemonicParsing="false" onAction="#resetAndClear" prefHeight="31.0" prefWidth="113.0" text="CLEAR + RESET">
+                        <Button minHeight="31.0" minWidth="20.0" mnemonicParsing="false" onAction="#resetAndClear" prefHeight="31.0" prefWidth="113.0" text="CLEAR + RESET">
                            <font>
                               <Font size="15.0" />
                            </font>
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                        </Button>
+                        <Button id="load-button" fx:id="readyButton" disable="true" minHeight="31.0" minWidth="20.0" mnemonicParsing="false" onAction="#pressedReady" prefHeight="31.0" prefWidth="113.0" text="READY">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
                         </Button>
                      </children>
                      <GridPane.margin>
@@ -187,14 +192,14 @@
             <Insets left="10.0" top="10.0" />
          </GridPane.margin>
       </BorderPane>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <BorderPane minWidth="40.0" prefHeight="200.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
          <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="40.0" BorderPane.alignment="CENTER">
                <content>
-                  <FlowPane fx:id="candidatesFlowPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWrapLength="150.0" rowValignment="TOP" style="-fx-background-color: CCCCCC;" />
+                  <FlowPane fx:id="candidatesFlowPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="40.0" prefWrapLength="150.0" rowValignment="TOP" style="-fx-background-color: CCCCCC;" />
                </content>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="15.0" right="15.0" />
@@ -202,7 +207,7 @@
             </ScrollPane>
          </center>
          <top>
-            <Label styleClass="text-labels" text="candidate " BorderPane.alignment="CENTER">
+            <Label minWidth="40.0" styleClass="text-labels" text="candidate " BorderPane.alignment="CENTER">
                <font>
                   <Font size="56.0" />
                </font>
@@ -234,6 +239,8 @@
                      <columns>
                         <TableColumn fx:id="alliesColumn" editable="false" prefWidth="75.0" text="allies" />
                         <TableColumn fx:id="readyColumn" editable="false" prefWidth="75.0" text="ready" />
+                        <TableColumn fx:id="agentColumn" editable="false" prefWidth="75.0" text="agents" />
+                        <TableColumn fx:id="taskColumn" editable="false" prefWidth="75.0" text="task size" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

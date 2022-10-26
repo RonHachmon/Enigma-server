@@ -1,7 +1,9 @@
-package engine.enigma.battlefield;
+package engine.enigma.battlefield.entities;
 
 import DTO.AgentData;
-import engine.enigma.bruteForce2.Agent;
+import DTO.CodeSettingDTO;
+import DTO.MachineInformationDTO;
+import engine.enigma.battlefield.entities.task.EnigmaTasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,18 @@ public class Ally {
     private String allyName;
     private List<BattleAgent> agentList=new ArrayList<>();
     private boolean isReady=false;
+
+    private EnigmaTasks enigmaTasks=new EnigmaTasks();
+
+    public EnigmaTasks getEnigmaTasks() {
+        return enigmaTasks;
+    }
+
+    public void setEnigmaTasks(Integer enigmaTasks) {
+        this.enigmaTasks.setTaskSize(enigmaTasks);
+    }
+
+
 
     public String getAllyName() {
         return allyName;
@@ -38,5 +52,9 @@ public class Ally {
     public void addAgent(AgentData agentData) {
         BattleAgent battleAgent=new BattleAgent(agentData);
         this.agentList.add(battleAgent);
+    }
+
+    public void startProducer(MachineInformationDTO machineInformationDTO) {
+        enigmaTasks.startProducer(machineInformationDTO);
     }
 }
