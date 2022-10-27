@@ -1,7 +1,6 @@
 package chat.servlets.enigma;
 
 import DTO.BattleStatusDTO;
-import DTO.CodeSettingDTO;
 import DTO.MachineInformationDTO;
 import com.google.gson.Gson;
 import engine.enigma.battlefield.BattleField;
@@ -33,7 +32,7 @@ public class BattleStatusServlet extends HttpServlet {
         BattleStatusDTO battleStatusDTO=new BattleStatusDTO();
         if(battleField.getBattleStatus()== BattleStatus.INPROGRESS)
         {
-            battleStatusDTO.setEncryptedMessage(battleField.getEnctyptedMessage());
+            battleStatusDTO.setEncryptedMessage(battleField.getEncryptedMessage());
         }
         battleStatusDTO.setStatus(battleField.getBattleStatus().toString());
         Gson gson = new Gson();

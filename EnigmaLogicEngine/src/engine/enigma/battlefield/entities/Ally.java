@@ -1,8 +1,9 @@
 package engine.enigma.battlefield.entities;
 
 import DTO.AgentData;
-import DTO.CodeSettingDTO;
 import DTO.MachineInformationDTO;
+import DTO.TaskDataDTO;
+import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.battlefield.entities.task.EnigmaTasks;
 
 import java.util.ArrayList;
@@ -54,7 +55,11 @@ public class Ally {
         this.agentList.add(battleAgent);
     }
 
-    public void startProducer(MachineInformationDTO machineInformationDTO) {
-        enigmaTasks.startProducer(machineInformationDTO);
+    public void startProducer(MachineInformationDTO machineInformationDTO, BattleFieldInfo battleFieldInfo) {
+        enigmaTasks.startProducer(machineInformationDTO,battleFieldInfo);
+    }
+    public  TaskDataDTO getTask(int amountOfTasks)
+    {
+        return this.enigmaTasks.getTasks(amountOfTasks);
     }
 }

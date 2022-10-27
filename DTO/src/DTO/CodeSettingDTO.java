@@ -1,31 +1,39 @@
 package DTO;
 
 
+import engine.enigma.bruteForce2.utils.CodeConfiguration;
+
+import java.util.List;
 
 public class CodeSettingDTO {
 
 
-    private String allChars;
-    private int amountOfRotors;
-    private int [] selectedRotor;
+    private final String charIndexes;
+    private final int[] rotorsID;
+    private final int reflectorID;
 
-    private int selectedReflector;
-    private int amountOf;
-    private String encryptedMessage;
 
-    public String getAllChars() {
-        return allChars;
+
+    public CodeSettingDTO(CodeConfiguration codeConfiguration) {
+        this.charIndexes = codeConfiguration.getCharIndexes();
+        this.rotorsID = new int[codeConfiguration.getRotorsID().size()];
+        for (int i =0;i<codeConfiguration.getRotorsID().size();i++)
+        {
+            rotorsID[i]=codeConfiguration.getRotorsID().get(i);
+        }
+        this.reflectorID = codeConfiguration.getReflectorID();
+
     }
 
-
-
-    public String getEncryptedMessage() {
-        return encryptedMessage;
+    public String getCharIndexes() {
+        return charIndexes;
     }
 
-    public void setAllChars(String allChars) {
-        this.allChars = allChars;
+    public int[] getRotorsID() {
+        return rotorsID;
     }
 
-
+    public int getReflectorID() {
+        return reflectorID;
+    }
 }

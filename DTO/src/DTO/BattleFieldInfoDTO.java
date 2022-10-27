@@ -1,7 +1,8 @@
 package DTO;
 
 import engine.enigma.battlefield.BattleFieldInfo;
-import engine.enigma.bruteForce2.utils.DifficultyLevel;
+import utils.DifficultyLevel;
+
 
 public class BattleFieldInfoDTO {
 

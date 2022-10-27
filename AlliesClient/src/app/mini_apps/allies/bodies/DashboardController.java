@@ -8,8 +8,8 @@ import DTO.BattleFieldInfoDTO;
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
 import app.mini_apps.allies.refreshers.AgentListRefresher;
 import app.mini_apps.allies.refreshers.BattleListRefresher;
-import engine.enigma.battlefield.BattleFieldInfo;
-import engine.enigma.bruteForce2.utils.DifficultyLevel;
+
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -23,6 +23,7 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import utils.DifficultyLevel;
 import web.http.HttpClientUtil;
 
 

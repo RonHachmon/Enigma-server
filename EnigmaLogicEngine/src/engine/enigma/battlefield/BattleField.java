@@ -10,7 +10,7 @@ public class BattleField {
     private BattleFieldInfo battleFieldInfo;
     private List<Ally> allies =new ArrayList<>();
 
-    private String enctyptedMessage;
+    private String encryptedMessage;
     private BattleStatus battleStatus=BattleStatus.IDLE;
 
     public BattleFieldInfo getBattleFieldInfo() {
@@ -60,12 +60,12 @@ public class BattleField {
         return false;
     }
 
-    public String getEnctyptedMessage() {
-        return enctyptedMessage;
+    public String getEncryptedMessage() {
+        return encryptedMessage;
     }
 
-    public void setEnctyptedMessage(String enctyptedMessage) {
-        this.enctyptedMessage = enctyptedMessage;
+    public void setEncryptedMessage(String encryptedMessage) {
+        this.encryptedMessage = encryptedMessage;
     }
 
     public void setStatus(BattleStatus inProgress) {

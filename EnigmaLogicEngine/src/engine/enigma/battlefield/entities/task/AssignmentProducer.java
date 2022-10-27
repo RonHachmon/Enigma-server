@@ -1,26 +1,26 @@
 package engine.enigma.battlefield.entities.task;
 
-import DTO.DMData;
+
 import DTO.MachineInformationDTO;
 import engine.enigma.bruteForce2.utils.CodeConfiguration;
-import engine.enigma.bruteForce2.utils.QueueLock;
-import engine.enigma.machineutils.MachineInformation;
-import engine.enigma.machineutils.MachineManager;
+
+
+import utils.DifficultyLevel;
 import utils.ListPermutation;
-import utils.ObjectCloner;
 import utils.Permutation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class AssignmentProducer implements Runnable {
 
-    public static boolean isDone = false;
+   /* public static boolean isDone = false;*/
     private final MachineInformationDTO machineInformationDTO;
+    private final TaskData taskData;
+    private final DifficultyLevel difficultyLevel;
     private BlockingQueue<CodeConfiguration> queue;
-    private DMData dmData;
+
     private CodeConfiguration codeConfiguration;
     private Permutation permutation;
     private ListPermutation listPermutation;
@@ -28,12 +28,14 @@ public class AssignmentProducer implements Runnable {
     private boolean toStop = false;
     private String startingIndexes;
 
-    public AssignmentProducer(BlockingQueue<CodeConfiguration> codeQueue, DMData dmData, MachineInformationDTO machineInformationDTO) throws Exception {
-        this.queue = codeQueue;
-        this.dmData = dmData;
-        this.setInitialConfiguration();
+    public AssignmentProducer(BlockingQueue<CodeConfiguration> codeQueue, TaskData taskData, DifficultyLevel difficultyLevel, MachineInformationDTO machineInformationDTO) throws Exception {
         this.machineInformationDTO=machineInformationDTO;
+        this.queue = codeQueue;
+        this.taskData = taskData;
+        this.difficultyLevel = difficultyLevel;
+        this.setInitialConfiguration();
         this.permutation = new Permutation(machineInformationDTO.getAvailableChars());
+        System.out.println("Producer initi");
 
 
     }
@@ -45,9 +47,10 @@ public class AssignmentProducer implements Runnable {
                 System.out.println("Producer stopped  code :)");
                 return;
             }
-            /* System.out.println("Producer working");*/
+             System.out.println("Producer working");
             queue.put(codeConfiguration.clone(codeConfiguration));
-            nextPermutation = permutation.increasePermutation(dmData.getAssignmentSize(), codeConfiguration.getCharIndexes());
+
+            nextPermutation = permutation.increasePermutation(taskData.getTaskSize(), codeConfiguration.getCharIndexes());
             this.codeConfiguration.setCharIndexes(nextPermutation);
         } while (permutation.isOverFlow() == false);
         permutation.cleanOverFLow();
@@ -57,7 +60,7 @@ public class AssignmentProducer implements Runnable {
     private void setInitialConfiguration() {
         //easy set up
         this.startingIndexes = "";
-        List<Integer> startingRotors = new ArrayList<>();//done
+        List<Integer> startingRotors = new ArrayList<>();
 
         for (int rotorID : machineInformationDTO.getStartingRotors()) {
             // Add each element into the list
@@ -82,7 +85,7 @@ public class AssignmentProducer implements Runnable {
 
     private void chooseDifficulty() throws InterruptedException {
         /*    System.out.println("starting push code");*/
-        switch (dmData.getDifficulty()) {
+        switch (difficultyLevel) {
             case EASY:
                 this.generateCode();
                 break;
@@ -96,7 +99,7 @@ public class AssignmentProducer implements Runnable {
                 this.goOverAllKRotor();
                 break;
         }
-        isDone = true;
+/*        isDone = true;*/
         System.out.println("Producer Done");
     }
 

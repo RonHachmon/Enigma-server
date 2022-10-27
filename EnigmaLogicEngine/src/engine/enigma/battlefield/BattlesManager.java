@@ -197,7 +197,7 @@ public class BattlesManager {
 
    public void updateEncryptedWord(String battleShip, String encryptedMessage) {
       BattleField battleField=getBattleFieldByBattleName(battleShip);
-      battleField.setEnctyptedMessage(encryptedMessage);
+      battleField.setEncryptedMessage(encryptedMessage);
    }
 
 
@@ -208,12 +208,12 @@ public class BattlesManager {
       List<Ally> allies = battleField.getAllies();
       for (Ally ally:allies)
       {
-         ally.startProducer(machineInformationDTO);
+         ally.startProducer(machineInformationDTO,battleField.getBattleFieldInfo());
       }
    }
 
-   public String getBattleStatus(String battleShip) {
-      BattleField battleField=getBattleFieldByBattleName(battleShip);
-      return battleField.getBattleStatus().toString();
-   }
+    public TaskDataDTO getTasks(String allyName, int amountOfTasks) {
+       Ally ally = this.allAllies.get(allyName);
+       return ally.getTask(amountOfTasks);
+    }
 }
