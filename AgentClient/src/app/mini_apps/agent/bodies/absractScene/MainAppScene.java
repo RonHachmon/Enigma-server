@@ -2,8 +2,9 @@ package app.mini_apps.agent.bodies.absractScene;
 
 
 import app.mini_apps.agent.AgentController;
-import engine.enigma.machineutils.MachineInformation;
-import engine.enigma.machineutils.MachineManager;
+import engine.machineutils.MachineInformation;
+import engine.machineutils.MachineManager;
+
 
 public abstract class MainAppScene {
     protected MachineManager machineManager;

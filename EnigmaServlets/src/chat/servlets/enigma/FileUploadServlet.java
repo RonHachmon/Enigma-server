@@ -3,7 +3,7 @@ package chat.servlets.enigma;
 //taken from: http://www.servletworld.com/servlet-tutorials/servlet3/multipartconfig-file-upload-example.html
 // and http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
 
-import DTO.MachineInfo;
+
 import chat.utils.SessionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

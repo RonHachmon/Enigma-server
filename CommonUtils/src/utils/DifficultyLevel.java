@@ -1,4 +1,4 @@
-package engine.enigma.bruteForce2.utils;
+package utils;
 
 
 public enum DifficultyLevel {

@@ -40,6 +40,9 @@ public class Constants {
     public final static String UPDATE_TASK = FULL_SERVER_PATH + "/task";
     public final static String BATTLE_STATUS = FULL_SERVER_PATH + "/update-status";
 
+    public final static String CANDIDATES = FULL_SERVER_PATH + "/candidate";
+
+
 
 
 

@@ -1,6 +1,6 @@
 package engine.enigma.machineutils;
 
-import DTO.MachineInfo;
+
 import engine.enigma.machineparts.Machine;
 
 import java.io.Serializable;
@@ -18,13 +18,7 @@ public class MachineInformation implements Serializable {
         this.availableChars = machine.getAllChars();
     }
 
-    public MachineInformation(MachineInfo machineInfo) {
-        this.availableReflectors = machineInfo.getAvailableReflectors();
-        this.amountOfRotorsRequired = machineInfo.getAmountOfRotorsRequired();
-        this.amountOfRotors = machineInfo.getAmountOfRotors();
-        this.availableChars = machineInfo.getAvailableChars();
 
-    }
 
     public int getAvailableReflectors() {
         return availableReflectors;

@@ -1,6 +1,7 @@
 package DTO;
 
-import engine.enigma.bruteForce2.utils.DifficultyLevel;
+
+import utils.DifficultyLevel;
 
 public class DMData {
     private int amountOfAgents;

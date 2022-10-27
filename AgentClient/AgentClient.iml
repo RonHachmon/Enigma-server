@@ -57,8 +57,8 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="EnigmaLogicEngine" />
     <orderEntry type="module" module-name="DTO" />
     <orderEntry type="module" module-name="CommonUtils" />
+    <orderEntry type="module" module-name="AgentEngine" />
   </component>
 </module>

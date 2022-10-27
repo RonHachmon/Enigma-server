@@ -5,7 +5,7 @@ import engine.enigma.bruteForce2.utils.CodeConfiguration;
 import engine.enigma.bruteForce2.utils.QueueLock;
 import engine.enigma.machineutils.MachineInformation;
 import engine.enigma.machineutils.MachineManager;
-import engine.enigma.bruteForce2.utils.DifficultyLevel;
+
 import utils.ListPermutation;
 import utils.ObjectCloner;
 import utils.Permutation;
@@ -13,6 +13,8 @@ import utils.Permutation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+
+import static utils.DifficultyLevel.*;
 
 public class AssignmentProducer implements Runnable {
     private final QueueLock lock;

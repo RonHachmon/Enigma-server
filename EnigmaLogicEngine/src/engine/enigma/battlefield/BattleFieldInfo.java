@@ -1,7 +1,8 @@
 package engine.enigma.battlefield;
 
-import engine.enigma.bruteForce2.utils.DifficultyLevel;
+
 import engine.enigma.jaxb_classes.CTEBattlefield;
+import utils.DifficultyLevel;
 
 
 public class BattleFieldInfo {

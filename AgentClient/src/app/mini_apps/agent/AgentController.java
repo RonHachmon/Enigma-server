@@ -5,14 +5,14 @@ import app.mini_apps.agent.bodies.absractScene.MainAppScene;
 
 import app.mini_apps.agent.bodies.ContestController;
 import app.mini_apps.agent.header.HeaderController;
-import engine.enigma.battlefield.BattleFieldInfo;
+
+import engine.machineutils.MachineManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import engine.enigma.machineutils.MachineManager;
+
 
 import java.net.URL;
 import java.util.*;

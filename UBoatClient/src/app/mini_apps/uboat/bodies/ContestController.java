@@ -161,6 +161,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
             }
         },body);
+        isReady=false;
     }
 
     private boolean isAllAlliesReady(List<AllyDTO> alliesDetails) {

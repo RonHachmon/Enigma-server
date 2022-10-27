@@ -6,7 +6,7 @@ public class AllyDTO {
     private String allyName;
     private boolean isReady;
     private int numberOfAgents;
-    private Integer taskSize;
+    private Integer taskSize=null;
 
     public AllyDTO(Ally ally) {
         this.allyName = ally.getAllyName();
