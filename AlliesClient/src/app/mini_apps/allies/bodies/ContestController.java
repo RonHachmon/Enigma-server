@@ -3,9 +3,12 @@ package app.mini_apps.allies.bodies;
 import DTO.AllyDTO;
 import DTO.BattleFieldInfoDTO;
 import DTO.BattleStatusDTO;
+import DTO.DecryptionCandidate;
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
 import app.mini_apps.allies.refreshers.AlliesListRefresher;
 import app.mini_apps.allies.refreshers.BattleStatusRefresher;
+import app.mini_apps.allies.refreshers.CandidatesListRefresher;
+import app.mini_apps.allies.smallComponent.CandidateController;
 import engine.enigma.battlefield.BattleFieldInfo;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,8 +16,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
@@ -37,6 +43,7 @@ import static web.Constants.*;
 
 public class ContestController extends MainAppScene implements Initializable {
 
+    public static final String WORD_CANDIDATE_FXML = "/app/mini_apps/allies/smallComponent/wordCandidate.fxml";
     @FXML
     private Label battleFieldName;
 
@@ -72,8 +79,14 @@ public class ContestController extends MainAppScene implements Initializable {
     private Timer timer=new Timer();
     private TimerTask listRefresher;
     private TimerTask battleStatusRefresher;
+    private TimerTask candidatesListRefresher;
     private Tooltip toolTipError;
     private boolean validAssignment=false;
+
+    private String currentBattleStatus=null;
+
+    //candidate
+    private int lastUpdatedCandidateIndex=0;
 
     public void updateBattleInfo(BattleFieldInfoDTO joinedBattle) {
         difficulty.setText(joinedBattle.getLevel().toString());
@@ -100,26 +113,29 @@ public class ContestController extends MainAppScene implements Initializable {
         timer.schedule(timerTask, 200, REFRESH_RATE);
     }
     private void updateByStatus(BattleStatusDTO battleStatusDTO) {
+        if(currentBattleStatus!=null&&!battleStatusDTO.getStatus().equals(currentBattleStatus)) {
+            if (battleStatusDTO.getStatus().equals("In Progress")) {
 
+                Platform.runLater(() ->
+                {
+                    System.out.println("ally app yay :D");
+                    this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
+                    candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates);
+                    startTimer(candidatesListRefresher);
+                });
+            }
+            if (battleStatusDTO.getStatus().equals("Finished")) {
 
-        if(battleStatusDTO.getStatus().equals("In Progress"))
-        {
-            Platform.runLater(()->
-            {
-                System.out.println("ally app yay :D");
-                this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
-            });
+            }
+            if (battleStatusDTO.getStatus().equals("Idle")) {
+
+            }
         }
-        if(battleStatusDTO.getStatus().equals("Finished"))
-        {
-
-        }
-        if(battleStatusDTO.getStatus().equals("Idle"))
-        {
-
-        }
+        currentBattleStatus=battleStatusDTO.getStatus();
 
     }
+
+
 
     private void updateAllies(List<AllyDTO> alliesDetails) {
         Platform.runLater(() -> {
@@ -188,6 +204,7 @@ public class ContestController extends MainAppScene implements Initializable {
             }
         });
     }
+    //---------------------- data validation
     private void allDataValid() {
         if (assignmentInputValid(taskSizeField.getText())) {
             readyButton.setDisable(false);
@@ -243,10 +260,49 @@ public class ContestController extends MainAppScene implements Initializable {
         Bounds boundsInScene = taskSizeField.localToScreen(taskSizeField.getBoundsInLocal());
         toolTipError.show(taskSizeField, boundsInScene.getMaxX(), boundsInScene.getMaxY() + 15);
     }
+    //---------------------- end of data validation
     private void setAlliesTable() {
         alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAllyName()));
         agentColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfAgents"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskSize"));
 
+    }
+
+
+
+    private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
+        Platform.runLater(() -> {
+            System.out.println("candi size "+decryptionCandidates.length);
+            for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
+                createWordCandidate(decryptionCandidates[i]);
+            }
+            lastUpdatedCandidateIndex=decryptionCandidates.length;
+        });
+
+    }
+    private void createWordCandidate(DecryptionCandidate decryptionCandidate) {
+
+        try {
+            Node wordCandidate = loadCandidate(decryptionCandidate);
+
+            FlowPane.setMargin(wordCandidate, new Insets(2, 10, 2, 10));
+            this.candidatesFlowPane.getChildren().add(wordCandidate);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private Node loadCandidate(DecryptionCandidate decryptionCandidate) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(WORD_CANDIDATE_FXML));
+        Node wordCandidate = loader.load();
+        wordCandidate.setFocusTraversable(false);
+
+        CandidateController wordCandidateController = loader.getController();
+        wordCandidateController.setTextFont();
+        wordCandidateController.setText(decryptionCandidate.getDecryptedString());
+        wordCandidateController.setAgent(String.valueOf(decryptionCandidate.getAgentName()));
+        wordCandidateController.setCode(decryptionCandidate.getCodeConfiguration());
+        return wordCandidate;
     }
 }

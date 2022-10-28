@@ -8,6 +8,8 @@ import engine.enigma.jaxb_classes.CTEBattlefield;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BattlesManager {
 
@@ -50,8 +52,6 @@ public class BattlesManager {
       {
          //throw somthing
       }
-
-
       return BattleFieldInfo.createFromXML(cteBattlefield);
 
    }
@@ -60,8 +60,7 @@ public class BattlesManager {
       BattleField battleField=new BattleField();
       battleField.setBattleFieldInfo(battleFieldInfo);
       this.battleLinkedList.add(battleField);
-
-
+      this.mapToDecryptionCandidates.put(battleField,new ArrayList<DecryptionCandidate>());
    }
    public synchronized void addFile(InputStream file,String uboatName) {
       BattleField battleField = this.getBattleFieldByBattleName(uboatName);
@@ -71,6 +70,16 @@ public class BattlesManager {
 
       for (BattleField battleField : battleLinkedList) {
          if (battleField.getBattleFieldInfo().getBattleName().equals(battleShip)) {
+            return battleField;
+
+         }
+      }
+      return null;
+   }
+   public BattleField getBattleFieldByUboatName(String uboatName) {
+
+      for (BattleField battleField : battleLinkedList) {
+         if (battleField.getBattleFieldInfo().getUboatName().equals(uboatName)) {
             return battleField;
 
          }
@@ -216,4 +225,27 @@ public class BattlesManager {
        Ally ally = this.allAllies.get(allyName);
        return ally.getTask(amountOfTasks);
     }
+
+   public synchronized void addCandidates(String allyName, DecryptionCandidate[] decryptionCandidates) {
+      BattleField battleField = this.getBattleFieldByAllyName(allyName);
+      List<DecryptionCandidate> decryptionCandidatesList = mapToDecryptionCandidates.get(battleField);
+      for (int i = 0; i <decryptionCandidates.length ; i++) {
+         decryptionCandidatesList.add(decryptionCandidates[i]);
+      }
+      System.out.println("all candiates size: "+decryptionCandidatesList.size());
+   }
+
+   public List<DecryptionCandidate> getAllyCandidates(String username) {
+      BattleField battleField = this.getBattleFieldByAllyName(username);
+      List<DecryptionCandidate> decryptionCandidatesList = mapToDecryptionCandidates.get(battleField);
+      return decryptionCandidatesList.stream().
+              filter(decryptionCandidate -> decryptionCandidate.getAllyName().equals(username)).
+              collect(Collectors.toList());
+
+   }
+
+   public List<DecryptionCandidate> getUboatCandidates(String username) {
+      BattleField battleField = this.getBattleFieldByUboatName(username);
+      return mapToDecryptionCandidates.get(battleField);
+   }
 }

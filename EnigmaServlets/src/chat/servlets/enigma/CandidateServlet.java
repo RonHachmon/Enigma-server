@@ -1,6 +1,8 @@
 package chat.servlets.enigma;
 
-import DTO.TaskDataDTO;
+import DTO.AlliesArray;
+import DTO.DecryptionCandidate;
+import chat.utils.SessionUtils;
 import com.google.gson.Gson;
 import engine.enigma.battlefield.BattlesManager;
 import jakarta.servlet.ServletException;
@@ -13,40 +15,73 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet("/candidate")
 public class CandidateServlet extends HttpServlet {
-/*    @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-        Part file = request.getPart("enigmaFile");
-        MachineManager machineManager=new MachineManager();
-
-        machineManager.createMachineFromXML(file.getInputStream());
-        String username = SessionUtils.getUsername(request);
-        System.out.println("File upload: "+ username);
-        BattlesManager.getInstance().addFile(file.getInputStream(),machineManager.getBattleField().getBattleName());
-
-        *//*out.println(gson.toJson(machineInfo));*//*
-        out.println(readFromInputStream(file.getInputStream()));
-    }*/
+        Gson gson = new Gson();
+        String allyName=request.getParameter("ally");
+        DecryptionCandidate[] decryptionCandidates =gson.fromJson(request.getReader(), DecryptionCandidate[].class);
+         BattlesManager.getInstance().addCandidates(allyName,decryptionCandidates);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        String allyName=request.getParameter("ally");
-        int amountOfTasks=Integer.parseInt(request.getParameter("task"));
+        String entityParameter=request.getParameter("entity");
+        String username = SessionUtils.getUsername(request);
+        if(entityParameter.equals("uboat"))
+        {
+            sendBattleCandidates(response,username);
 
-        TaskDataDTO tasks = BattlesManager.getInstance().getTasks(allyName, amountOfTasks);
+        }
+        if(entityParameter.equals("ally"))
+        {
+            sendAllyCandidates(response,username);
+
+        }
+
+
+
         Gson gson = new Gson();
-        String jsonResponse = gson.toJson(tasks);
+        String allyName=request.getParameter("ally");
+        DecryptionCandidate[] decryptionCandidates =gson.fromJson(request.getReader(), DecryptionCandidate[].class);
+        BattlesManager.getInstance().addCandidates(allyName,decryptionCandidates);
+    }
+    private static void sendAllyCandidates(HttpServletResponse response, String username) throws IOException {
+        System.out.println("send to ally");
+        List<DecryptionCandidate> allyCandidates = BattlesManager.getInstance().getAllyCandidates(username);
+        DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[allyCandidates.size()];
+        for (int i = 0; i < allyCandidates.size(); i++) {
+            decryptionCandidates[i]=allyCandidates.get(i);
+        }
+
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(decryptionCandidates);
 
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse);
             out.flush();
         }
-
-
     }
+    private static void sendBattleCandidates(HttpServletResponse response, String username) throws IOException {
+        System.out.println("send to uboat");
+        List<DecryptionCandidate> allyCandidates = BattlesManager.getInstance().getUboatCandidates(username);
+        DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[allyCandidates.size()];
+        for (int i = 0; i < allyCandidates.size(); i++) {
+            decryptionCandidates[i]=allyCandidates.get(i);
+        }
+
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(decryptionCandidates);
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print(jsonResponse);
+            out.flush();
+        }
+    }
+
+
 }

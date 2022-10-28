@@ -20,12 +20,10 @@ public class AgentsServlet extends HttpServlet {
         AgentData agentData =gson.fromJson(request.getReader(), AgentData.class);
         if(agentData!=null)
         {
-            System.out.println(agentData.getAgentName());
             BattlesManager.getInstance().joinAgentToBattle(agentData);
         }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         response.setContentType("application/json");
         String username = SessionUtils.getUsername(request);
 

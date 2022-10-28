@@ -1,6 +1,6 @@
-package app.mini_apps.agent.bodies.refreshers;
+package app.mini_apps.uboat.bodies.refreshers;
 
-import DTO.BattleStatusDTO;
+import DTO.DecryptionCandidate;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -15,16 +15,16 @@ import java.util.function.Consumer;
 import static web.Constants.GSON_INSTANCE;
 
 
-public class BattleStatusRefresher extends TimerTask {
+public class CandidatesListRefresher extends TimerTask {
 
 
-    private final Consumer<BattleStatusDTO> battleStatusConsumer;
+    private final Consumer<DecryptionCandidate[]> candidatesListConsumer;
     private final String url;
 
 
-    public BattleStatusRefresher(Consumer<BattleStatusDTO> battleStatusConsumer, String battleName) {
-        this.battleStatusConsumer = battleStatusConsumer;
-        url=Constants.BATTLE_STATUS+"?battleship="+battleName;
+    public CandidatesListRefresher(Consumer<DecryptionCandidate[]> usersListConsumer,String battleFilendName) {
+        this.candidatesListConsumer = usersListConsumer;
+        url=Constants.CANDIDATES+"?entity=uboat";
     }
 
     @Override
@@ -39,8 +39,10 @@ public class BattleStatusRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                BattleStatusDTO battleStatusDTO =GSON_INSTANCE.fromJson(response.body().string(), BattleStatusDTO.class);
-                battleStatusConsumer.accept(battleStatusDTO);
+                System.out.println();
+                DecryptionCandidate[] agentData =GSON_INSTANCE.fromJson(response.body().string(), DecryptionCandidate[].class);
+
+                candidatesListConsumer.accept(agentData);
             }
         });
     }

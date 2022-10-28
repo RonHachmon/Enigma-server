@@ -65,7 +65,7 @@ public class TaskManger {
 
     public void start() {
         try {
-            this.assignmentProducer = new AssignmentProducer(blockingQueue, dmData,mLock,agentData);
+            this.assignmentProducer = new AssignmentProducer(blockingQueue, dmData,mLock,agentData,candidateList);
             System.out.println("task manager - producer created");
             Thread producer = new Thread(this.assignmentProducer);
             producer.setName("Producer");

@@ -1,9 +1,13 @@
 package app.mini_apps.uboat.bodies;
 
 import DTO.AllyDTO;
+import DTO.DecryptionCandidate;
 import DTO.MachineInformationDTO;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
 import app.mini_apps.uboat.bodies.interfaces.CodeHolder;
+import app.mini_apps.uboat.bodies.refreshers.AlliesListRefresher;
+import app.mini_apps.uboat.bodies.refreshers.CandidatesListRefresher;
+import app.mini_apps.uboat.smallComponent.CandidateController;
 import engine.enigma.bruteForce2.utils.Dictionary;
 
 import javafx.application.Platform;
@@ -16,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +40,7 @@ import static web.Constants.*;
 
 public class ContestController extends MainAppScene implements Initializable, CodeHolder {
 
+    public static final String WORD_CANDIDATE_FXML = "/app/mini_apps/uboat/smallComponent/wordCandidate.fxml";
     @FXML
     private Label currentCode;
 
@@ -86,6 +93,8 @@ public class ContestController extends MainAppScene implements Initializable, Co
     private TimerTask listRefresher;
     private Boolean autoUpdateAllies;
     private String battleName;
+    private int lastUpdatedCandidateIndex=0;
+    private TimerTask candidatesListRefresher;
 
 
     public ContestController() {
@@ -141,8 +150,13 @@ public class ContestController extends MainAppScene implements Initializable, Co
             {
                 autoUpdateAllies=false;
                 this.startBattleInServer();
+                this.candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates,this.battleName);
+                startTimer(candidatesListRefresher);
             }
         }
+    }
+    private void startTimer(TimerTask timerTask) {
+        timer.schedule(timerTask, 200, REFRESH_RATE);
     }
 
     private void startBattleInServer() {
@@ -183,6 +197,41 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
 
 
+    }
+    private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
+        Platform.runLater(() -> {
+            System.out.println("candi size "+decryptionCandidates.length);
+            for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
+                createWordCandidate(decryptionCandidates[i]);
+            }
+            lastUpdatedCandidateIndex=decryptionCandidates.length;
+        });
+
+    }
+    private void createWordCandidate(DecryptionCandidate decryptionCandidate) {
+
+        try {
+            Node wordCandidate = loadCandidate(decryptionCandidate);
+
+            FlowPane.setMargin(wordCandidate, new Insets(2, 10, 2, 10));
+            this.candidatesFlowPane.getChildren().add(wordCandidate);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private Node loadCandidate(DecryptionCandidate decryptionCandidate) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(WORD_CANDIDATE_FXML));
+        Node wordCandidate = loader.load();
+        wordCandidate.setFocusTraversable(false);
+
+        CandidateController wordCandidateController = loader.getController();
+        wordCandidateController.setTextFont();
+        wordCandidateController.setText(decryptionCandidate.getDecryptedString());
+        wordCandidateController.setAgent(String.valueOf(decryptionCandidate.getAllyName()));
+        wordCandidateController.setCode(decryptionCandidate.getCodeConfiguration());
+        return wordCandidate;
     }
 
     //---------------------dictionary Related---------------------------------------

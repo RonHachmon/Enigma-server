@@ -42,7 +42,7 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <Button id="load-button" fx:id="readyButton" disable="true" mnemonicParsing="false" onAction="#readyPressed" prefHeight="34.0" prefWidth="59.0" text="Ready" />
+            <Button id="load-button" fx:id="readyButton" disable="true" mnemonicParsing="false" onAction="#readyPressed" prefHeight="34.0" prefWidth="67.0" text="Register" />
          </children>
       </HBox>
       <BorderPane styleClass="pane" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
