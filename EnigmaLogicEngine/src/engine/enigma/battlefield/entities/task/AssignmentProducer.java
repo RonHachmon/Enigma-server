@@ -47,7 +47,6 @@ public class AssignmentProducer implements Runnable {
                 System.out.println("Producer stopped  code :)");
                 return;
             }
-             System.out.println("Producer working");
             queue.put(codeConfiguration.clone(codeConfiguration));
 
             nextPermutation = permutation.increasePermutation(taskData.getTaskSize(), codeConfiguration.getCharIndexes());

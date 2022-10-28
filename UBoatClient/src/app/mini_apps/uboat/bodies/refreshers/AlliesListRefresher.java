@@ -1,4 +1,4 @@
-package app.mini_apps.uboat.bodies;
+package app.mini_apps.uboat.bodies.refreshers;
 
 import DTO.AlliesArray;
 

@@ -1,6 +1,7 @@
 package app.mini_apps.allies.refreshers;
 
 import DTO.AgentData;
+import DTO.DecryptionCandidate;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -18,15 +19,15 @@ import java.util.function.Consumer;
 import static web.Constants.GSON_INSTANCE;
 
 
-public class AgentListRefresher extends TimerTask {
+public class CandidatesListRefresher extends TimerTask {
 
 
-    private final Consumer<List<AgentData>> usersListConsumer;
-    private final String url=Constants.AGENTS_DATA;
+    private final Consumer<DecryptionCandidate[]> candidatesListConsumer;
+    private final String url=Constants.CANDIDATES+"?entity=ally";
 
 
-    public AgentListRefresher(Consumer<List<AgentData>> usersListConsumer) {
-        this.usersListConsumer = usersListConsumer;
+    public CandidatesListRefresher(Consumer<DecryptionCandidate[]> usersListConsumer) {
+        this.candidatesListConsumer = usersListConsumer;
     }
 
     @Override
@@ -41,11 +42,10 @@ public class AgentListRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                AgentData[] agentData =GSON_INSTANCE.fromJson(response.body().string(), AgentData[].class);
-                List<AgentData> list =new ArrayList<>();
+                System.out.println();
+                DecryptionCandidate[] agentData =GSON_INSTANCE.fromJson(response.body().string(), DecryptionCandidate[].class);
 
-                Arrays.stream(agentData).forEach(agent -> list.add(agent));
-                usersListConsumer.accept(list);
+                candidatesListConsumer.accept(agentData);
             }
         });
     }

@@ -43,6 +43,9 @@ public class Constants {
     public final static String CANDIDATES = FULL_SERVER_PATH + "/candidate";
 
 
+    public final static String TASK = FULL_SERVER_PATH + "/tasks";
+
+
 
 
 

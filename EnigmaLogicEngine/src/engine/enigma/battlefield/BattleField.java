@@ -1,5 +1,6 @@
 package engine.enigma.battlefield;
 
+import DTO.DecryptionCandidate;
 import engine.enigma.battlefield.entities.Ally;
 import engine.enigma.battlefield.entities.BattleStatus;
 
@@ -75,4 +76,6 @@ public class BattleField {
     public BattleStatus getBattleStatus() {
         return battleStatus;
     }
+
+
 }

@@ -162,7 +162,6 @@ public class ContestController extends MainAppScene {
     private UIAdapter createUIAdapter() {
         return new UIAdapter(
                 decryptionCandidateData -> {
-                    System.out.println("UI adapter in contest");
                     /*createWordCandidate(DecryptionCandidate);*/
                     createWordCandidate(decryptionCandidateData);
                 },
@@ -193,7 +192,6 @@ public class ContestController extends MainAppScene {
     private void createWordCandidate(DecryptionCandidate decryptionCandidate) {
 
         try {
-            System.out.println("contestCont new candidate");
             Node wordCandidate = loadCandidate(decryptionCandidate);
 
             FlowPane.setMargin(wordCandidate, new Insets(2, 10, 2, 10));
