@@ -40,7 +40,9 @@ public class BattleInfoRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 BattleFieldInfoDTO battleFieldInfoDTO =GSON_INSTANCE.fromJson(response.body().string(), BattleFieldInfoDTO.class);
-                battleFieldInfoDTOConsumer.accept(battleFieldInfoDTO);
+                if(battleFieldInfoDTO!=null) {
+                    battleFieldInfoDTOConsumer.accept(battleFieldInfoDTO);
+                }
             }
         });
     }

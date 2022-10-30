@@ -54,7 +54,7 @@ public class AssignmentProducer implements Runnable {
             //wait until empty
             this.queueLock.checkIfLocked();
             this.sendTaskToServer();
-            System.out.println("Quo is empty");
+
 
             //send candidates to server
             //to be continued
@@ -121,7 +121,6 @@ public class AssignmentProducer implements Runnable {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful())
                 {
-                    System.out.println("producer took code from server");
                     TaskDataDTO taskDataDTO =GSON_INSTANCE.fromJson(response.body().string(), TaskDataDTO.class);
                     putTaskInQueue(taskDataDTO);
                 }

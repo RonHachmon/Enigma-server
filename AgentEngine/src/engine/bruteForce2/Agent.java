@@ -79,7 +79,6 @@ public class Agent implements Runnable {
                         amountOfPermutationIwentInTheLoop++;
 
                         if (dictionary.isAtDictionary(encryptionOutput)) {
-                            System.out.println("found word in dick");
                             candidateList.addCandidate(createCandidate(encryptionOutput));
                         }
 

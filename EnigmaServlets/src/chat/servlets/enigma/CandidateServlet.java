@@ -51,7 +51,6 @@ public class CandidateServlet extends HttpServlet {
         BattlesManager.getInstance().addCandidates(allyName,decryptionCandidates);
     }
     private static void sendAllyCandidates(HttpServletResponse response, String username) throws IOException {
-        System.out.println("send to ally");
         List<DecryptionCandidate> allyCandidates = BattlesManager.getInstance().getAllyCandidates(username);
         DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[allyCandidates.size()];
         for (int i = 0; i < allyCandidates.size(); i++) {
@@ -67,7 +66,6 @@ public class CandidateServlet extends HttpServlet {
         }
     }
     private static void sendBattleCandidates(HttpServletResponse response, String username) throws IOException {
-        System.out.println("send to uboat");
         List<DecryptionCandidate> allyCandidates = BattlesManager.getInstance().getUboatCandidates(username);
         DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[allyCandidates.size()];
         for (int i = 0; i < allyCandidates.size(); i++) {

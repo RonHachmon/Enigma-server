@@ -108,4 +108,11 @@ public class AlliesController implements Initializable {
         this.contestComponentController.startListRefresher();
 
     }
+
+    public void reset() {
+        this.contestComponentController.reset();
+        this.contestComponentController.close();
+        this.displayMachineConfigScene();
+        this.dashboardComponentController.reset();
+    }
 }

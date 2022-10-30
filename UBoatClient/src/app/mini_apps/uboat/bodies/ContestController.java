@@ -8,6 +8,7 @@ import app.mini_apps.uboat.bodies.interfaces.CodeHolder;
 import app.mini_apps.uboat.bodies.refreshers.AlliesListRefresher;
 import app.mini_apps.uboat.bodies.refreshers.CandidatesListRefresher;
 import app.mini_apps.uboat.smallComponent.CandidateController;
+import app.mini_apps.uboat.winner.WinnerController;
 import engine.enigma.bruteForce2.utils.Dictionary;
 
 import javafx.application.Platform;
@@ -22,25 +23,33 @@ import javafx.fxml.Initializable;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import web.http.HttpClientUtil;
 
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static app.mini_apps.uboat.bodies.ConfigurationController.SETTING_SCENE_FXML;
 import static web.Constants.*;
 
 
-public class ContestController extends MainAppScene implements Initializable, CodeHolder {
+public class ContestController extends MainAppScene implements Initializable, CodeHolder, Closeable {
 
     public static final String WORD_CANDIDATE_FXML = "/app/mini_apps/uboat/smallComponent/wordCandidate.fxml";
+
+    public static final String WINNER_FXML = "/app/mini_apps/uboat/winner/winner.fxml";
     @FXML
     private Label currentCode;
 
@@ -85,22 +94,26 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
     private static String newline = System.getProperty("line.separator");
 
-    boolean clearTextClicked=false;
-    private boolean isReady=false;
+    boolean clearTextClicked = false;
+    private boolean isReady = false;
+    private boolean winnerShown = false;
     private Dictionary dictionary;
+    private boolean battleInProgress = false;
 
     private Timer timer;
     private TimerTask listRefresher;
     private Boolean autoUpdateAllies;
     private String battleName;
-    private int lastUpdatedCandidateIndex=0;
+    private int lastUpdatedCandidateIndex = 0;
     private TimerTask candidatesListRefresher;
+    private WinnerController winnerController;
 
 
     public ContestController() {
 
         autoUpdateAllies = new Boolean(true);
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setInitialDictionaryTable();
@@ -109,6 +122,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
                 addListener((object, oldValue, newValue) -> filterDictionaryTable(newValue));
 
     }
+
     @FXML
     void runClicked(ActionEvent event) {
         try {
@@ -116,8 +130,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
             outputArea.setText(output);
             uboatController.updateMachineCode(machineManager.getCurrentCodeSetting());
             this.readyButton.setDisable(false);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText(e.getMessage());
             a.setTitle("Invalid character");
@@ -133,37 +146,48 @@ public class ContestController extends MainAppScene implements Initializable, Co
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskSize"));
 
     }
+
     public void startListRefresher() {
         this.battleName = this.machineManager.getBattleField().getBattleName();
-        listRefresher = new AlliesListRefresher(autoUpdateAllies,this::updateAllies, battleName);
+        listRefresher = new AlliesListRefresher(autoUpdateAllies, this::updateAllies, battleName);
         timer = new Timer();
         timer.schedule(listRefresher, 200, REFRESH_RATE);
     }
+
     private void updateAllies(List<AllyDTO> alliesDetails) {
         Platform.runLater(() -> {
             alliesTable.getItems().clear();
             alliesTable.setItems(FXCollections.observableList(alliesDetails));
         });
-        if(isReady)
-        {
-            if(this.isAllAlliesReady(alliesDetails))
-            {
-                autoUpdateAllies=false;
+        if (isReady) {
+            isReady = false;
+            if (this.isAllAlliesReady(alliesDetails)) {
+                autoUpdateAllies = false;
                 this.startBattleInServer();
-                this.candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates,this.battleName);
+                battleInProgress = true;
+                this.candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates, this.battleName);
                 startTimer(candidatesListRefresher);
             }
         }
     }
+
     private void startTimer(TimerTask timerTask) {
         timer.schedule(timerTask, 200, REFRESH_RATE);
     }
 
     private void startBattleInServer() {
-        MachineInformationDTO machineInformationDTO=new MachineInformationDTO(this.machineManager,outputArea.getText());
+        MachineInformationDTO machineInformationDTO = new MachineInformationDTO(this.machineManager, outputArea.getText());
+        String finalURL = HttpUrl.parse(BATTLE_STATUS).
+                newBuilder().
+                addQueryParameter("battleship", this.battleName)
+                .addQueryParameter("status", "start")
+                .build()
+                .toString();
+
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), GSON_INSTANCE.toJson(machineInformationDTO));
-        HttpClientUtil.runAsyncWithBody(BATTLE_STATUS+"?battleship="+this.battleName,new Callback(){
+
+        HttpClientUtil.runAsyncWithBody(finalURL, new Callback() {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -174,14 +198,44 @@ public class ContestController extends MainAppScene implements Initializable, Co
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
             }
-        },body);
-        isReady=false;
+        }, body);
+
+    }
+
+    private void endBattleInServer(String winningAlly) {
+        MachineInformationDTO machineInformationDTO = new MachineInformationDTO(this.machineManager, outputArea.getText());
+        String finalURL = HttpUrl.parse(BATTLE_STATUS).
+                newBuilder().
+                addQueryParameter("battleship", this.battleName)
+                .addQueryParameter("status", "end")
+                .build()
+                .toString();
+        machineInformationDTO.setWinningTeam(winningAlly);
+
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), GSON_INSTANCE.toJson(machineInformationDTO));
+
+        HttpClientUtil.runAsyncWithBody(finalURL, new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+        }, body);
     }
 
     private boolean isAllAlliesReady(List<AllyDTO> alliesDetails) {
-        for (AllyDTO allyDTO:alliesDetails) {
-            if (!allyDTO.isReady())
-            {
+        if(alliesDetails.size()==0)
+        {
+            return false;
+        }
+        for (AllyDTO allyDTO : alliesDetails) {
+            if (!allyDTO.isReady()) {
                 return false;
             }
         }
@@ -190,24 +244,113 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
     @FXML
     void pressedReady(ActionEvent event) {
-        inputArea.setDisable(true);
-        outputArea.setDisable(true);
-        this.runButton.setDisable(true);
-        isReady=true;
-
-
-
+        if (readyButton.getText().equals("Logout")) {
+            this.logout();
+            this.uboatController.close();
+           /* HttpClientUtil.generateNewSession();*/
+        } else {
+            inputArea.setDisable(true);
+            outputArea.setDisable(true);
+            this.runButton.setDisable(true);
+            isReady = true;
+        }
     }
-    private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
-        Platform.runLater(() -> {
-            System.out.println("candi size "+decryptionCandidates.length);
-            for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
-                createWordCandidate(decryptionCandidates[i]);
+
+    @Override
+    public void close() throws IOException {
+        inputArea.clear();
+        outputArea.clear();
+        readyButton.setText("Ready");
+        readyButton.setId("load-button");
+        readyButton.setDisable(false);
+        if (candidatesListRefresher != null && timer != null && listRefresher != null) {
+            candidatesListRefresher.cancel();
+            listRefresher.cancel();
+            timer.cancel();
+        }
+    }
+
+
+    private void logout() {
+        String finalUrl = HttpUrl
+                .parse(UNJOIN_BATTLE)
+                .newBuilder()
+                .addQueryParameter("battleship", battleName)
+                .addQueryParameter("entity", "uboat")
+                .build()
+                .toString();
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                /*  httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure...:(");*/
             }
-            lastUpdatedCandidateIndex=decryptionCandidates.length;
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    /*httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());*/
+                }
+            }
         });
+    }
+
+    private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
+        if (battleInProgress) {
+            Platform.runLater(() -> {
+                System.out.println("candi size " + decryptionCandidates.length);
+                for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
+
+                    createWordCandidate(decryptionCandidates[i]);
+
+                    if (decryptionCandidates[i].getDecryptedString().equals(inputArea.getText().toUpperCase())) {
+                        battleInProgress = false;
+                        endBattleInServer(decryptionCandidates[i].getAllyName());
+
+                        this.showWinner(decryptionCandidates[i].getAllyName());
+                        this.enableLogout();
+                        winnerShown = true;
+
+                    }
+                }
+                lastUpdatedCandidateIndex = decryptionCandidates.length;
+            });
+        }
 
     }
+
+    private void enableLogout() {
+        readyButton.setText("Logout");
+        readyButton.setId("logout");
+    }
+
+    private void showWinner(String allyName) {
+        if (!winnerShown) {
+            try {
+                System.out.println("uboat winner");
+                Stage settingStage = loadWinnerStage();
+
+                this.winnerController.setWinnerLabel(allyName);
+                settingStage.initModality(Modality.WINDOW_MODAL);
+                settingStage.showAndWait();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private Stage loadWinnerStage() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(WINNER_FXML));
+
+        AnchorPane anchorPane = loader.load();
+        this.winnerController = loader.getController();
+        Scene scene = new Scene(anchorPane, 455, 100);
+        Stage settingStage = new Stage();
+        settingStage.setScene(scene);
+        settingStage.setTitle("winner");
+        return settingStage;
+    }
+
+
     private void createWordCandidate(DecryptionCandidate decryptionCandidate) {
 
         try {
@@ -220,6 +363,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
             e.printStackTrace();
         }
     }
+
     private Node loadCandidate(DecryptionCandidate decryptionCandidate) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(WORD_CANDIDATE_FXML));
@@ -241,6 +385,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
             this.addWordToInput(dictionaryTable.getSelectionModel().getSelectedItem());
         }
     }
+
     private void addWordToInput(String selectedWord) {
         String inputText = inputArea.getText();
         if (inputText.isEmpty() || inputText.charAt(inputText.length() - 1) == ' ') {
@@ -249,11 +394,13 @@ public class ContestController extends MainAppScene implements Initializable, Co
             inputArea.setText(inputText + " " + selectedWord);
         }
     }
+
     public void updateInitialDictionaryTable() {
         dictionary = machineManager.getDictionary();
         dictionaryTable.getItems().clear();
         dictionary.getDictionary().forEach(s -> dictionaryTable.getItems().add(s));
     }
+
     private void filterDictionaryTable(String newValue) {
         dictionaryTable.getItems().clear();
         if (newValue.isEmpty()) {
@@ -264,6 +411,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
                     forEach(s -> dictionaryTable.getItems().add(s));
         }
     }
+
     private void setInitialDictionaryTable() {
         wordsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
     }
@@ -273,7 +421,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
     @FXML
     void clearTextClicked(ActionEvent event) {
-        this.clearTextClicked=true;
+        this.clearTextClicked = true;
         this.uboatController.clearEncryptText();
     }
 
@@ -299,7 +447,7 @@ public class ContestController extends MainAppScene implements Initializable, Co
 
     @Override
     public void updateCode(String code) {
-            this.currentCode.setText(code);
+        this.currentCode.setText(code);
     }
 
 

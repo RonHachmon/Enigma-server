@@ -9,6 +9,7 @@ import app.mini_apps.allies.refreshers.AlliesListRefresher;
 import app.mini_apps.allies.refreshers.BattleStatusRefresher;
 import app.mini_apps.allies.refreshers.CandidatesListRefresher;
 import app.mini_apps.allies.smallComponent.CandidateController;
+import app.mini_apps.allies.winner.WinnerController;
 import engine.enigma.battlefield.BattleFieldInfo;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -21,9 +22,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -78,7 +83,7 @@ public class ContestController extends MainAppScene implements Initializable {
 
     private Timer timer=new Timer();
     private TimerTask listRefresher;
-    private TimerTask battleStatusRefresher;
+    private BattleStatusRefresher battleStatusRefresher;
     private TimerTask candidatesListRefresher;
     private Tooltip toolTipError;
     private boolean validAssignment=false;
@@ -87,6 +92,7 @@ public class ContestController extends MainAppScene implements Initializable {
 
     //candidate
     private int lastUpdatedCandidateIndex=0;
+    private WinnerController winnerController;
 
     public void updateBattleInfo(BattleFieldInfoDTO joinedBattle) {
         difficulty.setText(joinedBattle.getLevel().toString());
@@ -113,7 +119,8 @@ public class ContestController extends MainAppScene implements Initializable {
         timer.schedule(timerTask, 200, REFRESH_RATE);
     }
     private void updateByStatus(BattleStatusDTO battleStatusDTO) {
-        if(currentBattleStatus!=null&&!battleStatusDTO.getStatus().equals(currentBattleStatus)) {
+        if(currentBattleStatus==null|| !battleStatusDTO.getStatus().equals(currentBattleStatus)) {
+            currentBattleStatus=battleStatusDTO.getStatus();
             if (battleStatusDTO.getStatus().equals("In Progress")) {
 
                 Platform.runLater(() ->
@@ -125,16 +132,38 @@ public class ContestController extends MainAppScene implements Initializable {
                 });
             }
             if (battleStatusDTO.getStatus().equals("Finished")) {
+                Platform.runLater(() ->
+                {
+                System.out.println("ally winner");
+                showWinner(battleStatusDTO.getWinningAlly());
+                battleStatusRefresher.Stop(true);
+                });
 
             }
             if (battleStatusDTO.getStatus().equals("Idle")) {
 
             }
+            if(battleStatusDTO==null)
+            {
+                this.alliesController.reset();
+            }
+
         }
-        currentBattleStatus=battleStatusDTO.getStatus();
+
 
     }
 
+    public void reset() {
+            candidatesFlowPane.getChildren().clear();
+            this.difficulty.setText("");
+            this.battleFieldName.setText("");
+            this.encryptedMessage.setText("");
+
+    }
+    public void close() {
+    listRefresher.cancel();
+    candidatesListRefresher.cancel();
+    }
 
 
     private void updateAllies(List<AllyDTO> alliesDetails) {
@@ -304,5 +333,30 @@ public class ContestController extends MainAppScene implements Initializable {
         wordCandidateController.setAgent(String.valueOf(decryptionCandidate.getAgentName()));
         wordCandidateController.setCode(decryptionCandidate.getCodeConfiguration());
         return wordCandidate;
+    }
+
+    private void showWinner(String allyName) {
+        try {
+            Stage settingStage = loadWinnerStage();
+
+            this.winnerController.setWinnerLabel(allyName);
+            settingStage.initModality(Modality.WINDOW_MODAL);
+            settingStage.showAndWait();
+            this.alliesController.reset();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Stage loadWinnerStage() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/mini_apps/allies/winner/winner.fxml"));
+
+        AnchorPane anchorPane = loader.load();
+        this.winnerController=loader.getController();
+        Scene scene = new Scene(anchorPane, 455, 100);
+        Stage settingStage = new Stage();
+        settingStage.setScene(scene);
+        settingStage.setTitle("winner");
+        return settingStage;
     }
 }

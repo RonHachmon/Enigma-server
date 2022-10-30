@@ -20,6 +20,12 @@ public class BattleStatusRefresher extends TimerTask {
 
     private final Consumer<BattleStatusDTO> battleStatusConsumer;
     private final String url;
+    private boolean stop=false;
+
+    public void Stop(boolean stop) {
+        this.stop = stop;
+    }
+
 
 
     public BattleStatusRefresher(Consumer<BattleStatusDTO> battleStatusConsumer,String battleName) {
@@ -29,6 +35,10 @@ public class BattleStatusRefresher extends TimerTask {
 
     @Override
     public void run() {
+        if(stop)
+        {
+            return;
+        }
 
         HttpClientUtil.runAsync(url, new Callback() {
 

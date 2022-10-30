@@ -41,6 +41,7 @@ public class joinBattleServlet extends HttpServlet {
         }
         if(entity.equals("ally"))
         {
+            System.out.println("ally join");
             battlesManager.joinAllyToBattle(battleShip,username);
         }
         if(entity.equals("agent"))

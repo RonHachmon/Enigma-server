@@ -1,5 +1,6 @@
 package app.mini_apps.uboat;
 
+import app.UBoatAppMainController;
 import app.mini_apps.uboat.bodies.ConfigurationController;
 import app.mini_apps.uboat.bodies.ContestController;
 import app.mini_apps.uboat.bodies.absractScene.MainAppScene;
@@ -14,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import engine.enigma.machineutils.MachineManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -35,6 +37,7 @@ public class UboatController implements Initializable {
 
     private List<CodeHolder> codeHolders=new ArrayList<>();
     private final List<MainAppScene> mainAppScenes = new ArrayList<>();
+    private UBoatAppMainController mainApp;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -140,9 +143,21 @@ public class UboatController implements Initializable {
     }
 
 
+    public void close() {
+        this.configurationComponentController.resetCode();
+        this.configurationComponentController.resetInformation();
+        this.headerComponentController.reset();
+        this.machineManager=null;
+        try {
+            this.contestComponentController.close();
+            mainApp.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-    public void updateTotalWordEncrypted(int processedInputCounter) {
-        this.configurationComponentController.updateTotalEncryptedWord(processedInputCounter);
     }
 
+    public void setMainAppController(UBoatAppMainController uBoatAppMainController) {
+        this.mainApp=uBoatAppMainController;
+    }
 }

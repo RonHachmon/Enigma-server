@@ -85,6 +85,10 @@ public class HeaderController extends MainAppScene implements Initializable   {
 
 
     }
+    public void reset()
+    {
+        this.currentPath.setText("");
+    }
 
     private  void joinBattle() throws IOException {
 
@@ -115,7 +119,6 @@ public class HeaderController extends MainAppScene implements Initializable   {
     }
 
     private  void fileHttpRequest(File selectedFile) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("enigmaFile", selectedFile.getName(),

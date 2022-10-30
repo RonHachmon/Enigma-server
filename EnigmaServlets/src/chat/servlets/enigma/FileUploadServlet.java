@@ -33,7 +33,6 @@ import java.util.Scanner;
 @WebServlet("/upload-file")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
-    private static Scanner scannerOut=new Scanner(System.in);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

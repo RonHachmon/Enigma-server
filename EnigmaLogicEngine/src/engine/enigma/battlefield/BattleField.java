@@ -13,6 +13,7 @@ public class BattleField {
 
     private String encryptedMessage;
     private BattleStatus battleStatus=BattleStatus.IDLE;
+    private String winningTeam;
 
     public BattleFieldInfo getBattleFieldInfo() {
         return battleFieldInfo;
@@ -78,4 +79,15 @@ public class BattleField {
     }
 
 
+    public String getWinningTeam() {
+        return winningTeam;
+    }
+
+    public void setWinningTeam(String winningTeam) {
+        this.winningTeam = winningTeam;
+    }
+
+    public void clearAllies() {
+        allies.clear();
+    }
 }
