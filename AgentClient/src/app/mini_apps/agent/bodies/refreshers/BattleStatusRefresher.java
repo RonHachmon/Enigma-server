@@ -20,6 +20,14 @@ public class BattleStatusRefresher extends TimerTask {
 
     private final Consumer<BattleStatusDTO> battleStatusConsumer;
     private final String url;
+    private boolean stop=false;
+
+
+    public void Stop(boolean stop) {
+        this.stop = stop;
+    }
+
+
 
 
     public BattleStatusRefresher(Consumer<BattleStatusDTO> battleStatusConsumer, String battleName) {
@@ -29,6 +37,10 @@ public class BattleStatusRefresher extends TimerTask {
 
     @Override
     public void run() {
+        if(stop)
+        {
+            return;
+        }
 
         HttpClientUtil.runAsync(url, new Callback() {
 
@@ -40,7 +52,9 @@ public class BattleStatusRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 BattleStatusDTO battleStatusDTO =GSON_INSTANCE.fromJson(response.body().string(), BattleStatusDTO.class);
-                battleStatusConsumer.accept(battleStatusDTO);
+                if(battleStatusDTO!=null) {
+                    battleStatusConsumer.accept(battleStatusDTO);
+                }
             }
         });
     }

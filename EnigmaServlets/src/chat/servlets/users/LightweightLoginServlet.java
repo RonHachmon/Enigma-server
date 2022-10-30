@@ -24,6 +24,7 @@ public class LightweightLoginServlet extends HttpServlet {
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
 
         if (usernameFromSession == null) { //user is not logged in yet
+            System.out.println("new user");
 
             String usernameFromParameter = request.getParameter(USERNAME);
             String entityParameter=request.getParameter("entity");
@@ -50,6 +51,7 @@ public class LightweightLoginServlet extends HttpServlet {
                  */
                 synchronized (this) {
                     if (userManager.isUserExists(usernameFromParameter)) {
+                        System.out.println("user exist");
                         String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
 
                         // stands for unauthorized as there is already such user with this name
@@ -57,6 +59,7 @@ public class LightweightLoginServlet extends HttpServlet {
                         response.getOutputStream().print(errorMessage);
                     }
                     else {
+                        System.out.println("user doesnt exist");
                         //add the new user to the users list
                         userManager.addUser(usernameFromParameter);
                         if(entityParameter.equals("ally"))

@@ -1,4 +1,14 @@
 
+
+#logout {
+    -fx-background-color: #a82e2e;
+    -fx-text-fill: #f7f7f7;
+    -fx-background-radius: 0%;
+    -fx-border-radius:0%;
+    -fx-border-color:#1a1a1a ;
+    -fx-border-width:1px;
+}
+
 /* General   */
 .text {
     -fx-font-family: "Routed Gothic";

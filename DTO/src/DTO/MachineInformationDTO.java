@@ -17,6 +17,7 @@ public class MachineInformationDTO {
     private final String availableChars;
     private final int amountOfRotorsRequired;
     private final int reflectorID;
+    private  String winningTeam;
 
 
     //currently in user rotors
@@ -66,5 +67,13 @@ public class MachineInformationDTO {
 
     public int[] getStartingRotors() {
         return startingRotors;
+    }
+
+    public String getWinningTeam() {
+        return winningTeam;
+    }
+
+    public void setWinningTeam(String winningTeam) {
+        this.winningTeam = winningTeam;
     }
 }

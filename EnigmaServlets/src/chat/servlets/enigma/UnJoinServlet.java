@@ -1,7 +1,9 @@
 package chat.servlets.enigma;
 
+import chat.utils.ServletUtils;
 import chat.utils.SessionUtils;
 import engine.enigma.battlefield.BattlesManager;
+import engine.users.UserManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,15 +31,18 @@ public class UnJoinServlet extends HttpServlet {
         battleShip = cleanBattleName(battleShip);
 
 
-        System.out.println("join: "+battleShip+" "+ entity);
+        System.out.println("unjoin: "+battleShip+" "+ entity);
 
         String username = SessionUtils.getUsername(request);
         System.out.println(username);
         validateInput(battleShip, entity);
         BattlesManager battlesManager=BattlesManager.getInstance();
+
         if(entity.equals("uboat"))
         {
             battlesManager.removeBoat(battleShip,username);
+            ServletUtils.getUserManager(getServletContext()).removeUser(username);
+            SessionUtils.clearSession(request);
         }
         if(entity.equals("ally"))
         {

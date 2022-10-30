@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 public class HttpClientUtil {
 
     private final static SimpleCookieManager simpleCookieManager = new SimpleCookieManager();
-    private final static OkHttpClient HTTP_CLIENT =
+    private static OkHttpClient HTTP_CLIENT =
             new OkHttpClient.Builder()
                     .cookieJar(simpleCookieManager)
                     .followRedirects(false)
@@ -15,6 +15,13 @@ public class HttpClientUtil {
 
     public static void setCookieManagerLoggingFacility(Consumer<String> logConsumer) {
         simpleCookieManager.setLogData(logConsumer);
+    }
+
+    public static void generateNewSession() {
+        HTTP_CLIENT =        new OkHttpClient.Builder()
+                .cookieJar(simpleCookieManager)
+                .followRedirects(false)
+                .build();
     }
 
     public static void removeCookiesOf(String domain) {
@@ -30,6 +37,7 @@ public class HttpClientUtil {
 
         call.enqueue(callback);
     }
+
     public static void runAsyncWithBody(String finalUrl, Callback callback, RequestBody requestBody) {
         Request request = new Request.Builder()
                 .url(finalUrl)

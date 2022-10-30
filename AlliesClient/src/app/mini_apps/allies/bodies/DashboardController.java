@@ -185,6 +185,7 @@ public class DashboardController extends MainAppScene implements Initializable {
                 {
                     Platform.runLater(()->
                     {
+                        System.out.println("joined");
                         battleTextField.setText(finalBattleName);
                         readyButton.setDisable(false);
 
@@ -224,4 +225,8 @@ public class DashboardController extends MainAppScene implements Initializable {
     }
 
 
+    public void reset() {
+        this.battleTextField.setText("");
+        this.joinedBattle=null;
+    }
 }

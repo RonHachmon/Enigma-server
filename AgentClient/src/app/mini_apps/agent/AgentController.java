@@ -67,9 +67,7 @@ public class AgentController implements Initializable {
         contestComponentController.startBattleInfoRefresher();
     }
 
-    public void getBattleFile() {
-        this.contestComponentController.getBattleFile();
-    }
+
 
 
 }

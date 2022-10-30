@@ -63,7 +63,8 @@ public class UBoatAppMainController implements Closeable {
 
     @Override
     public void close() throws IOException {
-        /*chatRoomComponentController.close();*/
+        loadLoginPage();
+        loadUboatPage();
     }
 
     private void loadLoginPage() {
@@ -87,6 +88,7 @@ public class UBoatAppMainController implements Closeable {
             fxmlLoader.setLocation(url);
             uboatComponent = fxmlLoader.load();
             uboatController = fxmlLoader.getController();
+            uboatController.setMainAppController(this);
            /* chatRoomComponentController.setChatAppMainController(this);*/
         } catch (IOException e) {
             e.printStackTrace();

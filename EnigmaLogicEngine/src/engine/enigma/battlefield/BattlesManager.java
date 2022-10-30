@@ -114,6 +114,7 @@ public class BattlesManager {
          if(ally!=null) {
             BattleField battleField = getBattleFieldByBattleName(battleShip);
             if (battleField != null) {
+               System.out.println("found battle ally joinning");
                battleField.addAlly(ally);
                return true;
             }
@@ -161,6 +162,8 @@ public class BattlesManager {
           if(battleField!=null)
           {
              this.battleLinkedList.removeFirstOccurrence(battleField);
+             this.mapToDecryptionCandidates.remove(battleField);
+             this.mapToMachineFile.remove(battleField);
           }
        }
     }
@@ -232,7 +235,6 @@ public class BattlesManager {
       for (int i = 0; i <decryptionCandidates.length ; i++) {
          decryptionCandidatesList.add(decryptionCandidates[i]);
       }
-      System.out.println("all candiates size: "+decryptionCandidatesList.size());
    }
 
    public List<DecryptionCandidate> getAllyCandidates(String username) {
