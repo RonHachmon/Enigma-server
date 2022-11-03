@@ -39,7 +39,6 @@ public class CandidatesListRefresher extends TimerTask {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println();
                 DecryptionCandidate[] agentData =GSON_INSTANCE.fromJson(response.body().string(), DecryptionCandidate[].class);
 
                 candidatesListConsumer.accept(agentData);

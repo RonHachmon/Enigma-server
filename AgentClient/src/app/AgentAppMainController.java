@@ -9,10 +9,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
+import javafx.stage.Window;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import web.http.HttpClientUtil;
@@ -66,7 +69,9 @@ public class AgentAppMainController implements Closeable {
 
     @Override
     public void close() throws IOException {
-        /*chatRoomComponentController.close();*/
+        logicController.close();
+        agentController.close();
+
     }
 
     private void loadLoginPage() {
@@ -100,7 +105,11 @@ public class AgentAppMainController implements Closeable {
 
     public void switchToChatRoom() {
         setMainPanelTo(uboatComponent);
+        mainPanel.getScene().getWindow().setHeight(650);
+        mainPanel.getScene().getWindow().setWidth(850);
     }
+
+
 
     public void setAgentData(AgentData agentData) {
         this.agentController.setAgentData(agentData);

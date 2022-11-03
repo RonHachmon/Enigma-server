@@ -94,8 +94,6 @@ public class Agent implements Runnable {
             }
 
         } catch (Exception e) {
-            System.out.println("Agent got exception");
-            System.out.println(e.getMessage());
             Thread.currentThread().interrupt();
         }
     }

@@ -26,8 +26,6 @@ public class NewStatistic implements Serializable {
         for (String code: statistic.keySet()) {
             String key = code;
             ArrayList<NewStatisticInput> value = statistic.get(code);
-            System.out.println(code);
-            value.forEach(newStatisticInput -> System.out.println("\t"+newStatisticInput));
         }
     }
     public int getTotalEncryptedWordCounter(){

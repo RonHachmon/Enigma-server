@@ -35,16 +35,12 @@ public class AssignmentProducer implements Runnable {
         this.difficultyLevel = difficultyLevel;
         this.setInitialConfiguration();
         this.permutation = new Permutation(machineInformationDTO.getAvailableChars());
-        System.out.println("Producer initi");
-
-
     }
     private void generateCode() throws InterruptedException {
         String nextPermutation;
         do {
 
             if (toStop) {
-                System.out.println("Producer stopped  code :)");
                 return;
             }
             queue.put(codeConfiguration.clone(codeConfiguration));
@@ -84,7 +80,6 @@ public class AssignmentProducer implements Runnable {
     }
 
     private void chooseDifficulty() throws InterruptedException {
-        /*    System.out.println("starting push code");*/
         switch (difficultyLevel) {
             case EASY:
                 this.generateCode();
@@ -99,8 +94,6 @@ public class AssignmentProducer implements Runnable {
                 this.goOverAllKRotor();
                 break;
         }
-/*        isDone = true;*/
-        System.out.println("Producer Done");
     }
 
 

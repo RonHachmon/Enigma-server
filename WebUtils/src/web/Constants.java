@@ -20,8 +20,9 @@ public class Constants {
     private final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
     private final static String CONTEXT_PATH = "/enigmaApp";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
-    public final static String SEND_CHAT_LINE = FULL_SERVER_PATH + "/pages/chatroom/sendChat";
+
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/loginShortResponse";
+    public final static String LOGOUT = FULL_SERVER_PATH +"/logout";
     public final static String UPLOAD_FILE = FULL_SERVER_PATH + "/upload-file";
     public final static String JOIN_BATTLE = FULL_SERVER_PATH + "/join";
 
@@ -46,6 +47,8 @@ public class Constants {
     public final static String CONFIGURATION_TASKS = FULL_SERVER_PATH +"/tasks";
 
     public final static String QUEUE_DATA = FULL_SERVER_PATH +"/queue-data";
+
+
 
 
 

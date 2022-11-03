@@ -1,5 +1,6 @@
 package chat.servlets.users;
 
+import engine.enigma.battlefield.BattlesManager;
 import engine.users.UserManager;
 import chat.utils.ServletUtils;
 import chat.utils.SessionUtils;
@@ -12,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/chat/logout"})
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
 public class LogoutServlet extends HttpServlet {
 
 
@@ -23,10 +24,9 @@ public class LogoutServlet extends HttpServlet {
         if (usernameFromSession != null) {
             System.out.println("Clearing session for " + usernameFromSession);
             userManager.removeUser(usernameFromSession);
+            BattlesManager.getInstance().deleteEntity(usernameFromSession);
             SessionUtils.clearSession(request);
 
-            // used mainly for the web version. irrelevant in the desktop client version
-            response.sendRedirect(request.getContextPath() + "/index.html");
         }
     }
 

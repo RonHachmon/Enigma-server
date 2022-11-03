@@ -52,7 +52,6 @@ public class AlliesListRefresher extends TimerTask {
                     AlliesArray alliesArray = GSON_INSTANCE.fromJson(response.body().string(), AlliesArray.class);
                     List<AllyDTO> list = new ArrayList<>();
                     AllyDTO[] allies = alliesArray.getAllies();
-                    System.out.println("uboat allies " + allies.length);
                     Arrays.stream(allies).forEach(battleField -> list.add(battleField));
                     usersListConsumer.accept(list);
                 }

@@ -6,7 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import web.Constants;
 import web.http.HttpClientUtil;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,8 +24,8 @@ public class UBoatClientApp extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(350);
+        primaryStage.setMinWidth(500);
         primaryStage.setTitle("Uboat client");
 
         URL loginPage = getClass().getResource(MAIN_PAGE_FXML_RESOURCE_LOCATION);
@@ -33,7 +35,7 @@ public class UBoatClientApp extends Application {
             Parent root = fxmlLoader.load();
             UBoatAppMainController = fxmlLoader.getController();
 
-            Scene scene = new Scene(root, 700, 600);
+            Scene scene = new Scene(root, 500, 350);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
@@ -44,8 +46,8 @@ public class UBoatClientApp extends Application {
 
     @Override
     public void stop() throws Exception {
+        HttpClientUtil.runBlocking(Constants.LOGOUT);
         HttpClientUtil.shutdown();
-        UBoatAppMainController.close();
     }
 
     public static void main(String[] args) {

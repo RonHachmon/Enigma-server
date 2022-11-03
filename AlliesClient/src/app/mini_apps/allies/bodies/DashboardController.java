@@ -109,7 +109,6 @@ public class DashboardController extends MainAppScene implements Initializable {
     @FXML
     void selectedBattle(MouseEvent event) {
         BattleFieldInfoDTO selectedItem = contestTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedItem.getStatus());
         if (event.getClickCount() == 2&&selectedItem!=null) {
             if(!selectedItem.isFull()) {
                 if(!selectedItem.getStatus().equals("ended")) {
@@ -195,7 +194,6 @@ public class DashboardController extends MainAppScene implements Initializable {
                 {
                     Platform.runLater(()->
                     {
-                        System.out.println("joined");
                         battleTextField.setText(finalBattleName);
                         readyButton.setDisable(false);
 
@@ -220,7 +218,6 @@ public class DashboardController extends MainAppScene implements Initializable {
     }
 
     public void startListRefresher() {
-        System.out.println("Nani??");
         battleListRefresher = new BattleListRefresher(this::updateContestList);
         agentListRefresher = new AgentListRefresher(this::updateAgentList);
         timer = new Timer();
@@ -238,5 +235,9 @@ public class DashboardController extends MainAppScene implements Initializable {
     public void reset() {
         this.battleTextField.setText("");
         this.joinedBattle=null;
+    }
+
+    public void close() {
+        this.timer.cancel();
     }
 }

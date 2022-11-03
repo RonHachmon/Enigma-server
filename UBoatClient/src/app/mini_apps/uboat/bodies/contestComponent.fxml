@@ -43,8 +43,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="ALWAYS" />
-                  <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="20.0" prefHeight="20.0" vgrow="ALWAYS" />
-                  <RowConstraints fillHeight="false" maxHeight="100.0" minHeight="20.0" prefHeight="20.0" vgrow="ALWAYS" />
+                  <RowConstraints fillHeight="false" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="ALWAYS" />
+                  <RowConstraints fillHeight="false" maxHeight="100.0" minHeight="60.0" prefHeight="60.0" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
                </rowConstraints>
                <children>

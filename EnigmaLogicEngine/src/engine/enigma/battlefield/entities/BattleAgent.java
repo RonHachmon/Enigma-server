@@ -32,7 +32,6 @@ public class BattleAgent {
     public synchronized void increaseTaskPulled(int taskPulled) {
 
         this.taskPulled += taskPulled;
-        System.out.println("task pulled"+this.taskPulled);
     }
 
     public int getTaskDone() {
@@ -41,7 +40,6 @@ public class BattleAgent {
 
     public synchronized void increaseTaskDone(int taskDone) {
         this.taskDone += taskDone;
-        System.out.println("task done"+this.taskDone);
     }
 
     public BattleAgent(AgentData agentData) {

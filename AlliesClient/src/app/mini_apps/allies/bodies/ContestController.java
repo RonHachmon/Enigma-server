@@ -142,14 +142,12 @@ public class ContestController extends MainAppScene implements Initializable {
 
                 Platform.runLater(() ->
                 {
-                    System.out.println("ally app yay :D");
                     this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
                 });
             }
             if (battleStatusDTO.getStatus().equals("Finished")) {
                 Platform.runLater(() ->
                 {
-                System.out.println("ally winner");
                 showWinner(battleStatusDTO.getWinningAlly());
                 battleStatusRefresher.Stop(true);
                 });
@@ -266,14 +264,7 @@ public class ContestController extends MainAppScene implements Initializable {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    System.out.println(":(");
-                    /*httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());*/
-                }
-                else
-                {
-                    System.out.println(":D");
-                }
+
             }
         });
     }
@@ -349,7 +340,6 @@ public class ContestController extends MainAppScene implements Initializable {
 
     private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
         Platform.runLater(() -> {
-            System.out.println("candi size "+decryptionCandidates.length);
             for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
                 createWordCandidate(decryptionCandidates[i]);
             }
@@ -406,5 +396,9 @@ public class ContestController extends MainAppScene implements Initializable {
         settingStage.setScene(scene);
         settingStage.setTitle("winner");
         return settingStage;
+    }
+
+    public void shutdown() {
+        this.timer.cancel();
     }
 }

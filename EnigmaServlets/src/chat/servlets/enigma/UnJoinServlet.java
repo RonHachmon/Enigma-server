@@ -31,10 +31,10 @@ public class UnJoinServlet extends HttpServlet {
         battleShip = cleanBattleName(battleShip);
 
 
-        System.out.println("unjoin: "+battleShip+" "+ entity);
+
 
         String username = SessionUtils.getUsername(request);
-        System.out.println(username);
+
         validateInput(battleShip, entity);
         BattlesManager battlesManager=BattlesManager.getInstance();
 
