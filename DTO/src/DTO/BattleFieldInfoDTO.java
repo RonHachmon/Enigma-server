@@ -27,9 +27,13 @@ public class BattleFieldInfoDTO {
             this.status = "started";
 
         }
-        else
-        {
-            this.status = "on hold";
+        else {
+            if (battleFieldInfo.isEnded()) {
+                this.status = "ended";
+
+            } else {
+                this.status = "on hold";
+            }
         }
 
         this.uboatName = battleFieldInfo.getUboatName();

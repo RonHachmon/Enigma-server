@@ -37,13 +37,16 @@ public class Constants {
 
 
 
-    public final static String UPDATE_TASK = FULL_SERVER_PATH + "/task";
+    public final static String ALLY_TASK_SIZE = FULL_SERVER_PATH + "/task";
     public final static String BATTLE_STATUS = FULL_SERVER_PATH + "/update-status";
 
     public final static String CANDIDATES = FULL_SERVER_PATH + "/candidate";
 
 
-    public final static String TASK = FULL_SERVER_PATH + "/tasks";
+    public final static String CONFIGURATION_TASKS = FULL_SERVER_PATH +"/tasks";
+
+    public final static String QUEUE_DATA = FULL_SERVER_PATH +"/queue-data";
+
 
 
 

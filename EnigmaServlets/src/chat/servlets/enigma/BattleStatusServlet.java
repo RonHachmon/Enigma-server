@@ -34,6 +34,7 @@ public class BattleStatusServlet extends HttpServlet {
             battleField.setStatus(BattleStatus.DONE);
             battleField.setWinningTeam(machineInformationDTO.getWinningTeam());
             battleField.clearAllies();
+
         }
 
 

@@ -160,8 +160,8 @@ public class ContestController extends MainAppScene implements Initializable, Co
             alliesTable.setItems(FXCollections.observableList(alliesDetails));
         });
         if (isReady) {
-            isReady = false;
             if (this.isAllAlliesReady(alliesDetails)) {
+                isReady = false;
                 autoUpdateAllies = false;
                 this.startBattleInServer();
                 battleInProgress = true;
@@ -247,7 +247,6 @@ public class ContestController extends MainAppScene implements Initializable, Co
         if (readyButton.getText().equals("Logout")) {
             this.logout();
             this.uboatController.close();
-           /* HttpClientUtil.generateNewSession();*/
         } else {
             inputArea.setDisable(true);
             outputArea.setDisable(true);

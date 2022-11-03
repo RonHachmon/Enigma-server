@@ -2,10 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -183,43 +180,26 @@
                <BorderPane.margin>
                   <Insets bottom="5.0" left="9.0" top="20.0" />
                </BorderPane.margin>
-               <children>
-                  <HBox>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <children>
-                        <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="189.0" styleClass="title-label" text="ALLIES PROPERTIES:" />
-                     </children>
-                  </HBox>
-               </children>
             </VBox>
          </top>
-         <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
-               <content>
-                  <TableView fx:id="alliesTable" prefHeight="100000.0" prefWidth="111.0" style="-fx-border-color: black;">
-                     <columns>
-                        <TableColumn fx:id="alliesColumn" editable="false" prefWidth="75.0" text="allies" />
-                        <TableColumn fx:id="totalAgentColumn" editable="false" prefWidth="75.0" text="total agents" />
-                        <TableColumn fx:id="taskSizeColumn" editable="false" prefWidth="75.0" text="task size" />
-                     </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-               </content>
-               <BorderPane.margin>
-                  <Insets bottom="15.0" left="10.0" right="10.0" top="2.0" />
-               </BorderPane.margin>
-            </ScrollPane>
-         </center>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <GridPane.margin>
             <Insets right="10.0" top="10.0" />
          </GridPane.margin>
+         <center>
+            <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="TOP_LEFT" prefHeight="39.0" prefWidth="212.0" styleClass="battle-status" text="BATTLE STATUS :">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="battleStatus" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="189.0" styleClass="battle-status" />
+               </children>
+            </HBox>
+         </center>
       </BorderPane>
       <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <top>
@@ -246,12 +226,65 @@
             <Insets right="10.0" top="10.0" />
          </GridPane.margin>
          <center>
-            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" maxWidth="90.0" minWidth="90.0" prefHeight="100.0" prefWidth="90.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="totalTaskDone" alignment="CENTER" prefHeight="17.0" prefWidth="108.0" text="1000/81,000" textFill="#f6f5f5" />
-                  <ProgressBar prefHeight="18.0" prefWidth="349.0" progress="0.0" />
+                  <VBox id="progress-data" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="80.0" prefHeight="70.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label text="task left" textFill="#1f0202" underline="true" />
+                        <Label fx:id="taskLeft" textFill="#0d0000">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox id="progress-data" alignment="CENTER" maxHeight="70.0" maxWidth="80.0" minHeight="70.0" minWidth="80.0" prefHeight="70.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label text="task done" textFill="#1f0202" underline="true" />
+                        <Label fx:id="taskDone" textFill="#0d0000">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox id="progress-data" alignment="CENTER" maxHeight="70.0" maxWidth="80.0" minHeight="70.0" minWidth="80.0" prefHeight="70.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label text="task pulled" textFill="#1f0202" underline="true" />
+                        <Label fx:id="taskPulled" textFill="#0d0000">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox id="progress-data" alignment="CENTER" maxHeight="70.0" maxWidth="80.0" minHeight="70.0" minWidth="80.0" prefHeight="70.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label text="candidates" textFill="#1f0202" underline="true" />
+                        <Label fx:id="candidatesFound" textFill="#0d0000">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
          </center>
       </BorderPane>
    </children>

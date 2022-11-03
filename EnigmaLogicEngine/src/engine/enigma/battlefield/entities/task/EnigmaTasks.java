@@ -2,6 +2,7 @@ package engine.enigma.battlefield.entities.task;
 
 import DTO.CodeSettingDTO;
 import DTO.MachineInformationDTO;
+import DTO.QueueDataDTO;
 import DTO.TaskDataDTO;
 import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.bruteForce2.utils.CodeConfiguration;
@@ -18,7 +19,7 @@ public class EnigmaTasks {
     private TaskData taskData=new TaskData();
 
     private AssignmentProducer assignmentProducer;
-    BlockingQueue<CodeConfiguration> blockingQueue = new LinkedBlockingDeque<>(MAX_QUEUE_SIZE);
+    BlockingQueue<CodeConfiguration> blockingQueue ;
 
     public Integer getTaskSize() {
         return taskData.getTaskSize();
@@ -37,7 +38,7 @@ public class EnigmaTasks {
     }
 
     public void startProducer(MachineInformationDTO machineInformationDTO, BattleFieldInfo battleFieldInfo) {
-        System.out.println("start producer");
+        blockingQueue = new LinkedBlockingDeque<>(MAX_QUEUE_SIZE);
         this.calcMissionSize(machineInformationDTO,battleFieldInfo);
         try {
             assignmentProducer =new AssignmentProducer(blockingQueue,taskData,battleFieldInfo.getLevel(),machineInformationDTO);
@@ -48,12 +49,6 @@ public class EnigmaTasks {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-   /*     try {
-            assignmentProducer=new AssignmentProducer(blockingQueue,new DMData(),machineInformationDTO);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-        //to be implemented
     }
     private void calcMissionSize(MachineInformationDTO machineInformationDTO,BattleFieldInfo battleFieldInfo) {
         long easy = (long) Math.pow(machineInformationDTO.getAvailableChars().length(), machineInformationDTO.getAmountOfRotorsRequired());
@@ -80,6 +75,7 @@ public class EnigmaTasks {
     {
 
         CodeSettingDTO[] codeSettingDTOS=new CodeSettingDTO[amountOfTask];
+        int actualSettingSize=0;
         for (int i = 0; i <amountOfTask ; i++) {
             CodeConfiguration codeConfiguration = null;
             try {
@@ -87,7 +83,21 @@ public class EnigmaTasks {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            if(codeConfiguration==null)
+            {
+                break;
+            }
+            actualSettingSize++;
             codeSettingDTOS[i]=new CodeSettingDTO(codeConfiguration);
+        }
+
+        if(actualSettingSize!=amountOfTask)
+        {
+            CodeSettingDTO[] codeSettingDTOS2=new CodeSettingDTO[actualSettingSize];
+            for (int i = 0; i <actualSettingSize ; i++) {
+                codeSettingDTOS2[i]=codeSettingDTOS[i];
+            }
+            codeSettingDTOS=codeSettingDTOS2;
         }
         TaskDataDTO taskDataDTO=new TaskDataDTO(codeSettingDTOS,this.getTaskSize());
 
@@ -97,4 +107,11 @@ public class EnigmaTasks {
 
     }
 
+    public void reset() {
+        this.taskData.reset();
+    }
+
+    public QueueDataDTO getQueueData() {
+        return new QueueDataDTO(this.taskData);
+    }
 }

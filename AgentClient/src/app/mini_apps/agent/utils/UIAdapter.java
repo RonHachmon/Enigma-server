@@ -2,6 +2,7 @@ package app.mini_apps.agent.utils;
 
 
 import DTO.DecryptionCandidate;
+import engine.bruteForce2.utils.QueueData;
 import javafx.application.Platform;
 
 import java.util.function.Consumer;
@@ -11,13 +12,12 @@ public class UIAdapter {
     private final Consumer<String> updateProgress;
     private Consumer<DecryptionCandidate> addNewCandidate;
 
-
-    private Consumer<Integer> updateTotalFoundInteger;
+    private Consumer<QueueData> updateProgressData;
     private Runnable updateDistinct;
     private Runnable onDone;
-    public UIAdapter(Consumer<DecryptionCandidate> addNewCandidate, Consumer<Integer> updateTotalFoundWords, Runnable updateDistinct,Runnable onDone,Consumer<String> progress) {
+    public UIAdapter(Consumer<DecryptionCandidate> addNewCandidate, Consumer<QueueData> updateProgressData, Runnable updateDistinct,Runnable onDone,Consumer<String> progress) {
         this.addNewCandidate = addNewCandidate;
-        this.updateTotalFoundInteger = updateTotalFoundWords;
+        this.updateProgressData = updateProgressData;
         this.updateDistinct = updateDistinct;
         this.onDone=onDone;
         this.updateProgress=progress;
@@ -39,18 +39,10 @@ public class UIAdapter {
         );
     }
 
-
-
-    public void updateTotalFoundWords(int delta) {
+    public void updateProgressData(QueueData queueData) {
         Platform.runLater(
-                () -> updateTotalFoundInteger.accept(delta)
+                () -> updateProgressData.accept(queueData)
         );
-    }
-    public void updateProgress(String data){
-        Platform.runLater(
-                () -> updateProgress.accept(data)
-        );
-
     }
 
 }

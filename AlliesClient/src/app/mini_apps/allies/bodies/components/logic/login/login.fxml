@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="303.0" stylesheets="@login.css" vgap="3.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.components.logic.login.LoginController">
+<GridPane hgap="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="303.0" stylesheets="@login.css" vgap="3.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mini_apps.allies.bodies.components.logic.login.LoginController">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
     <ColumnConstraints hgrow="ALWAYS" />
@@ -34,21 +34,6 @@
          </children>
       </HBox>
       <Label fx:id="errorMessageLabel" maxWidth="1.7976931348623157E308" styleClass="error-label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
-         <children>
-            <Button mnemonicParsing="false" text="Uboat ">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Allies">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Agent" />
-         </children>
-      </HBox>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

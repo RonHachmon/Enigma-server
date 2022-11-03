@@ -19,7 +19,6 @@ public class TaskSizeServlet extends HttpServlet {
         String taskParameter = request.getParameter("task");
         String allyName = SessionUtils.getUsername(request);
         Integer taskSize=Integer.parseInt(taskParameter);
-        System.out.println(taskSize);
         BattlesManager.getInstance().updateTask(allyName,taskSize);
 
     }

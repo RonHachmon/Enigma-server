@@ -7,6 +7,7 @@ public class TaskData {
     private  long taskCreated;
     private  long taskPulled;
     private long totalCombinations;
+    private long totalTasks;
 
     public Integer getTaskSize() {
         return taskSize;
@@ -38,12 +39,31 @@ public class TaskData {
     }
 
     public void setTotalCombinations(long totalCombinations) {
+        System.out.println(totalCombinations);
         this.totalCombinations = totalCombinations;
+
+        System.out.println("tas size "+ taskSize);
+        this.totalTasks =totalCombinations/taskSize.intValue();
+        if((totalCombinations%taskSize)!=0)
+        {
+            totalTasks++;
+
+        }
+        System.out.println(totalTasks);
     }
     public void increasedTaskCreated() {
         this.taskCreated++;
     }
     public void increasedTaskPulled() {
         this.taskPulled++;
+    }
+
+    public void reset() {
+        this.taskPulled=0;
+        this.taskCreated=0;
+    }
+
+    public long getTotalTasks() {
+        return totalTasks;
     }
 }

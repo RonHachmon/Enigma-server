@@ -48,6 +48,7 @@ public class AssignmentProducer implements Runnable {
                 return;
             }
             queue.put(codeConfiguration.clone(codeConfiguration));
+            taskData.increasedTaskCreated();
 
             nextPermutation = permutation.increasePermutation(taskData.getTaskSize(), codeConfiguration.getCharIndexes());
             this.codeConfiguration.setCharIndexes(nextPermutation);

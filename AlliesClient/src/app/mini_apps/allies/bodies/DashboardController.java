@@ -71,17 +71,18 @@ public class DashboardController extends MainAppScene implements Initializable {
 
     @FXML
     private TableColumn<BattleFieldInfoDTO, String> signedColumn;
+    @FXML
+    private TextField battleTextField;
+
+    @FXML
+    private Button readyButton;
 
     private Timer timer;
     private TimerTask battleListRefresher;
     private TimerTask agentListRefresher;
     private BattleFieldInfoDTO joinedBattle=null;
 
-    @FXML
-    private TextField battleTextField;
 
-    @FXML
-    private Button readyButton;
 
 
     @Override
@@ -107,20 +108,29 @@ public class DashboardController extends MainAppScene implements Initializable {
     }
     @FXML
     void selectedBattle(MouseEvent event) {
+        BattleFieldInfoDTO selectedItem = contestTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedItem.getStatus());
+        if (event.getClickCount() == 2&&selectedItem!=null) {
+            if(!selectedItem.isFull()) {
+                if(!selectedItem.getStatus().equals("ended")) {
 
-        if (event.getClickCount() == 2) {
-            if(!contestTable.getSelectionModel().getSelectedItem().isFull()) {
-
-                if (this.joinedBattle != null) {
-                    //if already joined chosen battle
-                    if (this.joinedBattle.getBattleName().equals(contestTable.getSelectionModel().getSelectedItem().getBattleName())) {
-                        return;
+                    if (this.joinedBattle != null) {
+                        //if already joined chosen battle
+                        if (this.joinedBattle.getBattleName().equals(selectedItem.getBattleName())) {
+                            return;
+                        }
+                        unjoinBattle(joinedBattle.getBattleName());
                     }
-                    unjoinBattle(joinedBattle.getBattleName());
+                    this.joinedBattle = selectedItem;
+                    this.joinBattle(joinedBattle.getBattleName());
                 }
-                this.joinedBattle = contestTable.getSelectionModel().getSelectedItem();
-                //validate not full
-                this.joinBattle(joinedBattle.getBattleName());
+                else {
+                    Alert a = new Alert(Alert.AlertType.ERROR);
+                    a.setContentText("war ended");
+                    a.setTitle("War ended");
+                    a.show();
+
+                }
             }
             else
             {

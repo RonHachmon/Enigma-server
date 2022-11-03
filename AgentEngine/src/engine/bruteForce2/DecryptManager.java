@@ -4,14 +4,9 @@ import DTO.AgentData;
 import DTO.DMData;
 import engine.bruteForce2.utils.CandidateList;
 import engine.bruteForce2.utils.Dictionary;
-import engine.jaxb_classes.CTEDictionary;
-import engine.jaxb_classes.CTEEnigma;
-import engine.machineutils.JAXBClassGenerator;
+import engine.bruteForce2.utils.QueueData;
 import engine.machineutils.MachineManager;
 import utils.ObjectCloner;
-
-
-import javax.xml.bind.JAXBException;
 
 
 public class DecryptManager {
@@ -34,11 +29,14 @@ public class DecryptManager {
 
 
     public void stop() {
-  /*      TaskManger.resetStaticMembers();*/
         if (tasksManager != null) {
             tasksManager.stop();
         }
 
+    }
+    public QueueData getQueueData()
+    {
+        return tasksManager.getQueueData();
     }
 
 

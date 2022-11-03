@@ -4,60 +4,54 @@ package engine.bruteForce2;
 import DTO.*;
 import engine.bruteForce2.utils.CandidateList;
 import engine.bruteForce2.utils.CodeConfiguration;
+import engine.bruteForce2.utils.QueueData;
 import engine.bruteForce2.utils.QueueLock;
 
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import utils.ListPermutation;
-import utils.ObjectCloner;
-import utils.Permutation;
 import web.http.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import static web.Constants.*;
 
 public class AssignmentProducer implements Runnable {
 
-    public static boolean isDone = false;
     private final QueueLock queueLock;
     private CandidateList candidateList;
     private BlockingQueue<CodeConfiguration> queue;
     private DMData dmData;
     private boolean toStop = false;
     private final AgentData agentData;
-    private int amountOfCodeItook=0;
     private int lastIndexSendToServer=0;
+    private QueueData queueData;
+    private boolean firstTimeTakingTask=true;
 
-    public AssignmentProducer(BlockingQueue<CodeConfiguration> codeQueue, DMData dmData, QueueLock lock, AgentData agentData, CandidateList candidateList) throws Exception {
+    public AssignmentProducer(BlockingQueue<CodeConfiguration> codeQueue, DMData dmData, QueueLock lock, AgentData agentData, CandidateList candidateList, QueueData queueData) throws Exception {
         queueLock=lock;
         this.queue = codeQueue;
         this.dmData = dmData;
         this.agentData=agentData;
         this.candidateList=candidateList;
+        this.queueData=queueData;
     }
 
 
     @Override
     public void run() {
-
-        //take task from server
-
-
         while (!toStop) {
             this.queueLock.lock();
             this.takeTaskFromServer();
             //wait until empty
             this.queueLock.checkIfLocked();
+            if(toStop)
+            {
+                return;
+            }
             this.sendTaskToServer();
-
-
             //send candidates to server
-            //to be continued
+
         }
 
 
@@ -105,12 +99,14 @@ public class AssignmentProducer implements Runnable {
 
     private void takeTaskFromServer() {
         String finalUrl = HttpUrl
-                .parse(TASK)
+                .parse(CONFIGURATION_TASKS)
                 .newBuilder()
                 .addQueryParameter("ally",agentData.getAgentAlly())
                 .addQueryParameter("task", String.valueOf(agentData.getTaskSize()))
+                .addQueryParameter("taskDone", String.valueOf(firstTimeTakingTask? 0:agentData.getTaskSize()))
                 .build()
                 .toString();
+        firstTimeTakingTask=false;
         HttpClientUtil.runAsync(finalUrl, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -132,16 +128,20 @@ public class AssignmentProducer implements Runnable {
     {
         dmData.setAssignmentSize(dataDTO.getTaskSize());
         CodeSettingDTO[] codeSettingDTO = dataDTO.getCodeSettingDTO();
+        queueData.increaseTaskLeft(codeSettingDTO.length);
         for (int i = 0; i <codeSettingDTO.length ; i++) {
             CodeConfiguration codeConfiguration=new CodeConfiguration(codeSettingDTO[i]);
 
             try {
+
                 queue.put(codeConfiguration);
-                this.amountOfCodeItook++;
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
+        queueData.increaseTaskPulled(codeSettingDTO.length);
+
 
     }
     

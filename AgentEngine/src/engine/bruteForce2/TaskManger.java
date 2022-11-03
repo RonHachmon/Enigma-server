@@ -2,10 +2,7 @@ package engine.bruteForce2;
 
 import DTO.AgentData;
 import DTO.DMData;
-import engine.bruteForce2.utils.CandidateList;
-import engine.bruteForce2.utils.CodeConfiguration;
-import engine.bruteForce2.utils.Dictionary;
-import engine.bruteForce2.utils.QueueLock;
+import engine.bruteForce2.utils.*;
 import engine.machineutils.MachineManager;
 import utils.EnigmaUtils;
 
@@ -22,6 +19,9 @@ public class TaskManger {
     private final Dictionary dictionary;
     private MachineManager machineManager;
     private DMData dmData;
+    private QueueData queueData=new QueueData();
+
+
 
     private Consumer<Runnable> onCancel;
     private CandidateList candidateList = new CandidateList();
@@ -55,6 +55,10 @@ public class TaskManger {
         this.agentData=agentData;
     }
 
+    public QueueData getQueueData() {
+        return queueData;
+    }
+
 
 
     public void stop() {
@@ -65,7 +69,7 @@ public class TaskManger {
 
     public void start() {
         try {
-            this.assignmentProducer = new AssignmentProducer(blockingQueue, dmData,mLock,agentData,candidateList);
+            this.assignmentProducer = new AssignmentProducer(blockingQueue, dmData,mLock,agentData,candidateList,queueData);
             System.out.println("task manager - producer created");
             Thread producer = new Thread(this.assignmentProducer);
             producer.setName("Producer");
@@ -74,7 +78,7 @@ public class TaskManger {
             System.out.println("task manager - producer start");
             for (int i = 0; i < dmData.getAmountOfAgents(); i++) {
 
-                Agent agent = new Agent(blockingQueue, machineManager, dmData, candidateList, dictionary, i,mLock);
+                Agent agent = new Agent(blockingQueue, machineManager, dmData, candidateList, dictionary, i,mLock,queueData);
                 System.out.println("task manager - agent created");
                 Thread AgentThread = new Thread(agent);
                 AgentThread.setName("Agent "+(i+1));

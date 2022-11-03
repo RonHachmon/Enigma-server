@@ -1,18 +1,11 @@
 package app.mini_apps.allies.bodies;
 
-import DTO.AllyDTO;
-import DTO.BattleFieldInfoDTO;
-import DTO.BattleStatusDTO;
-import DTO.DecryptionCandidate;
+import DTO.*;
 import app.mini_apps.allies.bodies.absractScene.MainAppScene;
-import app.mini_apps.allies.refreshers.AlliesListRefresher;
-import app.mini_apps.allies.refreshers.BattleStatusRefresher;
-import app.mini_apps.allies.refreshers.CandidatesListRefresher;
+import app.mini_apps.allies.refreshers.*;
 import app.mini_apps.allies.smallComponent.CandidateController;
 import app.mini_apps.allies.winner.WinnerController;
-import engine.enigma.battlefield.BattleFieldInfo;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -72,19 +65,37 @@ public class ContestController extends MainAppScene implements Initializable {
 
     @FXML
     private TableColumn<AllyDTO, Integer> taskColumn;
+    @FXML
+    private TableView<AgentData> agentTable;
+    @FXML
+    private TableColumn<AgentData, String> agentNameColumn;
 
     @FXML
-    private Label totalTaskDone;
+    private TableColumn<AgentData, Integer> candidatesColumn;
+
+    @FXML
+    private TableColumn<AgentData, Integer> taskPulledColumn;
     @FXML
     private TextField taskSizeField;
 
     @FXML
     private Button readyButton;
+    @FXML
+    private Label taskDone;
+
+    @FXML
+    private Label taskCreated;
+
+    @FXML
+    private Label totalTasks;
+
 
     private Timer timer=new Timer();
     private TimerTask listRefresher;
     private BattleStatusRefresher battleStatusRefresher;
+    private AgentListRefresher agentListRefresher;
     private TimerTask candidatesListRefresher;
+    private TimerTask queueDataRefresher;
     private Tooltip toolTipError;
     private boolean validAssignment=false;
 
@@ -102,7 +113,7 @@ public class ContestController extends MainAppScene implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.setAlliesTable();
+        this.setAlliesAndAgentTable();
         setToolTip();
         taskSizeField.textProperty().
                 addListener((object, oldValue, newValue) -> allDataValid());
@@ -113,6 +124,8 @@ public class ContestController extends MainAppScene implements Initializable {
         startTimer(listRefresher);
         battleStatusRefresher =new BattleStatusRefresher(this::updateByStatus,this.battleFieldName.getText());
         startTimer(battleStatusRefresher);
+        agentListRefresher=new AgentListRefresher(this::updateAgents);
+        startTimer(agentListRefresher);
     }
 
     private void startTimer(TimerTask timerTask) {
@@ -122,13 +135,15 @@ public class ContestController extends MainAppScene implements Initializable {
         if(currentBattleStatus==null|| !battleStatusDTO.getStatus().equals(currentBattleStatus)) {
             currentBattleStatus=battleStatusDTO.getStatus();
             if (battleStatusDTO.getStatus().equals("In Progress")) {
+                this.queueDataRefresher=new QueueDataRefresher(this::updateQueueData);
+                candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates);
+                startTimer(candidatesListRefresher);
+                startTimer(queueDataRefresher);
 
                 Platform.runLater(() ->
                 {
                     System.out.println("ally app yay :D");
                     this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
-                    candidatesListRefresher = new CandidatesListRefresher(this::updateCandidates);
-                    startTimer(candidatesListRefresher);
                 });
             }
             if (battleStatusDTO.getStatus().equals("Finished")) {
@@ -153,16 +168,45 @@ public class ContestController extends MainAppScene implements Initializable {
 
     }
 
+    private void updateQueueData(QueueDataDTO queueDataDTO) {
+        Platform.runLater(()->
+        {
+            this.totalTasks.setText(EnigmaUtils.formatToIntWithCommas(queueDataDTO.getTotalTasks()));
+            this.taskCreated.setText(EnigmaUtils.formatToIntWithCommas(queueDataDTO.getTaskCreated()));
+        });
+    }
+
+    private void updateAgents(List<AgentData> agentData) {
+
+        Platform.runLater(() -> {
+            agentTable.getItems().clear();
+            agentTable.setItems(FXCollections.observableList(agentData));
+            int amountOfTaskDone=0;
+            for (int i = 0; i <agentData.size() ; i++) {
+                amountOfTaskDone+=agentData.get(i).getTaskDone();
+            }
+            this.taskDone.setText(EnigmaUtils.formatToIntWithCommas(amountOfTaskDone));
+        });
+    }
+
     public void reset() {
-            candidatesFlowPane.getChildren().clear();
-            this.difficulty.setText("");
-            this.battleFieldName.setText("");
-            this.encryptedMessage.setText("");
+        this.taskDone.setText("");
+        this.taskCreated.setText("");
+        this.totalTasks.setText("");
+
+        candidatesFlowPane.getChildren().clear();
+        this.difficulty.setText("");
+        this.battleFieldName.setText("");
+        this.encryptedMessage.setText("");
+        this.taskSizeField.setText("");
+        this.readyButton.setDisable(false);
+         taskSizeField.setDisable(false);
 
     }
     public void close() {
-    listRefresher.cancel();
-    candidatesListRefresher.cancel();
+        listRefresher.cancel();
+        candidatesListRefresher.cancel();
+        queueDataRefresher.cancel();
     }
 
 
@@ -189,7 +233,7 @@ public class ContestController extends MainAppScene implements Initializable {
     private void sendTaskToServer() {
 
         String finalUrl = HttpUrl
-                .parse(UPDATE_TASK)
+                .parse(ALLY_TASK_SIZE)
                 .newBuilder()
                 .addQueryParameter("task",taskSizeField.getText())
                 .build()
@@ -290,10 +334,14 @@ public class ContestController extends MainAppScene implements Initializable {
         toolTipError.show(taskSizeField, boundsInScene.getMaxX(), boundsInScene.getMaxY() + 15);
     }
     //---------------------- end of data validation
-    private void setAlliesTable() {
+    private void setAlliesAndAgentTable() {
         alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAllyName()));
         agentColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfAgents"));
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("taskSize"));
+
+        agentNameColumn.setCellValueFactory(data->new SimpleStringProperty(data.getValue().getAgentName()));
+        candidatesColumn.setCellValueFactory(new PropertyValueFactory<>("candidatesFound"));
+        taskPulledColumn.setCellValueFactory(new PropertyValueFactory<>("taskPulled"));
 
     }
 
@@ -316,7 +364,6 @@ public class ContestController extends MainAppScene implements Initializable {
 
             FlowPane.setMargin(wordCandidate, new Insets(2, 10, 2, 10));
             this.candidatesFlowPane.getChildren().add(wordCandidate);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -343,6 +390,7 @@ public class ContestController extends MainAppScene implements Initializable {
             settingStage.initModality(Modality.WINDOW_MODAL);
             settingStage.showAndWait();
             this.alliesController.reset();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
