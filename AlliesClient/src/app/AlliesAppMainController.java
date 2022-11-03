@@ -1,7 +1,7 @@
 package app;
 
 
-import app.components.logic.login.LoginController;
+import app.mini_apps.allies.bodies.components.logic.login.LoginController;
 
 import app.mini_apps.allies.AlliesController;
 import javafx.beans.binding.Bindings;
@@ -23,7 +23,7 @@ import static web.Constants.JHON_DOE;
 
 
 public class AlliesAppMainController implements Closeable {
-    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/app/components/logic/login/login.fxml";
+    public final static String LOGIN_PAGE_FXML_RESOURCE_LOCATION = "/app/mini_apps/allies/bodies/components/logic/login/login.fxml";
 
     private GridPane loginComponent;
     private LoginController logicController;

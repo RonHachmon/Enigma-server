@@ -2,6 +2,7 @@ package engine.enigma.battlefield.entities;
 
 import DTO.AgentData;
 import DTO.MachineInformationDTO;
+import DTO.QueueDataDTO;
 import DTO.TaskDataDTO;
 import engine.enigma.battlefield.BattleFieldInfo;
 import engine.enigma.battlefield.entities.task.EnigmaTasks;
@@ -38,9 +39,7 @@ public class Ally {
         return agentList;
     }
 
-    public void setAgentList(List<BattleAgent> agentList) {
-        this.agentList = agentList;
-    }
+
 
     public boolean isReady() {
         return isReady;
@@ -56,10 +55,46 @@ public class Ally {
     }
 
     public void startProducer(MachineInformationDTO machineInformationDTO, BattleFieldInfo battleFieldInfo) {
+        enigmaTasks.reset();
         enigmaTasks.startProducer(machineInformationDTO,battleFieldInfo);
     }
-    public  TaskDataDTO getTask(int amountOfTasks)
+
+    public  TaskDataDTO getTask(int amountOfTasks, int taskDone,String agentName)
     {
-        return this.enigmaTasks.getTasks(amountOfTasks);
+        TaskDataDTO tasks = this.enigmaTasks.getTasks(amountOfTasks);
+        updateAgent(tasks.getCodeSettingDTO().length, taskDone, agentName);
+        return tasks;
+    }
+
+    private void updateAgent(int amountOfTasks, int taskDone, String agentName) {
+        BattleAgent battleAgent = getBattleAgent(agentName);
+        if (battleAgent!=null) {
+            battleAgent.increaseTaskDone(taskDone);
+
+            battleAgent.increaseTaskPulled(amountOfTasks);
+        }
+    }
+
+    private BattleAgent getBattleAgent(String agentName) {
+        for (int i = 0; i <agentList.size() ; i++) {
+            if(agentList.get(i).getAgentName().equals(agentName))
+            {
+                return agentList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void updateAmountOfCandidateFound(String agentName, int candidateFound) {
+        BattleAgent battleAgent = getBattleAgent(agentName);
+        battleAgent.setCandidatesFound(battleAgent.getCandidatesFound()+candidateFound);
+    }
+
+    public void resetAgents() {
+        this.agentList.forEach(battleAgent -> battleAgent.resetTaskData());
+    }
+
+    public QueueDataDTO getQueueData() {
+        return this.enigmaTasks.getQueueData();
     }
 }

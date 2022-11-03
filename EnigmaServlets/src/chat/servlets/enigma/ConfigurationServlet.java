@@ -2,6 +2,7 @@ package chat.servlets.enigma;
 
 
 import DTO.TaskDataDTO;
+import chat.utils.SessionUtils;
 import com.google.gson.Gson;
 import engine.enigma.battlefield.BattlesManager;
 import jakarta.servlet.ServletException;
@@ -20,9 +21,11 @@ public class ConfigurationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         String allyName=request.getParameter("ally");
+        int taskDone=Integer.parseInt(request.getParameter("taskDone"));
+        System.out.println("task done "+taskDone);
         int amountOfTasks=Integer.parseInt(request.getParameter("task"));
-
-        TaskDataDTO tasks = BattlesManager.getInstance().getTasks(allyName, amountOfTasks);
+        String username = SessionUtils.getUsername(request);
+        TaskDataDTO tasks = BattlesManager.getInstance().getTasks(allyName, amountOfTasks,taskDone,username);
         Gson gson = new Gson();
         String jsonResponse = gson.toJson(tasks);
 

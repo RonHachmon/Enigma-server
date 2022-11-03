@@ -1,4 +1,9 @@
+#progress-data{
 
+    -fx-background-color: #BEC0B1;
+    -fx-border-color:black;
+    -fx-font-size: 12px;
+}
 /* General   */
 .text {
     -fx-font-family: "Routed Gothic";

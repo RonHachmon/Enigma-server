@@ -9,7 +9,6 @@ import engine.enigma.jaxb_classes.CTEBattlefield;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BattlesManager {
 
@@ -111,6 +110,7 @@ public class BattlesManager {
    public boolean joinAllyToBattle(String battleShip, String username) {
       if(username!=null&&!username.isEmpty()) {
          Ally ally = allAllies.get(username);
+         ally.resetAgents();
          if(ally!=null) {
             BattleField battleField = getBattleFieldByBattleName(battleShip);
             if (battleField != null) {
@@ -224,9 +224,9 @@ public class BattlesManager {
       }
    }
 
-    public TaskDataDTO getTasks(String allyName, int amountOfTasks) {
+    public TaskDataDTO getTasks(String allyName, int amountOfTasks, int taskDone,String agentName) {
        Ally ally = this.allAllies.get(allyName);
-       return ally.getTask(amountOfTasks);
+       return ally.getTask(amountOfTasks,taskDone,agentName);
     }
 
    public synchronized void addCandidates(String allyName, DecryptionCandidate[] decryptionCandidates) {
@@ -239,6 +239,10 @@ public class BattlesManager {
 
    public List<DecryptionCandidate> getAllyCandidates(String username) {
       BattleField battleField = this.getBattleFieldByAllyName(username);
+      if(battleField==null)
+      {
+         return null;
+      }
       List<DecryptionCandidate> decryptionCandidatesList = mapToDecryptionCandidates.get(battleField);
       return decryptionCandidatesList.stream().
               filter(decryptionCandidate -> decryptionCandidate.getAllyName().equals(username)).
@@ -249,5 +253,15 @@ public class BattlesManager {
    public List<DecryptionCandidate> getUboatCandidates(String username) {
       BattleField battleField = this.getBattleFieldByUboatName(username);
       return mapToDecryptionCandidates.get(battleField);
+   }
+
+   public void addAmountOfCandidate(String allyName, String agentName,int candidateFound) {
+
+      allAllies.get(allyName).updateAmountOfCandidateFound(agentName,candidateFound);
+   }
+
+   public QueueDataDTO getQueueData(String username) {
+      Ally ally = allAllies.get(username);
+      return ally.getQueueData();
    }
 }

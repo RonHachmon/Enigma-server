@@ -17,6 +17,7 @@ public class BattleFieldInfo {
     private int signedAllies=0;
 
     private boolean isStarted=false;
+    private boolean isEnded=false;
 
     public static BattleFieldInfo createFromXML(CTEBattlefield cteBattlefield) {
         BattleFieldInfo battleField=new BattleFieldInfo();
@@ -25,6 +26,14 @@ public class BattleFieldInfo {
         battleField.setDifficultyByString(cteBattlefield.getLevel());
         return battleField;
 
+    }
+    public void setEnded(boolean isEnded)
+    {
+        this.isEnded=isEnded;
+    }
+    public boolean isEnded()
+    {
+        return this.isEnded;
     }
 
     private  void setDifficultyByString(String level ) {

@@ -9,6 +9,7 @@ import app.mini_apps.agent.utils.threads.DaemonThread;
 
 import engine.bruteForce2.DecryptManager;
 import engine.bruteForce2.TaskManger;
+import engine.bruteForce2.utils.QueueData;
 import engine.machineutils.MachineManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
@@ -79,7 +80,6 @@ public class FindCandidateTask extends Task<Boolean> {
         startTimedTask();
     }
     public void stop() {
-        setTime();
         updateMessage("Cancelled ;/");
         this.cancelled();
     }
@@ -95,19 +95,15 @@ public class FindCandidateTask extends Task<Boolean> {
 
     private void update() {
         long workDone = decryptManager.getWorkDone();
-
+        QueueData queueData = decryptManager.getQueueData();
+        uiAdapter.updateProgressData(queueData);
         List<DecryptionCandidate> decryptionCandidates = decryptManager.getCandidateList().getList();
         if (decryptionCandidates.size() > lastKnownIndex) {
             for (int i = lastKnownIndex; i < decryptionCandidates.size(); i++) {
                 uiAdapter.addNewCandidate(decryptionCandidates.get(i));
             }
             lastKnownIndex = decryptionCandidates.size();
-            uiAdapter.updateTotalFoundWords(lastKnownIndex);
         }
-
-
-   /*     updateProgress(workDone,totalWorkSize);*/
-        uiAdapter.updateProgress("permutation: "+EnigmaUtils.formatToIntWithCommas(workDone)+"/"+EnigmaUtils.formatToIntWithCommas(totalWorkSize));
     }
 
     private void checkIfDone(long workDone) {
@@ -126,17 +122,6 @@ public class FindCandidateTask extends Task<Boolean> {
         this.avgTime=decryptManager.getAvgTaskDuration();
     }
 
-    public long getAvgTime () {
-        if(avgTime==0)
-        {
-            avgTime=decryptManager.getAvgTaskDuration();
-        }
-        return avgTime;
-    }
 
 
-    public void reset() {
-        uiAdapter.updateProgress("");
-        updateProgress(0,100);
-    }
 }

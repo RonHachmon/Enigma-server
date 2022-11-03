@@ -23,8 +23,13 @@ public class CandidateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson = new Gson();
         String allyName=request.getParameter("ally");
+        String agentName = SessionUtils.getUsername(request);
+
         DecryptionCandidate[] decryptionCandidates =gson.fromJson(request.getReader(), DecryptionCandidate[].class);
+        System.out.println(agentName);
+        BattlesManager.getInstance().addAmountOfCandidate(allyName,agentName,decryptionCandidates.length);
          BattlesManager.getInstance().addCandidates(allyName,decryptionCandidates);
+         /*BattlesManager.getInstance().addAmountOfCandidate(allyName,agentName,decryptionCandidates.length);*/
     }
 
     @Override
@@ -43,8 +48,6 @@ public class CandidateServlet extends HttpServlet {
 
         }
 
-
-
         Gson gson = new Gson();
         String allyName=request.getParameter("ally");
         DecryptionCandidate[] decryptionCandidates =gson.fromJson(request.getReader(), DecryptionCandidate[].class);
@@ -52,8 +55,13 @@ public class CandidateServlet extends HttpServlet {
     }
     private static void sendAllyCandidates(HttpServletResponse response, String username) throws IOException {
         List<DecryptionCandidate> allyCandidates = BattlesManager.getInstance().getAllyCandidates(username);
-        DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[allyCandidates.size()];
-        for (int i = 0; i < allyCandidates.size(); i++) {
+        int CandidatesSize=0;
+        if(allyCandidates!=null)
+        {
+            CandidatesSize=allyCandidates.size();
+        }
+        DecryptionCandidate[] decryptionCandidates=new DecryptionCandidate[CandidatesSize];
+        for (int i = 0; i < CandidatesSize; i++) {
             decryptionCandidates[i]=allyCandidates.get(i);
         }
 

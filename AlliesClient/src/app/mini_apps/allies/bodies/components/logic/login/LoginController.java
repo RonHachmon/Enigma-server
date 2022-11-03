@@ -1,4 +1,4 @@
-package app.components.logic.login;
+package app.mini_apps.allies.bodies.components.logic.login;
 
 import app.AlliesAppMainController;
 

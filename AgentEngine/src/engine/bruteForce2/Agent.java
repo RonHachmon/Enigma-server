@@ -2,16 +2,11 @@ package engine.bruteForce2;
 
 import DTO.DMData;
 import DTO.DecryptionCandidate;
-import engine.bruteForce2.utils.CandidateList;
-import engine.bruteForce2.utils.CodeConfiguration;
-import engine.bruteForce2.utils.Dictionary;
-import engine.bruteForce2.utils.QueueLock;
+import engine.bruteForce2.utils.*;
 import engine.machineutils.MachineManager;
 import utils.ObjectCloner;
 import utils.Permutation;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -34,8 +29,9 @@ public class Agent implements Runnable {
     private int amountOfPermutaionIWent = 0;
     private boolean toStop = false;
     private final QueueLock queueLock;
+    private QueueData queueData;
 
-    public Agent(BlockingQueue<CodeConfiguration> queue, MachineManager machineManager, DMData dMData, CandidateList candidateList, Dictionary dictionary, int ID, QueueLock queueLock) throws Exception {
+    public Agent(BlockingQueue<CodeConfiguration> queue, MachineManager machineManager, DMData dMData, CandidateList candidateList, Dictionary dictionary, int ID, QueueLock queueLock, QueueData queueData) throws Exception {
         this.id = ID + 1;
         this.machineManager = (MachineManager) ObjectCloner.deepCopy(machineManager);
         this.dMdata = dMData;
@@ -44,6 +40,7 @@ public class Agent implements Runnable {
         permutation = new Permutation(machineManager.getMachineInformation().getAvailableChars());
         this.dictionary = dictionary;
         this.queueLock=queueLock;
+        this.queueData=queueData;
     }
 
     @Override
@@ -68,6 +65,7 @@ public class Agent implements Runnable {
                         amountOfPermutaionIWent++;
 
                         if (toStop) {
+                            queueLock.unlock();
                             return;
                         }
                          /*System.out.println("Agent working");*/
@@ -89,6 +87,8 @@ public class Agent implements Runnable {
 
                     }
                     permutation.cleanOverFLow();
+                    queueData.increaseTaskDone(1);
+                    queueData.increaseTaskLeft(-1);
                 }
                 else {
                     System.out.println("pemutation i went "+amountOfPermutaionIWent+ " "+Thread.currentThread().getName());

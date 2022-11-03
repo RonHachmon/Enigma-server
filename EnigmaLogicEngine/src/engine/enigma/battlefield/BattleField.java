@@ -70,8 +70,11 @@ public class BattleField {
         this.encryptedMessage = encryptedMessage;
     }
 
-    public void setStatus(BattleStatus inProgress) {
-        battleStatus=inProgress;
+    public void setStatus(BattleStatus battleStatus) {
+        this.battleStatus =battleStatus;
+        if(battleStatus.equals(BattleStatus.DONE)) {
+            battleFieldInfo.setEnded(true);
+        }
     }
 
     public BattleStatus getBattleStatus() {
@@ -88,6 +91,12 @@ public class BattleField {
     }
 
     public void clearAllies() {
+        allies.forEach(ally ->
+        {
+            ally.setReady(false);
+            ally.setEnigmaTasks(null);
+        });
+
         allies.clear();
     }
 }

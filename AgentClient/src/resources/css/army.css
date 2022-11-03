@@ -1,5 +1,13 @@
 
 /* General   */
+#progress-data{
+
+    -fx-background-color: #BEC0B1;
+    -fx-border-color:black;
+    -fx-font-size: 12px;
+}
+
+
 .text {
     -fx-font-family: "Routed Gothic";
 }
@@ -121,6 +129,12 @@
           -fx-background-radius: 0 10 10 0;
           -fx-border-color:black;
           -fx-border-width:2px;
+
+}
+.battle-status{
+    -fx-font-size: 25px;
+    -fx-font-weight:bold;
+    -fx-text-fill:#F2F2EF;
 
 }
 

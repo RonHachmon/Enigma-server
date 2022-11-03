@@ -10,6 +10,7 @@ import app.mini_apps.agent.utils.FindCandidateTask;
 import app.mini_apps.agent.utils.UIAdapter;
 import app.mini_apps.agent.utils.candidate.CandidateController;
 import app.mini_apps.agent.winner.WinnerController;
+import engine.bruteForce2.utils.QueueData;
 import engine.machineutils.MachineManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import utils.EnigmaUtils;
 import web.http.HttpClientUtil;
 
 import java.io.IOException;
@@ -45,32 +47,35 @@ public class ContestController extends MainAppScene {
 
     @FXML
     private Label difficulty;
-    @FXML
-    private Label allyLabel;
 
     @FXML
     private Label encryptedMessage;
 
     @FXML
+    private Label allyLabel;
+
+    @FXML
     private FlowPane candidatesFlowPane;
 
     @FXML
-    private TableView<?> alliesTable;
+    private Label battleStatus;
 
     @FXML
-    private TableColumn<?, ?> alliesColumn;
+    private Label taskLeft;
 
     @FXML
-    private TableColumn<?, ?> totalAgentColumn;
+    private Label taskDone;
 
     @FXML
-    private TableColumn<?, ?> taskSizeColumn;
+    private Label taskPulled;
+
+    @FXML
+    private Label candidatesFound;
 
     private AgentData agentData;
     private DMData dmData = new DMData();
 
-    @FXML
-    private Label totalTaskDone;
+
 
     private MachineManager machineManager = null;
     private FindCandidateTask currentRunningTask;
@@ -106,7 +111,6 @@ public class ContestController extends MainAppScene {
                     System.out.println("ContestController- recived file");
                     startBattleStatusRefresher();
                 }
-
             }
         });
     }
@@ -123,6 +127,7 @@ public class ContestController extends MainAppScene {
             this.getBattleFile();
             Platform.runLater(() ->
             {
+                battleStatus.setText("IDLE");
                 this.battleFieldName.setText(battleFieldInfoDTO.getBattleName());
                 this.difficulty.setText(battleFieldInfoDTO.getLevel().toString());
                 dmData.setDifficulty(battleFieldInfoDTO.getLevel());
@@ -150,22 +155,30 @@ public class ContestController extends MainAppScene {
                         dmData.setEncryptedString(battleStatusDTO.getEncryptedMessage());
                         currentRunningTask = new FindCandidateTask(dmData, createUIAdapter(), this, this.machineManager, agentData);
                         new Thread(currentRunningTask).start();
+                        battleStatus.setText("IN PROGRESS");
                     });
                 }
             }
             if (battleStatusDTO.getStatus().equals("Finished")) {
+                currentRunningTask.stop();
+                battleStatusRefresher.cancel();
                 Platform.runLater(() ->
                 {
+
+                    battleStatus.setText("FINISHED");
                     this.battleStarted = false;
-                    showWinner(battleStatusDTO.getWinningAlly());
                     this.machineManager = null;
                     battleStatusRefresher.Stop(true);
+                    showWinner(battleStatusDTO.getWinningAlly());
+
                 });
             }
             if (battleStatusDTO.getStatus().equals("Idle")) {
+                battleStatus.setText("IDLE");
 
             }
             if (battleStatusDTO == null) {
+
                 Platform.runLater(() ->
                 {
                     this.reset();
@@ -175,13 +188,21 @@ public class ContestController extends MainAppScene {
     }
 
     private void reset() {
+        this.resetProgress();
+        battleStatus.setText("");
         candidatesFlowPane.getChildren().clear();
         this.difficulty.setText("");
         this.battleFieldName.setText("");
         this.encryptedMessage.setText("");
         this.currentRunningTask = null;
-        battleStatusRefresher.cancel();
         this.startBattleInfoRefresher();
+    }
+
+    private void resetProgress() {
+        this.taskPulled.setText("");
+        this.candidatesFound.setText("");
+        this.taskDone.setText("");
+        this.taskLeft.setText("");
     }
 
 
@@ -191,7 +212,9 @@ public class ContestController extends MainAppScene {
                     /*createWordCandidate(DecryptionCandidate);*/
                     createWordCandidate(decryptionCandidateData);
                 },
-                (delta) -> {
+                (queueData) -> {
+                    this.updateProgressData(queueData);
+
                     /*this.totalFoundCandidate.set(delta);*/
 
                 },
@@ -207,7 +230,13 @@ public class ContestController extends MainAppScene {
                 }
         );
     }
+    private void updateProgressData(QueueData queueData)
+    {
 
+        this.taskDone.setText(EnigmaUtils.formatToIntWithCommas(queueData.getTaskDone()));
+        this.taskLeft.setText(EnigmaUtils.formatToIntWithCommas(queueData.getTaskLeft()));
+        this.taskPulled.setText(EnigmaUtils.formatToIntWithCommas(queueData.getTaskPulled()));
+    }
     private void createWordCandidate(DecryptionCandidate decryptionCandidate) {
 
         try {
@@ -215,6 +244,7 @@ public class ContestController extends MainAppScene {
 
             FlowPane.setMargin(wordCandidate, new Insets(2, 10, 2, 10));
             this.candidatesFlowPane.getChildren().add(wordCandidate);
+            this.candidatesFound.setText(String.valueOf(candidatesFlowPane.getChildren().size()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -243,6 +273,7 @@ public class ContestController extends MainAppScene {
             this.winnerController.setWinnerLabel(allyName);
             settingStage.initModality(Modality.WINDOW_MODAL);
             settingStage.showAndWait();
+            System.out.println("agent should have wait");
             this.reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -257,7 +288,7 @@ public class ContestController extends MainAppScene {
         Scene scene = new Scene(anchorPane, 455, 100);
         Stage settingStage = new Stage();
         settingStage.setScene(scene);
-        settingStage.setTitle("winner");
+        settingStage.setTitle("Agent : winner");
         return settingStage;
     }
 
