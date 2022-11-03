@@ -126,7 +126,15 @@ public class ContestController extends MainAppScene implements Initializable, Co
     @FXML
     void runClicked(ActionEvent event) {
         try {
-            String output = this.machineManager.encryptSentenceAndAddToStatistic(inputArea.getText().toUpperCase());
+            String input = dictionary.cleanWord(inputArea.getText());
+            if (!dictionary.isAtDictionary(input.toUpperCase())) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("word not in dictionary");
+                a.setTitle("Invalid word");
+                a.show();
+                return;
+            }
+            String output = this.machineManager.encryptSentenceAndAddToStatistic(input.toUpperCase());
             outputArea.setText(output);
             uboatController.updateMachineCode(machineManager.getCurrentCodeSetting());
             this.readyButton.setDisable(false);
@@ -296,7 +304,6 @@ public class ContestController extends MainAppScene implements Initializable, Co
     private void updateCandidates(DecryptionCandidate[] decryptionCandidates) {
         if (battleInProgress) {
             Platform.runLater(() -> {
-                System.out.println("candi size " + decryptionCandidates.length);
                 for (int i = this.lastUpdatedCandidateIndex; i < decryptionCandidates.length; i++) {
 
                     createWordCandidate(decryptionCandidates[i]);
@@ -325,7 +332,6 @@ public class ContestController extends MainAppScene implements Initializable, Co
     private void showWinner(String allyName) {
         if (!winnerShown) {
             try {
-                System.out.println("uboat winner");
                 Stage settingStage = loadWinnerStage();
 
                 this.winnerController.setWinnerLabel(allyName);
@@ -386,11 +392,13 @@ public class ContestController extends MainAppScene implements Initializable, Co
     }
 
     private void addWordToInput(String selectedWord) {
-        String inputText = inputArea.getText();
-        if (inputText.isEmpty() || inputText.charAt(inputText.length() - 1) == ' ') {
-            inputArea.setText(inputText + selectedWord);
-        } else {
-            inputArea.setText(inputText + " " + selectedWord);
+        if (selectedWord!=null) {
+            String inputText = inputArea.getText();
+            if (inputText.isEmpty() || inputText.charAt(inputText.length() - 1) == ' ') {
+                inputArea.setText(inputText + selectedWord);
+            } else {
+                inputArea.setText(inputText + " " + selectedWord);
+            }
         }
     }
 
@@ -457,6 +465,13 @@ public class ContestController extends MainAppScene implements Initializable, Co
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void shutdown() {
+        candidatesListRefresher.cancel();
+        listRefresher.cancel();
+        timer.cancel();
+        this.timer.cancel();
     }
 }
 

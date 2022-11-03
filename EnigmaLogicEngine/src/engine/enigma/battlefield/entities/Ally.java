@@ -97,4 +97,12 @@ public class Ally {
     public QueueDataDTO getQueueData() {
         return this.enigmaTasks.getQueueData();
     }
+
+    public void removeAgent(String agentName) {
+        BattleAgent battleAgent = this.getBattleAgent(agentName);
+        if(battleAgent!=null)
+        {
+            this.agentList.remove(battleAgent);
+        }
+    }
 }

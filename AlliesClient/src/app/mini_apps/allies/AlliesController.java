@@ -78,8 +78,6 @@ public class AlliesController implements Initializable {
         mainAppScenes.add(contestComponentController);
     }
 
-
-
     public void displayMachineConfigScene() {
         setAllPagesVisibilityToFalse();
         this.dashboardComponent.setVisible(true);
@@ -114,5 +112,14 @@ public class AlliesController implements Initializable {
         this.contestComponentController.close();
         this.displayMachineConfigScene();
         this.dashboardComponentController.reset();
+    }
+
+    public void setTitle(String allyName) {
+        this.headerComponentController.setAllyName(allyName);
+    }
+
+    public void close() {
+        this.dashboardComponentController.close();
+        this.contestComponentController.shutdown();
     }
 }

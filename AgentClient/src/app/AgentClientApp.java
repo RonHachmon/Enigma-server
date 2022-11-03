@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import web.Constants;
 import web.http.HttpClientUtil;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class AgentClientApp extends Application {
 
     @Override
     public void stop() throws Exception {
+        HttpClientUtil.runBlocking(Constants.LOGOUT);
         HttpClientUtil.shutdown();
         alliesAppMainController.close();
     }

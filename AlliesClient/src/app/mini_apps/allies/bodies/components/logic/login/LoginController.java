@@ -76,8 +76,7 @@ public class LoginController {
                     );
                 } else {
                     Platform.runLater(() -> {
-                            alliesAppMainController.updateUserName(userName);
-                            alliesAppMainController.switchToChatRoom();
+                            alliesAppMainController.switchToChatRoom(userName);
                     });
                 }
             }

@@ -30,4 +30,8 @@ public class HeaderController extends MainAppScene implements Initializable   {
         Font font = Font.loadFont(inputStream, 26);
         titleLabel.setFont(font);
     }
+    public void setAgentName(String agentName)
+    {
+        titleLabel.setText("AGENT: "+agentName);
+    }
 }

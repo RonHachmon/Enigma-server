@@ -51,6 +51,10 @@ public class HeaderController extends MainAppScene implements Initializable   {
         alliesController.displayMachineConfigScene();
 
     }
+    public void setAllyName(String allyName)
+    {
+        titleLabel.setText("ALLY: "+allyName);
+    }
 
 
 

@@ -2,6 +2,7 @@ package web.http;
 
 import okhttp3.*;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 
 public class HttpClientUtil {
@@ -26,6 +27,20 @@ public class HttpClientUtil {
 
     public static void removeCookiesOf(String domain) {
         simpleCookieManager.removeCookiesOf(domain);
+    }
+
+    public static void runBlocking(String finalUrl) {
+        Request request = new Request.Builder()
+                .url(finalUrl)
+                .build();
+
+        try (Response response = HttpClientUtil.HTTP_CLIENT.newCall(request).execute()) {
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     public static void runAsync(String finalUrl, Callback callback) {

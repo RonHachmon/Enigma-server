@@ -111,7 +111,6 @@ public class TaskManger {
                 totalCombinations = impossible;
                 break;
         }
-        System.out.println("Total combination " + totalCombinations);
     }
 
 

@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import utils.EnigmaUtils;
 import web.http.HttpClientUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,7 +40,7 @@ import java.util.TimerTask;
 import static web.Constants.REFRESH_RATE;
 import static web.Constants.UPLOAD_FILE;
 
-public class ContestController extends MainAppScene {
+public class ContestController extends MainAppScene implements Closeable {
 
     public static final String WORD_CANDIDATE_FXML = "/app/mini_apps/agent/smallComponent/wordCandidate.fxml";
     @FXML
@@ -108,7 +109,6 @@ public class ContestController extends MainAppScene {
                 if (response.isSuccessful()) {
                     machineManager = new MachineManager();
                     machineManager.createMachineFromXML(response.body().byteStream());
-                    System.out.println("ContestController- recived file");
                     startBattleStatusRefresher();
                 }
             }
@@ -144,13 +144,11 @@ public class ContestController extends MainAppScene {
     private void updateByStatus(BattleStatusDTO battleStatusDTO) {
         if (currentBattleStatus == null || !battleStatusDTO.getStatus().equals(currentBattleStatus)) {
             currentBattleStatus = battleStatusDTO.getStatus();
-            System.out.println("battle status" + currentBattleStatus);
             if (battleStatusDTO.getStatus().equals("In Progress")) {
                 if (!this.battleStarted) {
                     this.battleStarted = true;
                     Platform.runLater(() ->
                     {
-                        System.out.println("Contest controller - updater by status, battle in progress");
                         this.encryptedMessage.setText(battleStatusDTO.getEncryptedMessage());
                         dmData.setEncryptedString(battleStatusDTO.getEncryptedMessage());
                         currentRunningTask = new FindCandidateTask(dmData, createUIAdapter(), this, this.machineManager, agentData);
@@ -267,13 +265,11 @@ public class ContestController extends MainAppScene {
 
     private void showWinner(String allyName) {
         try {
-            System.out.println("agent winner");
             Stage settingStage = loadWinnerStage();
 
             this.winnerController.setWinnerLabel(allyName);
             settingStage.initModality(Modality.WINDOW_MODAL);
             settingStage.showAndWait();
-            System.out.println("agent should have wait");
             this.reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -296,4 +292,8 @@ public class ContestController extends MainAppScene {
         timer.schedule(timerTask, 200, REFRESH_RATE);
     }
 
+    @Override
+    public void close() throws IOException {
+        this.timer.cancel();
+    }
 }

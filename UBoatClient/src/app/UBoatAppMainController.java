@@ -8,10 +8,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
+import javafx.stage.Window;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -48,9 +51,7 @@ public class UBoatAppMainController implements Closeable {
         loadUboatPage();
     }
 
-    public void updateUserName(String userName) {
-        currentUserName.set(userName);
-    }
+
     
     private void setMainPanelTo(Parent pane) {
         mainPanel.getChildren().clear();
@@ -63,8 +64,14 @@ public class UBoatAppMainController implements Closeable {
 
     @Override
     public void close() throws IOException {
+        this.uboatController.shutdown();
+
+    }
+    public void reload(){
+        this.uboatController.shutdown();
         loadLoginPage();
         loadUboatPage();
+
     }
 
     private void loadLoginPage() {
@@ -89,15 +96,19 @@ public class UBoatAppMainController implements Closeable {
             uboatComponent = fxmlLoader.load();
             uboatController = fxmlLoader.getController();
             uboatController.setMainAppController(this);
-           /* chatRoomComponentController.setChatAppMainController(this);*/
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    public void switchToChatRoom() {
+    public void switchToChatRoom(String uboatName) {
         setMainPanelTo(uboatComponent);
+        uboatController.setTitle(uboatName);
+        mainPanel.getScene().getWindow().setHeight(650);
+        mainPanel.getScene().getWindow().setWidth(850);
     }
+
+
 
 }

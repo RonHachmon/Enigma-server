@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -80,7 +81,21 @@ public class HeaderController extends MainAppScene implements Initializable   {
         FileChooser fileChooser = configFileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile!=null) {
-            this.fileHttpRequest(selectedFile);
+            try {
+                machineManager.createMachineFromXML(selectedFile.getAbsolutePath());
+                this.fileHttpRequest(selectedFile);
+            }
+            catch (Exception e)
+            {
+                Platform.runLater(()->
+                {
+                    Alert a=new Alert(Alert.AlertType.ERROR);
+                    a.setContentText(e.getMessage());
+                    a.setTitle("Invalid file");
+                    a.show();
+                });
+            }
+
         }
 
 
@@ -119,6 +134,8 @@ public class HeaderController extends MainAppScene implements Initializable   {
     }
 
     private  void fileHttpRequest(File selectedFile) throws IOException {
+
+
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("enigmaFile", selectedFile.getName(),
@@ -138,7 +155,7 @@ public class HeaderController extends MainAppScene implements Initializable   {
                 {
                     Platform.runLater(()->
                     {
-                        machineManager.createMachineFromXML(response.body().byteStream());
+
 
                         updateGUI(selectedFile);
                         try {
@@ -183,6 +200,7 @@ public class HeaderController extends MainAppScene implements Initializable   {
     }
 
 
-
-
+    public void setUboatName(String uboatName) {
+        this.titleLabel.setText("UBOAT: "+uboatName);
+    }
 }

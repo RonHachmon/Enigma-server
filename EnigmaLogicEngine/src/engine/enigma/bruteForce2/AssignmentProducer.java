@@ -78,7 +78,6 @@ public class AssignmentProducer implements Runnable {
                 break;
         }
         isDone = true;
-        System.out.println("Producer Done");
     }
 
     private void generateCode() throws InterruptedException {
@@ -87,7 +86,6 @@ public class AssignmentProducer implements Runnable {
 
             lock.checkIfLocked();
             if (toStop) {
-                System.out.println("Producer stopped  code :)");
                 return;
             }
             /* System.out.println("Producer working");*/

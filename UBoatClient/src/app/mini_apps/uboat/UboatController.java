@@ -150,7 +150,7 @@ public class UboatController implements Initializable {
         this.machineManager=null;
         try {
             this.contestComponentController.close();
-            mainApp.close();
+            mainApp.reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -159,5 +159,13 @@ public class UboatController implements Initializable {
 
     public void setMainAppController(UBoatAppMainController uBoatAppMainController) {
         this.mainApp=uBoatAppMainController;
+    }
+
+    public void setTitle(String uboatName) {
+        this.headerComponentController.setUboatName(uboatName);
+    }
+
+    public void shutdown() {
+        this.contestComponentController.shutdown();
     }
 }

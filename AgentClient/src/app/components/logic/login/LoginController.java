@@ -4,7 +4,6 @@ import DTO.AgentData;
 import app.AgentAppMainController;
 
 
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -21,6 +20,7 @@ import utils.EnigmaUtils;
 import web.Constants;
 import web.http.HttpClientUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.TimerTask;
 
 import static web.Constants.REFRESH_RATE;
 
-public class LoginController {
+public class LoginController implements Closeable {
 
     @FXML
     public TextField userNameTextField;
@@ -59,7 +59,7 @@ public class LoginController {
     private TimerTask listRefresher;
 
     private AgentAppMainController agentAppMainController;
-    private boolean validAssignment=false;
+    private boolean validAssignment = false;
 
     private final StringProperty errorMessageProperty = new SimpleStringProperty();
     private Tooltip toolTipError;
@@ -69,7 +69,7 @@ public class LoginController {
 
         errorMessageLabel.textProperty().bind(errorMessageProperty);
         alliesColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-        List<Integer> list=new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -95,17 +95,17 @@ public class LoginController {
             errorMessageProperty.set("User name is empty. You can't login with empty user name");
             return;
         }
-        AgentData agentData=new AgentData(chosenAlly.getText(),amountOfThreadsChoiceBox.getValue(),Integer.parseInt(this.taskSizeField.getText()),this.userNameTextField.getText());
+        AgentData agentData = new AgentData(chosenAlly.getText(), amountOfThreadsChoiceBox.getValue(), Integer.parseInt(this.taskSizeField.getText()), this.userNameTextField.getText());
 
 
         //noinspection ConstantConditions
         String finalUrl = HttpUrl
-                        .parse(Constants.LOGIN_PAGE)
-                        .newBuilder()
-                        .addQueryParameter("username", userName)
-                        .addQueryParameter("entity", "agent")
-                        .build()
-                        .toString();
+                .parse(Constants.LOGIN_PAGE)
+                .newBuilder()
+                .addQueryParameter("username", userName)
+                .addQueryParameter("entity", "agent")
+                .build()
+                .toString();
 
 
         HttpClientUtil.runAsync(finalUrl, new Callback() {
@@ -177,7 +177,7 @@ public class LoginController {
     private void allDataValid() {
         if (assignmentInputValid(taskSizeField.getText())) {
             if (amountOfThreadsChoiceBox.getValue() != null) {
-                if (chosenAlly.getText()!=null && !chosenAlly.getText().isEmpty()) {
+                if (chosenAlly.getText() != null && !chosenAlly.getText().isEmpty()) {
                     loginButton.setDisable(false);
                     toolTipError.hide();
                     return;
@@ -191,17 +191,15 @@ public class LoginController {
         if (newValue.isEmpty()) {
             taskSizeField.setId(null);
             toolTipError.hide();
-        }
-        else {
+        } else {
             if (EnigmaUtils.isNumeric(newValue)) {
                 int number = Integer.parseInt(newValue);
-                if(number>0) {
+                if (number > 0) {
 
                     validAssignment = true;
                     toolTipError.hide();
                     return true;
-                }
-                else {
+                } else {
                     validAssignment = false;
                     renderToolTip();
                     taskSizeField.setId("error-text-field");
@@ -225,6 +223,7 @@ public class LoginController {
         timer = new Timer();
         timer.schedule(listRefresher, 200, REFRESH_RATE);
     }
+
     private void updateAllies(List<String> alliesDetails) {
         Platform.runLater(() -> {
             alliesTable.getItems().clear();
@@ -233,8 +232,13 @@ public class LoginController {
     }
 
 
-
     public void setChatAppMainController(AgentAppMainController alliesAppMainController) {
         this.agentAppMainController = alliesAppMainController;
+    }
+
+
+    @Override
+    public void close() throws IOException {
+        timer.cancel();
     }
 }

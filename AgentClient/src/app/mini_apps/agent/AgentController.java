@@ -14,10 +14,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AgentController implements Initializable {
+public class AgentController implements Initializable, Closeable {
 
     private MachineManager machineManager=new MachineManager();
     @FXML private VBox headerComponent;
@@ -63,11 +65,14 @@ public class AgentController implements Initializable {
     }
 
     public void setAgentData(AgentData agentData) {
+        this.headerComponentController.setAgentName(agentData.getAgentName());
         this.contestComponentController.setAgentData(agentData);
         contestComponentController.startBattleInfoRefresher();
     }
 
 
-
-
+    @Override
+    public void close() throws IOException {
+        contestComponentController.close();
+    }
 }

@@ -114,7 +114,6 @@ public class BattlesManager {
          if(ally!=null) {
             BattleField battleField = getBattleFieldByBattleName(battleShip);
             if (battleField != null) {
-               System.out.println("found battle ally joinning");
                battleField.addAlly(ally);
                return true;
             }
@@ -192,7 +191,6 @@ public class BattlesManager {
       Ally ally = this.allAllies.get(username);
       if(ally!=null)
       {
-         System.out.println("ready :D");
          ally.setReady(true);
       }
    }
@@ -264,4 +262,16 @@ public class BattlesManager {
       Ally ally = allAllies.get(username);
       return ally.getQueueData();
    }
+
+    public void deleteEntity(String usernameFromSession) {
+       Ally ally = allAllies.get(usernameFromSession);
+       if(ally!=null)
+       {
+          allAllies.remove(usernameFromSession);
+       }
+       else
+       {
+          ally.removeAgent(usernameFromSession);
+       }
+    }
 }

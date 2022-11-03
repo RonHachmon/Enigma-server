@@ -22,7 +22,6 @@ public class ConfigurationServlet extends HttpServlet {
         response.setContentType("application/json");
         String allyName=request.getParameter("ally");
         int taskDone=Integer.parseInt(request.getParameter("taskDone"));
-        System.out.println("task done "+taskDone);
         int amountOfTasks=Integer.parseInt(request.getParameter("task"));
         String username = SessionUtils.getUsername(request);
         TaskDataDTO tasks = BattlesManager.getInstance().getTasks(allyName, amountOfTasks,taskDone,username);

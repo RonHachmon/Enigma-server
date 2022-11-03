@@ -39,17 +39,13 @@ public class TaskData {
     }
 
     public void setTotalCombinations(long totalCombinations) {
-        System.out.println(totalCombinations);
         this.totalCombinations = totalCombinations;
-
-        System.out.println("tas size "+ taskSize);
         this.totalTasks =totalCombinations/taskSize.intValue();
         if((totalCombinations%taskSize)!=0)
         {
             totalTasks++;
 
         }
-        System.out.println(totalTasks);
     }
     public void increasedTaskCreated() {
         this.taskCreated++;

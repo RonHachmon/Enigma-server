@@ -140,7 +140,6 @@ public class SettingController implements Initializable {
 
             rotorIndex.valueProperty().addListener(
                     (ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-                        System.out.println("new val: " + new_val);
                         if (this.isAllElementAreUniqueInListOfChoiceBox(this.rotorIndexes)) {
                             this.rotorsErrorLabel.setText("");
 
